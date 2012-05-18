@@ -1,3 +1,4 @@
+
 -- Grab environment
 
 local io = io
@@ -13,16 +14,16 @@ default_icon = ''
 icon_theme = nil
 
 all_icon_sizes = { 
-	'128x128' ,
-	'96x96', 
-	'72x72', 
-	'64x64', 
-	'48x48', 
-	'36x36', 
-	'32x32', 
-	'24x24', 
-	'22x22', 
-	'16x16' 
+        '128x128' ,
+        '96x96', 
+        '72x72', 
+        '64x64', 
+        '48x48', 
+        '36x36', 
+        '32x32', 
+        '24x24', 
+        '22x22', 
+        '16x16' 
 }
 
 icon_sizes = {}
@@ -49,10 +50,10 @@ function lookup_icon(arg)
         end
         table.insert(icon_theme_paths, '/usr/share/icons/hicolor/') -- fallback theme cf spec
 
-		local isizes = icon_sizes
+                local isizes = icon_sizes
         for i, sz in ipairs(all_icon_sizes) do
-			table.insert(isizes, sz)
-		end
+                        table.insert(isizes, sz)
+                end
 
         for i, icon_theme_directory in ipairs(icon_theme_paths) do
             for j, size in ipairs(arg.icon_sizes or isizes) do

@@ -1,3 +1,4 @@
+
 local wibox = wibox
 local widget = widget
 local screen = screen
@@ -86,4 +87,3 @@ function add_desktop_icons(arg)
         end
     end
 end
-

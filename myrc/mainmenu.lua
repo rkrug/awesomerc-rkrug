@@ -1,3 +1,4 @@
+
 local awful = require("awful")
 local beautiful = require("beautiful")
 local freedesktop_utils = require("freedesktop.utils")
@@ -45,13 +46,13 @@ function build()
     freedesktop_utils.icon_sizes = {beautiful.icon_theme_size}
     freedesktop_utils.default_icon = beautiful.default_client_icon 
 
-	local myquitmenu = {
+        local myquitmenu = {
         { "&Poweroff", poweroff, freedesktop_utils.lookup_icon({ icon = 'system-shutdown' })}, 
         { "&Reboot", reboot, freedesktop_utils.lookup_icon({ icon = 'system-shutdown' })}, 
         { "H&ibernate", hibernate, freedesktop_utils.lookup_icon({ icon = 'system-shutdown' }) }, 
         { "&Suspend", suspend, freedesktop_utils.lookup_icon({ icon = 'system-shutdown' }) }, 
         { "&Logout", logout , freedesktop_utils.lookup_icon({ icon = 'gnome-logout' })}, 
-	}
+        }
 
     local myawesomemenu = { 
         { "&Themes", themes.menu(), 
@@ -70,17 +71,17 @@ function build()
 
     local mymainmenu_items_tail = {
         { "", nil, nil}, --separator
-        { "&S Syslog", syslog, freedesktop_utils.lookup_icon({ icon = "gnome-monitor"}) },
-        { "&O Rotate", {
-            {"&Normal", rotate .. " normal" , freedesktop_utils.lookup_icon({icon = 'stock_down'})},
-            {"&Left",   rotate .. " left"   , freedesktop_utils.lookup_icon({icon = 'stock_left'})},
-            {"&Rigth",  rotate .. " right"  , freedesktop_utils.lookup_icon({icon = 'stock_right'})},
-        }, freedesktop_utils.lookup_icon({icon = 'reload'})},
-        { "&W Wifi", {
-            {"&F Wifi", env.rfkill.wifi , freedesktop_utils.lookup_icon({icon = 'stock_up'})},
-            {"&M WiMax",   env.rfkill.wimax   , freedesktop_utils.lookup_icon({icon = 'stock_up'})},
-            {"&N None",   env.rfkill.off   , freedesktop_utils.lookup_icon({icon = 'stock_down'})},
-        }, freedesktop_utils.lookup_icon({icon = 'wicd-gtk'})},
+        -- { "&S Syslog", syslog, freedesktop_utils.lookup_icon({ icon = "gnome-monitor"}) },
+        -- { "&O Rotate", {
+        --     {"&Normal", rotate .. " normal" , freedesktop_utils.lookup_icon({icon = 'stock_down'})},
+        --     {"&Left",   rotate .. " left"   , freedesktop_utils.lookup_icon({icon = 'stock_left'})},
+        --     {"&Rigth",  rotate .. " right"  , freedesktop_utils.lookup_icon({icon = 'stock_right'})},
+        -- }, freedesktop_utils.lookup_icon({icon = 'reload'})},
+        -- { "&W Wifi", {
+        --     {"&F Wifi", env.rfkill.wifi , freedesktop_utils.lookup_icon({icon = 'stock_up'})},
+        --     {"&M WiMax",   env.rfkill.wimax   , freedesktop_utils.lookup_icon({icon = 'stock_up'})},
+        --     {"&N None",   env.rfkill.off   , freedesktop_utils.lookup_icon({icon = 'stock_down'})},
+        -- }, freedesktop_utils.lookup_icon({icon = 'wicd-gtk'})},
         { "&X Xkill", xkill, freedesktop_utils.lookup_icon({ icon = "weather-storm"}) },
         { "&R Run", run, freedesktop_utils.lookup_icon({ icon = "access"}) },
         { "", nil, nil}, --separator
@@ -94,4 +95,3 @@ function build()
 
     return awful.menu({ items = mymainmenu_items, x = 0, y = 0})
 end
-

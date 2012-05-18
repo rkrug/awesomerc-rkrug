@@ -1,14 +1,16 @@
+#!/bin/bash
+
 #!/bin/sh
 
-trap "pkill -P $$" SIGINT
-trap "pkill -P $$" EXIT
+## trap "pkill -P $$" SIGINT
+## trap "pkill -P $$" EXIT
 
 INOWAIT=/usr/bin/inotifywait
 
 parse() {
-	cat /proc/mounts | 
+    cat /proc/mounts | 
     awk '{print $2}' | 
-    grep -v -E '/proc|/dev|/bus|/sys|/lib' | 
+    grep -v -E '/proc|/dev|/bus|/sys|/lib|/run' | 
     grep -w -v /
 }
 
@@ -21,8 +23,7 @@ while true ; do
     if [ -e $INOWAIT ] ; then
         $INOWAIT /etc/mtab >/dev/null 2>&1
         sleep 0.2
-    else
+    ## else
         sleep 20
     fi
 done
-

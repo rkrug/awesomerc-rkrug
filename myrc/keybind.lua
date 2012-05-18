@@ -1,3 +1,4 @@
+
 -- Author: Sergey Mironov ierton@gmail.com
 -- License: BSD3
 -- 2009-2010
@@ -9,7 +10,7 @@ local naughty = require("naughty")
 local mouse = mouse
 
 local capi = {
-	root = root,
+        root = root,
 }
 
 local table = table
@@ -191,4 +192,3 @@ function push_naughty(keytable, c)
     chord.naughtybox = nb
     return chord
 end
-

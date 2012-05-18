@@ -1,3 +1,4 @@
+
 -- Author: Sergey Mironov ierton@gmail.com
 -- License: BSD3
 -- 2009-2010
@@ -29,27 +30,27 @@ end
 function menu(args)
     args = args or {}
     args.default_icon = args.default_icon or "/usr/local/share/awesome/icons/awesome16.png"
-	local mythememenu = {}
-	local cfgpath = awful.util.getdir("config")
-	local themespath = cfgpath .. "/themes"
-	local cmd = "find -L " .. themespath .. " -name 'theme.lua' -and -not -path '*.current*'"
-	local f = io.popen(cmd)
-	for l in f:lines() do
-		local folder = string.gsub(l,"[%w/._-]+/([%w-_]+)/theme.lua", "%1")
+        local mythememenu = {}
+        local cfgpath = awful.util.getdir("config")
+        local themespath = cfgpath .. "/themes"
+        local cmd = "find -L " .. themespath .. " -name 'theme.lua' -and -not -path '*.current*'"
+        local f = io.popen(cmd)
+        for l in f:lines() do
+                local folder = string.gsub(l,"[%w/._-]+/([%w-_]+)/theme.lua", "%1")
         local icon = 
             hasfile(themespath .. "/" .. folder .. "/awesome-icon.png") or
             hasfile(args.default_icon)
-		local item = { folder, function () 
-			local themepath = string.gsub(l,"(%w+)/theme.lua", "%1")
-			awful.util.pread("rm -f " .. themespath .. "/.current")
-			awful.util.pread("ln -s " .. folder .. " " .. themespath .. "/.current")
-			awesome.restart()
-		end, icon }
-		table.insert(mythememenu, item)
-	end
+                local item = { folder, function () 
+                        local themepath = string.gsub(l,"(%w+)/theme.lua", "%1")
+                        awful.util.pread("rm -f " .. themespath .. "/.current")
+                        awful.util.pread("ln -s " .. folder .. " " .. themespath .. "/.current")
+                        awesome.restart()
+                end, icon }
+                table.insert(mythememenu, item)
+        end
 
-	f:close()
-	return mythememenu
+        f:close()
+        return mythememenu
 end
 
 -- Returns current theme.
@@ -65,5 +66,3 @@ function current(default)
         return filename
     end
 end
-
-

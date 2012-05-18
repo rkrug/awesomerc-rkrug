@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #!/bin/sh
 
 which acpitool >/dev/null || exit 1
@@ -5,7 +7,7 @@ which acpi_listen >/dev/null || exit 1
 
 while true ; do
     # Lookup first battery's status
-	line=`acpitool -b | head -n 1`
+    line=`acpitool -b | head -n 1`
     batnum=`echo "$line" |  sed 's/.*#\(.\).*/\1/'`
     percent=`echo "$line" | sed 's/.*\:[^,]*, \([^,]*\).*/\1/'`
     if echo "$line" | grep -q discharging ; then
@@ -22,4 +24,3 @@ while true ; do
     acpi_listen -t 60 -c 1 >/dev/null 2>&1
     sleep 2
 done
-

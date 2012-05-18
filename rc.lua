@@ -21,6 +21,9 @@ require("myrc.keybind")
 require("myrc.memory")
 require("myrc.logmon")
 
+-- shifty - dynamic tagging library
+require("shifty")
+
 --{{{ Debug 
 function dbg(vars)
    local text = ""
@@ -109,6 +112,8 @@ function run_or_raise(cmd, properties)
    awful.util.spawn(cmd, false)
 end
 --}}}
+
+awful.util.spawn_with_shell("adjustMonitor")
 
 --{{{ Data serialisation helpers
 function client_name(c)
@@ -505,18 +510,176 @@ layouts =
 
    beautiful.init(myrc.themes.current())
 
-   -- Custom icons
-   clientmenu_icon = beautiful.clientmenu_icon or beautiful.awesome_icon
-   kbd_icon = beautiful.xvkbd_icon or beautiful.awesome_icon
+-- Custom icons
+clientmenu_icon = beautiful.clientmenu_icon or beautiful.awesome_icon
+kbd_icon = beautiful.xvkbd_icon or beautiful.awesome_icon
+  
+myrc.mainmenu.init(env)
+  
+myrc.tagman.init(function(s) return myrc.memory.get("tagnames", tostring(s), nil) end)
+  
+myrc.logmon.init()
+  
+pipelets.init()
+-- }}}
 
-   myrc.mainmenu.init(env)
+-- Shifty configured tags.
+shifty.config.tags = {
+   w1 = {
+      layout    = awful.layout.suit.max,
+      mwfact    = 0.60,
+      exclusive = false,
+      position  = 1,
+      init      = true,
+      screen    = 1,
+      slave     = true,
+   },
+   web = {
+      layout      = awful.layout.suit.tile.bottom,
+      mwfact      = 0.65,
+      exclusive   = true,
+      max_clients = true,
+      position    = 4,
+      spawn       = browser,
+   },
+   mail = {
+      layout    = awful.layout.suit.tile,
+      mwfact    = 0.55,
+      exclusive = false,
+      position  = 5,
+      spawn     = mail,
+      slave     = true
+   },
+   skype = {
+      layout    = awful.layout.suit.tile,
+      mwfact    = 0.55,
+      exclusive = false,
+      position  = 6,
+      spawn     = skype,
+      slave     = true
+   },
+   emacs = {
+      layout    = awful.layout.suit.tile,
+      mwfact    = 0.55,
+      exclusive = false,
+      position  = 5,
+      spawn     = emacs,
+      slave     = true
+   },
+   media = {
+      layout    = awful.layout.suit.float,
+      exclusive = false,
+      position  = 8,
+   },
+   office = {
+      layout   = awful.layout.suit.tile,
+      position = 9,
+   },
+}
 
-   myrc.tagman.init(function(s) return myrc.memory.get("tagnames", tostring(s), nil) end)
+-- SHIFTY: application matching rules
+-- order here matters, early rules will be applied first
+shifty.config.apps = {
+    {
+        match = {
+            "Navigator",
+            "Vimperator",
+            "Gran Paradiso",
+        },
+        tag = "web",
+    },
+    {
+        match = {
+            "Shredder.*",
+            "Thunderbird",
+            "mutt",
+        },
+        tag = "mail",
+    },
+    {
+        match = {
+            "pcmanfm",
+        },
+        slave = true
+    },
+    {
+        match = {
+            "OpenOffice.*",
+            "Abiword",
+            "Gnumeric",
+            "Lyx"
+        },
+        tag = "office",
+    },
+    {
+        match = {
+            "emacs"
+        },
+        tag = "emacs",
+    },
+    {
+        match = {
+            "Mplayer.*",
+            "Mirage",
+            "gimp",
+            "gtkpod",
+            "Ufraw",
+            "easytag",
+        },
+        tag = "media",
+        nopopup = true,
+    },
+    {
+        match = {
+            "MPlayer",
+            "Gnuplot",
+            "galculator",
+        },
+        float = true,
+    },
+    {
+        match = {
+            "Skype",
+        },
+        tag = "skype",
+    },
+    {
+        match = {
+            terminal,
+        },
+        honorsizehints = false,
+        slave = true,
+    },
+    {
+        match = {""},
+        buttons = awful.util.table.join(
+            awful.button({}, 1, function (c) client.focus = c; c:raise() end),
+            awful.button({modkey}, 1, function(c)
+                client.focus = c
+                c:raise()
+                awful.mouse.client.move(c)
+                end),
+            awful.button({modkey}, 3, awful.mouse.client.resize)
+            )
+    },
+}
 
-   myrc.logmon.init()
-
-   pipelets.init()
-   -- }}}
+-- SHIFTY: default tag creation rules
+-- parameter description
+--  * floatBars : if floating clients should always have a titlebar
+--  * guess_name : should shifty try and guess tag names when creating
+--                 new (unconfigured) tags?
+--  * guess_position: as above, but for position parameter
+--  * run : function to exec when shifty creates a new tag
+--  * all other parameters (e.g. layout, mwfact) follow awesome's tag API
+shifty.config.defaults = {
+    layout = awful.layout.suit.tile.bottom,
+    ncol = 1,
+    mwfact = 0.60,
+    floatBars = true,
+    guess_name = true,
+    guess_position = true,
+}
 
 -- {{{ Wibox
 -- Empty launcher
@@ -550,33 +713,6 @@ myclientmenu.buttons = awful.util.table.join(
                    myclientmenu.timer:start()
                         end))
 
--- On screen keyboard
-mykbd = {}
-mykbd.timer = timer{ timeout=0.7 }
-mykbd.timer:add_signal("timeout", function() 
-                          mykbd.suppress = nil 
-                          mykbd.timer:stop()
-                                  end)
-mykbd.buttons = awful.util.table.join(
-   awful.button({ }, 1, function ()
-                   if mykbd.suppress ~= nil then return end
-                   local clients = client.get()
-                   local xvkbd = nil
-                   for i, c in pairs(clients) do
-                      if c.class == "XVkbd" then 
-                         xvkbd = c 
-                         break 
-                      end
-                   end
-                   if xvkbd ~= nil then
-                      awful.util.spawn("killall xvkbd", false)
-                   else
-                      awful.util.spawn("xvkbd", false)
-                   end
-                   mykbd.suppress = true
-                   mykbd.timer:start()
-                        end))
-
 -- Clock
 mytextclock = {}
 mytextclock = widget({ type = "textbox", align="right" })
@@ -590,25 +726,9 @@ pipelets.register_fmt( mymountbox, "mmount", " $1")
 mybatbox = widget({ type = "textbox", align="right" })
 pipelets.register( mybatbox, "batmon")
 
--- Kbdbox
-mykbdbox = widget({ type = "textbox", align="right" })
-pipelets.register_fmt( mykbdbox, "kbd", " $1 ")
-
 -- Temp
 mytemp = widget({ type = "textbox", align="right" })
 pipelets.register_fmt( mytemp, "temp", " $1 ")
-
--- RFKILL
-myrfkill = widget({ type = "textbox", align="right" })
-pipelets.register_fmt( myrfkill, "rfkill", "<span color='#336633'> $1</span>")
-
--- Wifi assoc ESSID
-mywifibox = widget({ type = "textbox", align="right" })
-pipelets.register_fmt( mywifibox, "wireless", "<span color='#333366'> $1</span>")
-
--- Wimax
-mywimaxbox = widget({ type = "textbox", align="right" })
-pipelets.register_fmt( mywimaxbox, "wimax", "<span color='#333366'> $1</span>")
 
 -- Layoutbox
 mylayoutbox = {}
@@ -682,8 +802,8 @@ for s = 1, screen.count() do
    myclientmenu[s] = awful.widget.button({image = clientmenu_icon})
    myclientmenu[s]:buttons(myclientmenu.buttons)
    
-   mykbd[s] = awful.widget.button({image = kbd_icon})
-   mykbd[s]:buttons(mykbd.buttons)
+   -- mykbd[s] = awful.widget.button({image = kbd_icon})
+   -- mykbd[s]:buttons(mykbd.buttons)
    
    -- Create top wibox
    mytop[s] = awful.wibox({ 
@@ -709,20 +829,26 @@ for s = 1, screen.count() do
                                 position = "bottom", screen = s, height = beautiful.wibox_bottom_height })
    mybottom[s].widgets = {
       {
-         mykbdbox,
-         mykbd[s],
+         -- mykbdbox,
+         -- mykbd[s],
          layout = awful.widget.layout.horizontal.rightleft
       },
-      myrfkill,
+      -- myrfkill,
       mytemp,
       mybatbox,
       mymountbox,
-      mywifibox,
-      mywimaxbox,
+      -- mywifibox,
+      -- mywimaxbox,
       layout = awful.widget.layout.horizontal.leftright
    }
 end
 -- }}}
+
+-- SHIFTY: initialize shifty
+-- the assignment of shifty.taglist must always be after its actually
+-- initialized with awful.widget.taglist.new()
+shifty.taglist = mytaglist
+shifty.init()
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
@@ -863,68 +989,80 @@ end
 
 -- Bind keyboard digits
 globalkeys = awful.util.table.join(
-   
-   -- Main menu
-   awful.key({ altkey            }, "Escape", function()  menu_current(mymainmenu,mainmenu_args) end),
-   
-   -- Awesome control
-   awful.key({ modkey, "Control" }, "q", awesome.quit),
-   awful.key({ modkey, "Control" }, "r", function() mypromptbox[mouse.screen].widget.text = awful.util.escape(awful.util.restart()) end),
-   
-   -- Application hotkeys
-   awful.key({ modkey,           }, "Return", function () awful.util.spawn(env.terminal) end),
-   awful.key({ modkey            }, "b", function () awful.util.spawn(env.browser) end),
-   awful.key({ modkey            }, "e", function () awful.util.spawn(env.email)  end),
-   awful.key({                   }, "Scroll_Lock", function () awful.util.spawn(env.locker) end),
-   awful.key({ modkey            }, "r", function () mypromptbox[mouse.screen]:run() end),
-   awful.key({ modkey,           }, "m", function () run_or_raise("gmpc", { class = "Gmpc" }) end),
-   awful.key({ modkey            }, "p", function () awful.util.spawn("pidgin") end),
-   awful.key({ modkey            }, "c", function () run_or_raise("xterm -e calc", { class="XTerm", name = "calc" }) end),
-   awful.key({ modkey,           }, "d", function () awful.util.spawn("ec") end),
-   awful.key({ modkey,           }, "v", function () awful.util.spawn(env.volumecontrol) end),
 
-   
-   -- Tag hotkeys
-   awful.key({ modkey, "Control" }, "m", function () toggle_tag("im") end),
-   awful.key({ modkey, "Control" }, "w", function () toggle_tag("work") end),
-   awful.key({ modkey, "Control" }, "n", function () toggle_tag("net") end),
-   awful.key({ modkey, "Control" }, "f", function () toggle_tag("fun") end),
-   awful.key({ modkey, "Control" }, "e", function () toggle_tag("sys") end),
-   awful.key({ modkey            }, "Tab", function() awful.tag.history.restore() end),
-   
-   -- Client manipulation
-   awful.key({ altkey            }, "j", function () switch_to_client(-1) end),
-   awful.key({ altkey            }, "k", function () switch_to_client(1) end),
-   awful.key({ altkey            }, "1", function () switch_to_client(-1) end),
-   awful.key({ altkey            }, "2", function () switch_to_client(1) end),
-   awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(1) end),
-   awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx(-1) end),
-   awful.key({ altkey            }, "Tab", function() switch_to_client(0) end),
-   
-   -- Layout manipulation
-   awful.key({ altkey,           }, "F1", awful.tag.viewprev ),
-   awful.key({ altkey,           }, "F2", awful.tag.viewnext ),
-   awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-   awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
-   awful.key({ modkey,           }, "h", function () awful.tag.incmwfact(-0.05) end),
-   awful.key({ modkey,           }, "l", function () awful.tag.incmwfact(0.05) end),
-   awful.key({ modkey, "Shift"   }, "h", function () awful.tag.incnmaster(1) end),
-   awful.key({ modkey, "Shift"   }, "l", function () awful.tag.incnmaster(-1) end),
-   awful.key({ modkey, "Control" }, "h", function () awful.tag.incncol(1) end),
-   awful.key({ modkey, "Control" }, "l", function () awful.tag.incncol(-1) end),
-   awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts, 1) end),
-   awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-   awful.key({ altkey,           }, "e", function () myrc.keybind.push_menu(chord_mpd(), chord_menu_args) end),
-   
-   -- Multimedia keys
-   awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("pactl -- set-sink-volume 0 +10%") end),
-   awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("pactl -- set-sink-volume 0 -10%") end),
-   awful.key({ }, "XF86AudioMute", function () awful.util.spawn("") end),
+-- Main menu
+awful.key({ altkey            }, "Escape", function()  menu_current(mymainmenu,mainmenu_args) end),
 
-   -- Tagset operations (Win+Ctrl+s,<letter> chords)
-   awful.key({ altkey,           }, "F3", function () myrc.keybind.push_menu(chord_tags(), chord_menu_args) end)
-                                  )
+-- Awesome control
+awful.key({ modkey, "Control" }, "q", awesome.quit),
+awful.key({ modkey, "Control" }, "r", function() mypromptbox[mouse.screen].widget.text = awful.util.escape(awful.util.restart()) end),
 
+-- Application hotkeys
+awful.key({ modkey,           }, "Return", function () awful.util.spawn(env.terminal) end),
+awful.key({ modkey            }, "b", function () awful.util.spawn(env.browser) end),
+awful.key({ modkey            }, "e", function () awful.util.spawn(env.email)  end),
+awful.key({                   }, "Scroll_Lock", function () awful.util.spawn(env.locker) end),
+awful.key({ modkey            }, "r", function () mypromptbox[mouse.screen]:run() end),
+-- awful.key({ modkey,           }, "m", function () run_or_raise("gmpc", { class = "Gmpc" }) end),
+awful.key({ modkey            }, "p", function () awful.util.spawn("pidgin") end),
+awful.key({ modkey            }, "c", function () run_or_raise("xterm -e calc", { class="XTerm", name = "calc" }) end),
+awful.key({ modkey,           }, "d", function () awful.util.spawn("ec") end),
+awful.key({ modkey,           }, "v", function () awful.util.spawn(env.volumecontrol) end),
+
+-- Tag hotkeys
+awful.key({ modkey, "Control" }, "m", function () toggle_tag("im") end),
+awful.key({ modkey, "Control" }, "w", function () toggle_tag("work") end),
+awful.key({ modkey, "Control" }, "n", function () toggle_tag("net") end),
+awful.key({ modkey, "Control" }, "f", function () toggle_tag("fun") end),
+awful.key({ modkey, "Control" }, "e", function () toggle_tag("sys") end),
+awful.key({ modkey            }, "Tab", function() awful.tag.history.restore() end),
+
+-- Client manipulation
+awful.key({ altkey            }, "j", function () switch_to_client(-1) end),
+awful.key({ altkey            }, "k", function () switch_to_client(1) end),
+awful.key({ altkey            }, "1", function () switch_to_client(-1) end),
+awful.key({ altkey            }, "2", function () switch_to_client(1) end),
+awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(1) end),
+awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx(-1) end),
+awful.key({ altkey            }, "Tab", function() switch_to_client(0) end),
+awful.key({ modkey, "Shift"   }, "c",   function (c) c:kill() end),
+
+-- Layout manipulation
+awful.key({ altkey,           }, "F1", awful.tag.viewprev ),
+awful.key({ altkey,           }, "F2", awful.tag.viewnext ),
+awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
+awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
+awful.key({ modkey,           }, "h", function () awful.tag.incmwfact(-0.05) end),
+awful.key({ modkey,           }, "l", function () awful.tag.incmwfact(0.05) end),
+awful.key({ modkey, "Shift"   }, "h", function () awful.tag.incnmaster(1) end),
+awful.key({ modkey, "Shift"   }, "l", function () awful.tag.incnmaster(-1) end),
+awful.key({ modkey, "Control" }, "h", function () awful.tag.incncol(1) end),
+awful.key({ modkey, "Control" }, "l", function () awful.tag.incncol(-1) end),
+awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts, 1) end),
+awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
+awful.key({ altkey,           }, "e", function () myrc.keybind.push_menu(chord_mpd(), chord_menu_args) end),
+
+-- Multimedia keys
+awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("pactl -- set-sink-volume 0 +10%") end),
+awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("pactl -- set-sink-volume 0 -10%") end),
+awful.key({ }, "XF86AudioMute", function () awful.util.spawn("") end),
+
+-- Tagset operations (Win+Ctrl+s,<letter> chords)
+awful.key({ altkey,           }, "F3", function () myrc.keybind.push_menu(chord_tags(), chord_menu_args) end),
+
+-- Shifty: keybindings specific to shifty
+awful.key({modkey, "Shift"}, "d", shifty.del), -- delete a tag
+awful.key({modkey, "Shift"}, "n", shifty.send_prev), -- client to prev tag
+awful.key({modkey}, "n", shifty.send_next), -- client to next tag
+awful.key({modkey, "Control"}, "n", function() shifty.tagtoscr(awful.util.cycle(screen.count(), mouse.screen + 1))  end), -- move client to next tag
+awful.key({modkey, "Shift"}, "a", shifty.add), -- creat a new tag
+awful.key({modkey, "Shift"}, "r", shifty.rename), -- rename a tag
+awful.key({modkey, "Shift"}, "a", -- nopopup new tag
+   function()
+      shifty.add({nopopup = true})
+   end)
+
+)  
 root.keys(globalkeys)
 
 clientkeys = awful.util.table.join(
@@ -961,6 +1099,36 @@ clientbuttons = awful.util.table.join(
    awful.button({ modkey }, 3, awful.mouse.client.resize)
                                      )
 --}}}
+
+-- SHIFTY: assign client keys to shifty for use in
+-- match() function(manage hook)
+shifty.config.clientkeys = clientkeys
+shifty.config.modkey = modkey
+
+-- Compute the maximum number of digit we need, limited to 9
+for i = 1, (shifty.config.maxtags or 9) do
+    globalkeys = awful.util.table.join(globalkeys,
+        awful.key({modkey}, i, function()
+            local t =  awful.tag.viewonly(shifty.getpos(i))
+            end),
+        awful.key({modkey, "Control"}, i, function()
+            local t = shifty.getpos(i)
+            t.selected = not t.selected
+            end),
+        awful.key({modkey, "Control", "Shift"}, i, function()
+            if client.focus then
+                awful.client.toggletag(shifty.getpos(i))
+            end
+            end),
+        -- move clients to other tags
+        awful.key({modkey, "Shift"}, i, function()
+            if client.focus then
+                t = shifty.getpos(i)
+                awful.client.movetotag(t)
+                awful.tag.viewonly(t)
+            end
+        end))
+    end
 
 -- {{{ Hooks
 -- Hook function to execute when focusing a client.

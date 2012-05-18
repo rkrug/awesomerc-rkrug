@@ -1,3 +1,4 @@
+
 -- Author: Sergey Mironov ierton@gmail.com
 -- License: BSD3
 -- 2009-2010
@@ -21,42 +22,40 @@ local tables = {}
 local current_version = 1
 
 function init()
-	local config = awful.util.getdir("config").."/memory.data"
-	tables, err = table.load(config)
-	if err ~= nil then
-		tables = {}
-	end
-	if tables.verion == nil then
-		tables.verion = current_version
-	end
+        local config = awful.util.getdir("config").."/memory.data"
+        tables, err = table.load(config)
+        if err ~= nil then
+                tables = {}
+        end
+        if tables.verion == nil then
+                tables.verion = current_version
+        end
 end
 
 function set(t, key, value)
-	if type(tables[t]) == "nil" then
-		tables[t] = {}
-	end
-	local oldvalue = tables[t] [key]
-	tables[t] [key] = value
-	if oldvalue ~= value then
-		local config = awful.util.getdir("config").."/memory.data"
-		local res, err = table.save(tables, config)
-	end
-	return value
+        if type(tables[t]) == "nil" then
+                tables[t] = {}
+        end
+        local oldvalue = tables[t] [key]
+        tables[t] [key] = value
+        if oldvalue ~= value then
+                local config = awful.util.getdir("config").."/memory.data"
+                local res, err = table.save(tables, config)
+        end
+        return value
 end
 
 function get(table, key, defvalue)
 
-	if type(tables[table]) == "nil" then
-		return defvalue
-	elseif type(tables[table][key]) == "nil" then
-		local oldkey = string.gsub(key,"([^:]*:[^:]*:[^:]*):[^:]*", "%1")
-		if type(tables[table][oldkey]) == "nil" then
-			return defvalue
-		end
-		return tables[table][oldkey]
-	end
+        if type(tables[table]) == "nil" then
+                return defvalue
+        elseif type(tables[table][key]) == "nil" then
+                local oldkey = string.gsub(key,"([^:]*:[^:]*:[^:]*):[^:]*", "%1")
+                if type(tables[table][oldkey]) == "nil" then
+                        return defvalue
+                end
+                return tables[table][oldkey]
+        end
 
-	return tables[table][key]
+        return tables[table][key]
 end
-
-
