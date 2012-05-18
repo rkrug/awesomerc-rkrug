@@ -270,38 +270,52 @@ wifi card uses (see rfkill list). Well, all pipelets are hackish a bit .
 
 <p>The directory structure of config:
 </p>
+<p class="verse">
+.<br/>
+</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" />
+</colgroup>
+<thead>
+</thead>
+<tbody>
+<tr><td class="left"><a href="http://github.com/terceiro/awesome-freedesktop/tree">http://github.com/terceiro/awesome-freedesktop/tree</a>\\</td></tr>
+</tbody>
+<tbody>
+</tbody>
+<tbody>
+<tr><td class="left"></td><td class="left">&ndash; keybind.lua                 Library for defining key sequence\\</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; mainmenu.lua                Main menu generator\\</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; memory.lua                  Registry routines (client states are saved here)\\</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; tagman.lua                  Tag routines (renaming, adding, deleting, &hellip;)\\</td></tr>
+<tr><td class="left">`&ndash; themes.lua\\</td></tr>
+</tbody>
+<tbody>
+</tbody>
+<tbody>
+</tbody>
+<tbody>
+</tbody>
+<tbody>
+<tr><td class="left"></td><td class="left">&ndash; blue-black-red              My current theme files are here\\</td></tr>
+<tr><td class="left"></td><td class="left"></td><td class="left">&ndash; theme.lua               My current theme config\\</td></tr>
+<tr><td class="left"></td><td class="left">`&ndash; titlebar\\</td></tr>
+<tr><td class="left">`&ndash; &hellip; more\\</td></tr>
+<tr><td class="left">Another default theme\\</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left"></td><td class="left">&ndash; date                        Russian-language date pipelet\\</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; mmount                      Mount info pipelet\\</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; batmon                      Battery info pipelet\\</td></tr>
+<tr><td class="left">`&ndash; more\\</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">Main thing for registry to work\\</td></tr>
+</tbody>
+</table>
 
+</p>
 
-<pre class="src src-org">.
-<span style="color: #87cefa;">|-- README                          This file</span>
-<span style="color: #87cefa;">|-- freedesktop                     Freedesktop-menu from Gustavo Dutra.</span>
-<span style="color: #87cefa;">|                                   </span><span style="color: #00ffff; text-decoration: underline;">http://github.com/terceiro/awesome-freedesktop/tree</span>
-<span style="color: #87cefa;">|-- memory.data                     This is kind a DB or "registry" to store client settings</span>
-<span style="color: #87cefa;">|-- myrc                            Directory with my config libs</span>
-<span style="color: #87cefa;">|   |-- keybind.lua                 Library for defining key sequence</span>
-<span style="color: #87cefa;">|   |-- mainmenu.lua                Main menu generator</span>
-<span style="color: #87cefa;">|   |-- memory.lua                  Registry routines (client states are saved here)</span>
-<span style="color: #87cefa;">|   |-- tagman.lua                  Tag routines (renaming, adding, deleting, ...)</span>
-<span style="color: #87cefa;">|   `-- themes.lua</span>
-<span style="color: #87cefa;">|-- rc.lua                              This is main config</span>
-<span style="color: #87cefa;">|-- table.save-0.94.lua</span>
-<span style="color: #87cefa;">|-- pipelets.lua                    Piplets library</span>
-<span style="color: #87cefa;">|-- themes                          Theme collection</span>
-<span style="color: #87cefa;">|   |-- blue-black-red              My current theme files are here</span>
-<span style="color: #87cefa;">|   |   |-- theme.lua               My current theme config</span>
-<span style="color: #87cefa;">|   |   `-- titlebar</span>
-<span style="color: #87cefa;">|   `-- ... more</span>
-<span style="color: #87cefa;">|                                   Another default theme</span>
-<span style="color: #87cefa;">|-- pipelets</span>
-<span style="color: #87cefa;">|   |-- date                        Russian-language date pipelet</span>
-<span style="color: #87cefa;">|   |-- mmount                      Mount info pipelet</span>
-<span style="color: #87cefa;">|   |-- batmon                      Battery info pipelet</span>
-<span style="color: #87cefa;">|   `-- more</span>
-<span style="color: #87cefa;">|-- tsave.lua -&gt; table.save-0.94.lua</span>
-<span style="color: #87cefa;">|                                   Main thing for registry to work</span>
-<span style="color: #87cefa;">|-- icons                           Some common icons</span>
-<span style="color: #87cefa;">|-- wallpapers                      Wallpaper collection</span>
-</pre>
 
 </div>
 
