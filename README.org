@@ -1,0 +1,120 @@
+#+TITLE:     README.org
+#+AUTHOR:    Rainer M. Krug
+#+EMAIL:     Rainer@krugs.de
+#+DATE:      2012-05-22 Tue
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+* Introductory remark
+This project is based on a fork and mainly for my own usage and I *don't understand it fully*. Consequently, I will not be able to provide support. 
+AS the original author also does not doesn't support itr anymore, you are on your own. 
+
+ It may not work with newer versions of awesome.
+
+* INSTALL
+Config set uses lots of third-party programs. Here is some of them:
+
+- rfkill
+- inotail
+- sensors
+- iwevent
+- inotifywait
+- pkill
+- acpitool
+- notify-send
+- xkb-switch (see http://github.com/ierton/xkb-switch) xvkbd for laptop branch
+- Search for "Environment programs" in rc.lua for more
+    
+and some well-known files
+
+- /var/log/messages (logger should be configureg to not flood it)
+- /proc/mounts
+- /etc/mtab
+    
+Also rfkill pipelet uses hardcoded WIFI_RFKILL_ID value. Change it to one your
+wifi card uses (see rfkill list). Well, all pipelets are hackish a bit .
+
+1. #git clone git@github.com:ierton/awesomerc-ierton.git#
+2. #mv ~/.config/awesome ~/.config/awesome.old#
+3. #ln -s `pwd`/awesomerc-ierton ~/.config/awesome#
+     
+* DIRECTORY STRUCTURE
+The directory structure of config:
+#+BEGIN_EXAMPLE
+.
+|-- README                          This file
+|-- freedesktop                     Freedesktop-menu from Gustavo Dutra.
+|                                   http://github.com/terceiro/awesome-freedesktop/tree
+|-- memory.data                     This is kind a DB or "registry" to store client settings
+|-- myrc                            Directory with my config libs
+|   |-- keybind.lua                 Library for defining key sequence
+|   |-- mainmenu.lua                Main menu generator
+|   |-- memory.lua                  Registry routines (client states are saved here)
+|   |-- tagman.lua                  Tag routines (renaming, adding, deleting, ...)
+|   `-- themes.lua
+|-- rc.lua                              This is main config
+|-- table.save-0.94.lua
+|-- pipelets.lua                    Piplets library
+|-- themes                          Theme collection
+|   |-- blue-black-red              My current theme files are here
+|   |   |-- theme.lua               My current theme config
+|   |   `-- titlebar
+|   `-- ... more
+|                                   Another default theme
+|-- pipelets
+|   |-- date                        Russian-language date pipelet
+|   |-- mmount                      Mount info pipelet
+|   |-- batmon                      Battery info pipelet
+|   `-- more
+|-- tsave.lua -> table.save-0.94.lua
+|                                   Main thing for registry to work
+|-- icons                           Some common icons
+|-- wallpapers                      Wallpaper collection
+#+END_EXAMPLE
+
+* PIPELETS
+This config uses pipelets to post some information into widgets.
+pipelet is a program (shell script), which is "conected" 
+with widget via pipe. 
+
+All plumbery is hidden in the ./pipeman script. It translates stdout
+of its children into awesome calls.
+
+See rc.lua for details and examples.
+
+* DEFAULT KEYBINDINGS
+Here are some default bindings:
+
+** Client keys
+altkey+1 - prev client
+altkey+j - prev client
+altkey+2 - next client
+altkey+k - next client
+altkey+tab - toggle last 2 active clients
+altkey+3 - begin client manipulation menu (tooltip will appear)
+
+** Tag keys
+altkey+F1 - jump to one tag left
+altkey+F2 - jump to one tag right
+modkey+F1 - move focused client one tag left
+modkey+F2 - move focused client one tag right
+modkey+tab - switch to previous tag
+altkey+F3 - begin tag manipulation menu (tooltip will appear)
+
+
+** Other
+altkey+Esc - show main menu
+altkey+e - begin mpd manipulation menu (tooltip will appear)
+
+There are vim style keybindings defined for menus 
+(hjkl - move, o - open, x - back, Enter - open)
+
