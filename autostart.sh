@@ -78,7 +78,7 @@ run_once radiotray &
  # nitrogen --restore &
 ###################
 ## start guake
-run_once guake & 
+## run_once guake & 
 ###################
 ## start recollindex usin ionice Idle
  # ionice -c 3 recollindex -m &

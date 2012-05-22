@@ -8,6 +8,9 @@ require("client")
 require("screen")
 require("beautiful")
 require("naughty")
+
+-- require("debian.menu")
+
 require("freedesktop.utils")
 require("freedesktop.menu")
 
@@ -22,7 +25,7 @@ require("myrc.memory")
 require("myrc.logmon")
 
 -- shifty - dynamic tagging library
-require("shifty")
+-- require("shifty")
 
 --{{{ Debug 
 function dbg(vars)
@@ -452,7 +455,8 @@ env = {
       wimax = "sudo /usr/local/bin/laptop-net wimax",
       off = "sudo /usr/local/bin/laptop-net off"},
    syslog = "urxvt -e vim -T xterm-256color /var/log/messages",
-   volumecontrol = "pavucontrol "
+   volumecontrol = "pavucontrol ",
+   skype = "skype "
 }
 
 -- Pipelets
@@ -522,164 +526,6 @@ myrc.logmon.init()
   
 pipelets.init()
 -- }}}
-
--- Shifty configured tags.
-shifty.config.tags = {
-   w1 = {
-      layout    = awful.layout.suit.max,
-      mwfact    = 0.60,
-      exclusive = false,
-      position  = 1,
-      init      = true,
-      screen    = 1,
-      slave     = true,
-   },
-   web = {
-      layout      = awful.layout.suit.tile.bottom,
-      mwfact      = 0.65,
-      exclusive   = true,
-      max_clients = true,
-      position    = 4,
-      spawn       = browser,
-   },
-   mail = {
-      layout    = awful.layout.suit.tile,
-      mwfact    = 0.55,
-      exclusive = false,
-      position  = 5,
-      spawn     = mail,
-      slave     = true
-   },
-   skype = {
-      layout    = awful.layout.suit.tile,
-      mwfact    = 0.55,
-      exclusive = false,
-      position  = 6,
-      spawn     = skype,
-      slave     = true
-   },
-   emacs = {
-      layout    = awful.layout.suit.tile,
-      mwfact    = 0.55,
-      exclusive = false,
-      position  = 5,
-      spawn     = emacs,
-      slave     = true
-   },
-   media = {
-      layout    = awful.layout.suit.float,
-      exclusive = false,
-      position  = 8,
-   },
-   office = {
-      layout   = awful.layout.suit.tile,
-      position = 9,
-   },
-}
-
--- SHIFTY: application matching rules
--- order here matters, early rules will be applied first
-shifty.config.apps = {
-    {
-        match = {
-            "Navigator",
-            "Vimperator",
-            "Gran Paradiso",
-        },
-        tag = "web",
-    },
-    {
-        match = {
-            "Shredder.*",
-            "Thunderbird",
-            "mutt",
-        },
-        tag = "mail",
-    },
-    {
-        match = {
-            "pcmanfm",
-        },
-        slave = true
-    },
-    {
-        match = {
-            "OpenOffice.*",
-            "Abiword",
-            "Gnumeric",
-            "Lyx"
-        },
-        tag = "office",
-    },
-    {
-        match = {
-            "emacs"
-        },
-        tag = "emacs",
-    },
-    {
-        match = {
-            "Mplayer.*",
-            "Mirage",
-            "gimp",
-            "gtkpod",
-            "Ufraw",
-            "easytag",
-        },
-        tag = "media",
-        nopopup = true,
-    },
-    {
-        match = {
-            "MPlayer",
-            "Gnuplot",
-            "galculator",
-        },
-        float = true,
-    },
-    {
-        match = {
-            "Skype",
-        },
-        tag = "skype",
-    },
-    {
-        match = {
-            terminal,
-        },
-        honorsizehints = false,
-        slave = true,
-    },
-    {
-        match = {""},
-        buttons = awful.util.table.join(
-            awful.button({}, 1, function (c) client.focus = c; c:raise() end),
-            awful.button({modkey}, 1, function(c)
-                client.focus = c
-                c:raise()
-                awful.mouse.client.move(c)
-                end),
-            awful.button({modkey}, 3, awful.mouse.client.resize)
-            )
-    },
-}
-
--- SHIFTY: default tag creation rules
--- parameter description
---  * floatBars : if floating clients should always have a titlebar
---  * guess_name : should shifty try and guess tag names when creating
---                 new (unconfigured) tags?
---  * guess_position: as above, but for position parameter
---  * run : function to exec when shifty creates a new tag
---  * all other parameters (e.g. layout, mwfact) follow awesome's tag API
-shifty.config.defaults = {
-    layout = awful.layout.suit.tile.bottom,
-    ncol = 1,
-    mwfact = 0.60,
-    floatBars = true,
-    guess_name = true,
-    guess_position = true,
-}
 
 -- {{{ Wibox
 -- Empty launcher
@@ -781,74 +627,70 @@ mytasklist.buttons = awful.util.table.join(
                                           )
 
 for s = 1, screen.count() do
-   -- Create a promptbox for each screen
-   mypromptbox[s] = awful.widget.prompt({layout = awful.widget.layout.horizontal.leftright})
-   
-   -- Create an imagebox widget which will contains an icon indicating
-   -- which layout we're using. We need one layoutbox per screen.
-   mylayoutbox[s] = awful.widget.layoutbox(s)
-   mylayoutbox[s]:buttons(mylayoutbox.buttons)
-   
-   -- Create a taglist widget
-   mytaglist[s] = awful.widget.taglist(s, 
-                                       awful.widget.taglist.label.all, 
-                                       mytaglist.buttons)
-   
-   -- Create a tasklist widget
-   mytasklist[s] = awful.widget.tasklist( function (c)
-                                             return awful.widget.tasklist.label.currenttags(c,s)
-                                          end, mytasklist.buttons)
-   
-   myclientmenu[s] = awful.widget.button({image = clientmenu_icon})
-   myclientmenu[s]:buttons(myclientmenu.buttons)
-   
-   -- mykbd[s] = awful.widget.button({image = kbd_icon})
-   -- mykbd[s]:buttons(mykbd.buttons)
-   
-   -- Create top wibox
-   mytop[s] = awful.wibox({ 
-                             position = "top", screen = s, height = beautiful.wibox_height })
-   mytop[s].widgets = {
-      mylauncher,
-      mylayoutbox[s],
-      mytaglist[s],
-      mypromptbox[s],
-      {
-         myclientmenu[s],
-         s == 1 and mysystray or nil,
-         mytextclock,
-         layout = awful.widget.layout.horizontal.rightleft
-      },
-      mytasklist[s],
-      layout = awful.widget.layout.horizontal.leftright,
-      height = mytop[s].height
-   }
-   
-   -- Create bottom wibox
-   mybottom[s] = awful.wibox({ 
-                                position = "bottom", screen = s, height = beautiful.wibox_bottom_height })
-   mybottom[s].widgets = {
-      {
-         -- mykbdbox,
-         -- mykbd[s],
-         layout = awful.widget.layout.horizontal.rightleft
-      },
-      -- myrfkill,
-      mytemp,
-      mybatbox,
-      mymountbox,
-      -- mywifibox,
-      -- mywimaxbox,
-      layout = awful.widget.layout.horizontal.leftright
-   }
+
+-- Create a promptbox for each screen
+mypromptbox[s] = awful.widget.prompt({layout = awful.widget.layout.horizontal.leftright})
+
+-- Create an imagebox widget which will contains an icon indicating
+-- which layout we're using. We need one layoutbox per screen.
+mylayoutbox[s] = awful.widget.layoutbox(s)
+mylayoutbox[s]:buttons(mylayoutbox.buttons)
+
+-- Create a taglist widget
+mytaglist[s] = awful.widget.taglist(s, 
+                                    awful.widget.taglist.label.all, 
+                                    mytaglist.buttons)
+
+-- Create a tasklist widget
+mytasklist[s] = awful.widget.tasklist( function (c)
+                                          return awful.widget.tasklist.label.currenttags(c,s)
+                                       end, mytasklist.buttons)
+
+myclientmenu[s] = awful.widget.button({image = clientmenu_icon})
+myclientmenu[s]:buttons(myclientmenu.buttons)
+
+-- mykbd[s] = awful.widget.button({image = kbd_icon})
+-- mykbd[s]:buttons(mykbd.buttons)
+
+-- Create top wibox
+mytop[s] = awful.wibox({ 
+                          position = "top", screen = s, height = beautiful.wibox_height })
+mytop[s].widgets = {
+   mylauncher,
+   mylayoutbox[s],
+   mytaglist[s],
+   mypromptbox[s],
+   {
+      myclientmenu[s],
+      s == 1 and mysystray or nil,
+      mytextclock,
+      layout = awful.widget.layout.horizontal.rightleft
+   },
+   mytasklist[s],
+   layout = awful.widget.layout.horizontal.leftright,
+   height = mytop[s].height
+}
+
+-- Create bottom wibox
+mybottom[s] = awful.wibox({ 
+                             position = "bottom", screen = s, height = beautiful.wibox_bottom_height })
+mybottom[s].widgets = {
+   {
+      -- mykbdbox,
+      -- mykbd[s],
+      layout = awful.widget.layout.horizontal.rightleft
+   },
+   -- myrfkill,
+   mytemp,
+   mybatbox,
+   mymountbox,
+   -- mywifibox,
+   -- mywimaxbox,
+   layout = awful.widget.layout.horizontal.leftright
+}
+
 end
 -- }}}
-
--- SHIFTY: initialize shifty
--- the assignment of shifty.taglist must always be after its actually
--- initialized with awful.widget.taglist.new()
-shifty.taglist = mytaglist
-shifty.init()
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
@@ -1005,7 +847,7 @@ awful.key({                   }, "Scroll_Lock", function () awful.util.spawn(env
 awful.key({ modkey            }, "r", function () mypromptbox[mouse.screen]:run() end),
 -- awful.key({ modkey,           }, "m", function () run_or_raise("gmpc", { class = "Gmpc" }) end),
 awful.key({ modkey            }, "p", function () awful.util.spawn("pidgin") end),
-awful.key({ modkey            }, "c", function () run_or_raise("xterm -e calc", { class="XTerm", name = "calc" }) end),
+-- awful.key({ modkey            }, "c", function () run_or_raise("xterm -e calc", { class="XTerm", name = "calc" }) end),
 awful.key({ modkey,           }, "d", function () awful.util.spawn("ec") end),
 awful.key({ modkey,           }, "v", function () awful.util.spawn(env.volumecontrol) end),
 
@@ -1040,7 +882,7 @@ awful.key({ modkey, "Control" }, "h", function () awful.tag.incncol(1) end),
 awful.key({ modkey, "Control" }, "l", function () awful.tag.incncol(-1) end),
 awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts, 1) end),
 awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-awful.key({ altkey,           }, "e", function () myrc.keybind.push_menu(chord_mpd(), chord_menu_args) end),
+-- awful.key({ altkey,           }, "e", function () myrc.keybind.push_menu(chord_mpd(), chord_menu_args) end),
 
 -- Multimedia keys
 awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("pactl -- set-sink-volume 0 +10%") end),
@@ -1048,19 +890,7 @@ awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("pactl -- se
 awful.key({ }, "XF86AudioMute", function () awful.util.spawn("") end),
 
 -- Tagset operations (Win+Ctrl+s,<letter> chords)
-awful.key({ altkey,           }, "F3", function () myrc.keybind.push_menu(chord_tags(), chord_menu_args) end),
-
--- Shifty: keybindings specific to shifty
-awful.key({modkey, "Shift"}, "d", shifty.del), -- delete a tag
-awful.key({modkey, "Shift"}, "n", shifty.send_prev), -- client to prev tag
-awful.key({modkey}, "n", shifty.send_next), -- client to next tag
-awful.key({modkey, "Control"}, "n", function() shifty.tagtoscr(awful.util.cycle(screen.count(), mouse.screen + 1))  end), -- move client to next tag
-awful.key({modkey, "Shift"}, "a", shifty.add), -- creat a new tag
-awful.key({modkey, "Shift"}, "r", shifty.rename), -- rename a tag
-awful.key({modkey, "Shift"}, "a", -- nopopup new tag
-   function()
-      shifty.add({nopopup = true})
-   end)
+awful.key({ altkey,           }, "F3", function () myrc.keybind.push_menu(chord_tags(), chord_menu_args) end)
 
 )  
 root.keys(globalkeys)
@@ -1083,52 +913,21 @@ clientkeys = awful.util.table.join(
                 c.maximized_horizontal = not c.maximized_horizontal
                 c.maximized_vertical   = not c.maximized_vertical
                                end),
-  
+   
    awful.key({ altkey }, "F6", function (c) dbg_client(c) end),
-  
-   -- Client keys
+   
    awful.key({ altkey ,        }, "3", function(c) 
                 local menu = client_contex_menu(c)
                 menu_current(menu, contextmenu_args)
                                        end)
                                   )
-  
+
 clientbuttons = awful.util.table.join(
    awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
    awful.button({ modkey }, 1, awful.mouse.client.move),
    awful.button({ modkey }, 3, awful.mouse.client.resize)
                                      )
 --}}}
-
--- SHIFTY: assign client keys to shifty for use in
--- match() function(manage hook)
-shifty.config.clientkeys = clientkeys
-shifty.config.modkey = modkey
-
--- Compute the maximum number of digit we need, limited to 9
-for i = 1, (shifty.config.maxtags or 9) do
-    globalkeys = awful.util.table.join(globalkeys,
-        awful.key({modkey}, i, function()
-            local t =  awful.tag.viewonly(shifty.getpos(i))
-            end),
-        awful.key({modkey, "Control"}, i, function()
-            local t = shifty.getpos(i)
-            t.selected = not t.selected
-            end),
-        awful.key({modkey, "Control", "Shift"}, i, function()
-            if client.focus then
-                awful.client.toggletag(shifty.getpos(i))
-            end
-            end),
-        -- move clients to other tags
-        awful.key({modkey, "Shift"}, i, function()
-            if client.focus then
-                t = shifty.getpos(i)
-                awful.client.movetotag(t)
-                awful.tag.viewonly(t)
-            end
-        end))
-    end
 
 -- {{{ Hooks
 -- Hook function to execute when focusing a client.

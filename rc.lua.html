@@ -94,100 +94,133 @@
 <h1 class="title">rc.lua.org</h1>
 
 
+
+
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 Old README</a>
+<li><a href="#sec-1">1 Old README</a></li>
+<li><a href="#sec-2">2 rc.lua and it's needed modules</a>
 <ul>
-<li><a href="#sec-1-1">1.1 INSTALL</a></li>
-<li><a href="#sec-1-2">1.2 DIRECTORY STRUCTURE</a></li>
-<li><a href="#sec-1-3">1.3 PIPELETS</a></li>
-<li><a href="#sec-1-4">1.4 DEFAULT KEYBINDINGS</a>
+<li><a href="#sec-2-1">2.1 rc.lua</a>
 <ul>
-<li><a href="#sec-1-4-1">1.4.1 Client keys</a></li>
-<li><a href="#sec-1-4-2">1.4.2 Tag keys</a></li>
-<li><a href="#sec-1-4-3">1.4.3 Other</a></li>
+<li><a href="#sec-2-1-1">2.1.1 Include libraries</a></li>
+<li><a href="#sec-2-1-2">2.1.2 Debug</a></li>
+<li><a href="#sec-2-1-3">2.1.3 Run or raise function</a></li>
+<li><a href="#sec-2-1-4">2.1.4 Execute adjustMonitor</a></li>
+<li><a href="#sec-2-1-5">2.1.5 Data serialisation helpers</a></li>
+<li><a href="#sec-2-1-6">2.1.6 Menu helpers</a></li>
+<li><a href="#sec-2-1-7">2.1.7 Variable definitions</a></li>
+<li><a href="#sec-2-1-8">2.1.8 Shifty</a></li>
+<li><a href="#sec-2-1-9">2.1.9 Wibox</a></li>
+<li><a href="#sec-2-1-10">2.1.10 Mouse bindings</a></li>
+<li><a href="#sec-2-1-11">2.1.11 Key bindings</a></li>
+<li><a href="#sec-2-1-12">2.1.12 Shifty: Compute the maximum number of digit we need, limited to 9</a></li>
+<li><a href="#sec-2-1-13">2.1.13 Hooks</a></li>
+<li><a href="#sec-2-1-14">2.1.14 Autostart</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-5">1.5 </a></li>
-</ul>
-</li>
-<li><a href="#sec-2">2 rc.lua</a>
+<li><a href="#sec-2-2">2.2 freedesktop</a>
 <ul>
-<li><a href="#sec-2-1">2.1 Include libraries</a></li>
-<li><a href="#sec-2-2">2.2 Debug</a></li>
-<li><a href="#sec-2-3">2.3 Run or raise function</a></li>
-<li><a href="#sec-2-4">2.4 Execute adjustMonitor</a></li>
-<li><a href="#sec-2-5">2.5 Data serialisation helpers</a></li>
-<li><a href="#sec-2-6">2.6 Menu helpers</a></li>
-<li><a href="#sec-2-7">2.7 Variable definitions</a>
+<li><a href="#sec-2-2-1">2.2.1 desktop.lua</a></li>
+<li><a href="#sec-2-2-2">2.2.2 menu.lua</a></li>
+<li><a href="#sec-2-2-3">2.2.3 utils.lua</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-3">2.3 myrc</a>
 <ul>
-<li><a href="#sec-2-7-1">2.7.1 Default modkey</a></li>
-<li><a href="#sec-2-7-2">2.7.2 Environment programs</a></li>
-<li><a href="#sec-2-7-3">2.7.3 Default modkey</a></li>
-<li><a href="#sec-2-7-4">2.7.4 Naughty</a></li>
-<li><a href="#sec-2-7-5">2.7.5 Table of layouts</a></li>
-<li><a href="#sec-2-7-6">2.7.6 Custom Icons</a></li>
+<li><a href="#sec-2-3-1">2.3.1 mainmenu.lua</a></li>
+<li><a href="#sec-2-3-2">2.3.2 tagman.lua</a></li>
+<li><a href="#sec-2-3-3">2.3.3 keybind.lua</a></li>
+<li><a href="#sec-2-3-4">2.3.4 logmon.lua</a></li>
+<li><a href="#sec-2-3-5">2.3.5 memory.lua</a></li>
+<li><a href="#sec-2-3-6">2.3.6 themes.lua</a></li>
 </ul>
 </li>
-<li><a href="#sec-2-8">2.8 Shifty</a>
+<li><a href="#sec-2-4">2.4 pipelets</a>
 <ul>
-<li><a href="#sec-2-8-1">2.8.1 Shifty Configured tags</a></li>
-<li><a href="#sec-2-8-2">2.8.2 Shifty application matching rules</a></li>
-<li><a href="#sec-2-8-3">2.8.3 Shifty default tag creation rules</a></li>
+<li><a href="#sec-2-4-1">2.4.1 temp</a></li>
+<li><a href="#sec-2-4-2">2.4.2 batmon</a></li>
+<li><a href="#sec-2-4-3">2.4.3 date</a></li>
+<li><a href="#sec-2-4-4">2.4.4 mmount</a></li>
 </ul>
 </li>
-<li><a href="#sec-2-9">2.9 Wibox</a>
+<li><a href="#sec-2-5">2.5 Autostart</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3 rc.default.lua</a>
 <ul>
-<li><a href="#sec-2-9-1">2.9.1 Empty launcher</a></li>
-<li><a href="#sec-2-9-2">2.9.2 Create systray</a></li>
-<li><a href="#sec-2-9-3">2.9.3 Create a wibox for each screen and add it</a></li>
-<li><a href="#sec-2-9-4">2.9.4 Define widgets</a></li>
-<li><a href="#sec-2-9-5">2.9.5 Assemble it</a></li>
-<li><a href="#sec-2-9-6">2.9.6 Shifty initialize</a></li>
-</ul>
-</li>
-<li><a href="#sec-2-10">2.10 Mouse bindings</a></li>
-<li><a href="#sec-2-11">2.11 Key bindings</a>
+<li><a href="#sec-3-1">3.1 loading libraries</a></li>
+<li><a href="#sec-3-2">3.2 Variable definitions</a>
 <ul>
-<li><a href="#sec-2-11-1">2.11.1 Some functions</a></li>
-<li><a href="#sec-2-11-2">2.11.2 Global keys</a></li>
-<li><a href="#sec-2-11-3">2.11.3 Client keys</a></li>
-<li><a href="#sec-2-11-4">2.11.4 Shifty client keys</a></li>
+<li><a href="#sec-3-2-1">3.2.1 Beautiful</a></li>
+<li><a href="#sec-3-2-2">3.2.2 Default programs</a></li>
+<li><a href="#sec-3-2-3">3.2.3 Default modkey</a></li>
+<li><a href="#sec-3-2-4">3.2.4 Layouts</a></li>
 </ul>
 </li>
-<li><a href="#sec-2-12">2.12 Compute the maximum number of digit we need, limited to 9</a></li>
-<li><a href="#sec-2-13">2.13 Hooks</a></li>
-<li><a href="#sec-2-14">2.14 Autostart</a></li>
+<li><a href="#sec-3-3">3.3 Use titlebar on all applications?</a></li>
+<li><a href="#sec-3-4">3.4 tags</a></li>
+<li><a href="#sec-3-5">3.5 Menu</a></li>
+<li><a href="#sec-3-6">3.6 Wibox</a></li>
+<li><a href="#sec-3-7">3.7 Mouse Bindings</a></li>
+<li><a href="#sec-3-8">3.8 Key Bindings</a></li>
+<li><a href="#sec-3-9">3.9 Rules</a></li>
+<li><a href="#sec-3-10">3.10 Signals</a></li>
+<li><a href="#sec-3-11">3.11 Autostart</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">3 freedesktop</a>
+<li><a href="#sec-4">4 rc.shifty.lua</a>
 <ul>
-<li><a href="#sec-3-1">3.1 desktop.lua</a></li>
-<li><a href="#sec-3-2">3.2 menu.lua</a></li>
-<li><a href="#sec-3-3">3.3 utils.lua</a></li>
-</ul>
-</li>
-<li><a href="#sec-4">4 myrc</a>
+<li><a href="#sec-4-1">4.1 Include libraries</a></li>
+<li><a href="#sec-4-2">4.2 For debugging</a></li>
+<li><a href="#sec-4-3">4.3 Variable definitions</a>
 <ul>
-<li><a href="#sec-4-1">4.1 mainmenu.lua</a></li>
-<li><a href="#sec-4-2">4.2 tagman.lua</a></li>
-<li><a href="#sec-4-3">4.3 keybind.lua</a></li>
-<li><a href="#sec-4-4">4.4 logmon.lua</a></li>
-<li><a href="#sec-4-5">4.5 memory.lua</a></li>
-<li><a href="#sec-4-6">4.6 themes.lua</a></li>
+<li><a href="#sec-4-3-1">4.3.1 Default programs</a></li>
+<li><a href="#sec-4-3-2">4.3.2 Default modkey</a></li>
+<li><a href="#sec-4-3-3">4.3.3 Layouts</a></li>
+<li><a href="#sec-4-3-4">4.3.4 Do we want to use titlebar on all applications?</a></li>
 </ul>
 </li>
-<li><a href="#sec-5">5 pipelets</a>
+<li><a href="#sec-4-4">4.4 Theme</a>
 <ul>
-<li><a href="#sec-5-1">5.1 temp</a></li>
-<li><a href="#sec-5-2">5.2 batmon</a></li>
-<li><a href="#sec-5-3">5.3 date</a></li>
-<li><a href="#sec-5-4">5.4 mmount</a></li>
+<li><a href="#sec-4-4-1">4.4.1 Define theme</a></li>
+<li><a href="#sec-4-4-2">4.4.2 Load Theme</a></li>
 </ul>
 </li>
-<li><a href="#sec-6">6 Autostart</a></li>
+<li><a href="#sec-4-5">4.5 Shifty Configured tabs</a></li>
+<li><a href="#sec-4-6">4.6 Shifty application matching rules</a></li>
+<li><a href="#sec-4-7">4.7 Shifty default tag creation rules</a></li>
+<li><a href="#sec-4-8">4.8 Wibox</a>
+<ul>
+<li><a href="#sec-4-8-1">4.8.1 Textbox widget</a></li>
+<li><a href="#sec-4-8-2">4.8.2 Launcher widget</a></li>
+<li><a href="#sec-4-8-3">4.8.3 Main menu</a></li>
+<li><a href="#sec-4-8-4">4.8.4 Create systray</a></li>
+<li><a href="#sec-4-8-5">4.8.5 Create a wibox</a></li>
+<li><a href="#sec-4-8-6">4.8.6 And add it to each screen</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-9">4.9 Initialize shifty</a></li>
+<li><a href="#sec-4-10">4.10 Mouse Bindings</a></li>
+<li><a href="#sec-4-11">4.11 Key Bindings</a>
+<ul>
+<li><a href="#sec-4-11-1">4.11.1 Global Keys</a></li>
+<li><a href="#sec-4-11-2">4.11.2 Client keys</a></li>
+<li><a href="#sec-4-11-3">4.11.3 SHIFTY: assign client keys to shifty for use in</a></li>
+<li><a href="#sec-4-11-4">4.11.4 Compute the maximum number of digit we need, limited to 9</a></li>
+<li><a href="#sec-4-11-5">4.11.5 Set keys</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-12">4.12 Hook functions</a>
+<ul>
+<li><a href="#sec-4-12-1">4.12.1 When focussing</a></li>
+<li><a href="#sec-4-12-2">4.12.2 When unfocussing</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -196,16 +229,11 @@
 <h2 id="sec-1"><span class="section-number-2">1</span> Old README</h2>
 <div class="outline-text-2" id="text-1">
 
-<p>I am sorry, but I <b>DON'T SUPPORT</b> any more. It may not work with newer versions of awesome.
+<p>  I am sorry, but I <b>DON'T SUPPORT</b> any more. It may not work with newer versions of awesome.
 </p>
-
-</div>
-
-<div id="outline-container-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> INSTALL</h3>
-<div class="outline-text-3" id="text-1-1">
-
-<p>Config set uses lots of third-party programs. Here is some of them:
+<p>  
+  ** INSTALL
+  Config set uses lots of third-party programs. Here is some of them:
 </p>
 <ul>
 <li>rfkill
@@ -227,13 +255,13 @@
 <li>xkb-switch (see <a href="http://github.com/ierton/xkb-switch">http://github.com/ierton/xkb-switch</a>)
 </li>
 <li>Search for "Environment programs" in rc.lua for more
- xvkbd for laptop branch
+   xvkbd for laptop branch
 </li>
 </ul>
 
 
-<p>
-and some well-known files
+<p>  
+  and some well-known files
 </p>
 <ul>
 <li>/var/log/messages (logger should be configureg to not flood it)
@@ -245,9 +273,9 @@ and some well-known files
 </ul>
 
 
-<p>
-Also rfkill pipelet uses hardcoded WIFI<sub>RFKILL</sub><sub>ID</sub> value. Change it to one your
-wifi card uses (see rfkill list). Well, all pipelets are hackish a bit .
+<p>  
+  Also rfkill pipelet uses hardcoded WIFI<sub>RFKILL</sub><sub>ID</sub> value. Change it to one your
+  wifi card uses (see rfkill list). Well, all pipelets are hackish a bit .
 </p>
 <ol>
 <li>#git clone git@github.com:ierton/awesomerc-ierton.git#
@@ -260,18 +288,10 @@ wifi card uses (see rfkill list). Well, all pipelets are hackish a bit .
 
 
 
-</div>
-
-</div>
-
-<div id="outline-container-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> DIRECTORY STRUCTURE</h3>
-<div class="outline-text-3" id="text-1-2">
-
-<p>The directory structure of config:
-</p>
-<p class="verse">
-.<br/>
+<p>  
+  ** DIRECTORY STRUCTURE
+  The directory structure of config:
+  .
 </p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
 <colgroup><col class="left" />
@@ -279,16 +299,16 @@ wifi card uses (see rfkill list). Well, all pipelets are hackish a bit .
 <thead>
 </thead>
 <tbody>
-<tr><td class="left"><a href="http://github.com/terceiro/awesome-freedesktop/tree">http://github.com/terceiro/awesome-freedesktop/tree</a>\\</td></tr>
+<tr><td class="left"><a href="http://github.com/terceiro/awesome-freedesktop/tree">http://github.com/terceiro/awesome-freedesktop/tree</a></td></tr>
 </tbody>
 <tbody>
 </tbody>
 <tbody>
-<tr><td class="left"></td><td class="left">&ndash; keybind.lua                 Library for defining key sequence\\</td></tr>
-<tr><td class="left"></td><td class="left">&ndash; mainmenu.lua                Main menu generator\\</td></tr>
-<tr><td class="left"></td><td class="left">&ndash; memory.lua                  Registry routines (client states are saved here)\\</td></tr>
-<tr><td class="left"></td><td class="left">&ndash; tagman.lua                  Tag routines (renaming, adding, deleting, &hellip;)\\</td></tr>
-<tr><td class="left">`&ndash; themes.lua\\</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; keybind.lua                 Library for defining key sequence</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; mainmenu.lua                Main menu generator</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; memory.lua                  Registry routines (client states are saved here)</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; tagman.lua                  Tag routines (renaming, adding, deleting, &hellip;)</td></tr>
+<tr><td class="left">`&ndash; themes.lua</td></tr>
 </tbody>
 <tbody>
 </tbody>
@@ -297,119 +317,81 @@ wifi card uses (see rfkill list). Well, all pipelets are hackish a bit .
 <tbody>
 </tbody>
 <tbody>
-<tr><td class="left"></td><td class="left">&ndash; blue-black-red              My current theme files are here\\</td></tr>
-<tr><td class="left"></td><td class="left"></td><td class="left">&ndash; theme.lua               My current theme config\\</td></tr>
-<tr><td class="left"></td><td class="left">`&ndash; titlebar\\</td></tr>
-<tr><td class="left">`&ndash; &hellip; more\\</td></tr>
-<tr><td class="left">Another default theme\\</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; blue-black-red              My current theme files are here</td></tr>
+<tr><td class="left"></td><td class="left"></td><td class="left">&ndash; theme.lua               My current theme config</td></tr>
+<tr><td class="left"></td><td class="left">`&ndash; titlebar</td></tr>
+<tr><td class="left">`&ndash; &hellip; more</td></tr>
+<tr><td class="left">Another default theme</td></tr>
 </tbody>
 <tbody>
-<tr><td class="left"></td><td class="left">&ndash; date                        Russian-language date pipelet\\</td></tr>
-<tr><td class="left"></td><td class="left">&ndash; mmount                      Mount info pipelet\\</td></tr>
-<tr><td class="left"></td><td class="left">&ndash; batmon                      Battery info pipelet\\</td></tr>
-<tr><td class="left">`&ndash; more\\</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; date                        Russian-language date pipelet</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; mmount                      Mount info pipelet</td></tr>
+<tr><td class="left"></td><td class="left">&ndash; batmon                      Battery info pipelet</td></tr>
+<tr><td class="left">`&ndash; more</td></tr>
 </tbody>
 <tbody>
-<tr><td class="left">Main thing for registry to work\\</td></tr>
+<tr><td class="left">Main thing for registry to work</td></tr>
 </tbody>
 </table>
 
+
+<p>  
+  ** PIPELETS
+  This config uses pipelets to post some information into widgets.
+  pipelet is a program (shell script), which is "conected" 
+  with widget via pipe. 
+</p>
+<p>  
+  All plumbery is hidden in the ./pipeman script. It translates stdout
+  of its children into awesome calls.
+</p>
+<p>  
+  See rc.lua for details and examples.
+</p>
+<p>  
+  ** DEFAULT KEYBINDINGS
 </p>
 
-
-</div>
-
-</div>
-
-<div id="outline-container-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> PIPELETS</h3>
-<div class="outline-text-3" id="text-1-3">
-
-<p>This config uses pipelets to post some information into widgets.
-pipelet is a program (shell script), which is "conected" 
-with widget via pipe. 
+<p>  
+  Here are some default bindings:
 </p>
-<p>
-All plumbery is hidden in the ./pipeman script. It translates stdout
-of its children into awesome calls.
+<p>  
+  *** Client keys
 </p>
-<p>
-See rc.lua for details and examples.
+<p>  
+  altkey+1 - prev client
+  altkey+j - prev client
+  altkey+2 - next client
+  altkey+k - next client
+  altkey+tab - toggle last 2 active clients
+  altkey+3 - begin client manipulation menu (tooltip will appear)
 </p>
-</div>
-
-</div>
-
-<div id="outline-container-1-4" class="outline-3">
-<h3 id="sec-1-4"><span class="section-number-3">1.4</span> DEFAULT KEYBINDINGS</h3>
-<div class="outline-text-3" id="text-1-4">
-
-
-
-<p>
-Here are some default bindings:
+<p>  
+  *** Tag keys
 </p>
-
-</div>
-
-<div id="outline-container-1-4-1" class="outline-4">
-<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> Client keys</h4>
-<div class="outline-text-4" id="text-1-4-1">
-
-
-<p>
-altkey+1 - prev client
-altkey+j - prev client
-altkey+2 - next client
-altkey+k - next client
-altkey+tab - toggle last 2 active clients
-altkey+3 - begin client manipulation menu (tooltip will appear)
+<p>  
+  altkey+F1 - jump to one tag left
+  altkey+F2 - jump to one tag right
+  modkey+F1 - move focused client one tag left
+  modkey+F2 - move focused client one tag right
+  modkey+tab - switch to previous tag
+  altkey+F3 - begin tag manipulation menu (tooltip will appear)
 </p>
-</div>
-
-</div>
-
-<div id="outline-container-1-4-2" class="outline-4">
-<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> Tag keys</h4>
-<div class="outline-text-4" id="text-1-4-2">
-
-
-<p>
-altkey+F1 - jump to one tag left
-altkey+F2 - jump to one tag right
-modkey+F1 - move focused client one tag left
-modkey+F2 - move focused client one tag right
-modkey+tab - switch to previous tag
-altkey+F3 - begin tag manipulation menu (tooltip will appear)
+<p>  
+  *** Other
 </p>
-</div>
-
-</div>
-
-<div id="outline-container-1-4-3" class="outline-4">
-<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> Other</h4>
-<div class="outline-text-4" id="text-1-4-3">
-
-
-<p>
-altkey+Esc - show main menu
-altkey+e - begin mpd manipulation menu (tooltip will appear)
+<p>  
+  altkey+Esc - show main menu
+  altkey+e - begin mpd manipulation menu (tooltip will appear)
 </p>
-<p>
-There are vim style keybindings defined for menus 
-(hjkl - move, o - open, x - back, Enter - open)
+<p>  
+  There are vim style keybindings defined for menus 
+  (hjkl - move, o - open, x - back, Enter - open)
 </p>
 
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-1-5" class="outline-3">
-<h3 id="sec-1-5"><span class="section-number-3">1.5</span> <span class="todo TODO">TODO</span></h3>
-<div class="outline-text-3" id="text-1-5">
-
-
+<p>  
+  ** TODO 
+</p>
 <ul>
 <li>Add client reordering
 </li>
@@ -420,27 +402,33 @@ There are vim style keybindings defined for menus
 </ul>
 
 
-<p>
---
-Thanks for your interest! 
+<p>  
+  --
+  Thanks for your interest! 
 </p>
 
-</div>
 </div>
 
 </div>
 
 <div id="outline-container-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> rc.lua</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> rc.lua and it's needed modules</h2>
 <div class="outline-text-2" id="text-2">
+
+
+</div>
+
+<div id="outline-container-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> rc.lua</h3>
+<div class="outline-text-3" id="text-2-1">
 
 <p>This is the default rc.lua file for awesome (which is awesome). It is heavily based on <a href="https://github.com/ierton/awesomerc-ierton">https://github.com/ierton/awesomerc-ierton</a>
 </p>
 </div>
 
-<div id="outline-container-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Include libraries</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Include libraries</h4>
+<div class="outline-text-4" id="text-2-1-1">
 
 
 
@@ -454,6 +442,9 @@ require(<span style="color: #ffff00;">"client"</span>)
 require(<span style="color: #ffff00;">"screen"</span>)
 require(<span style="color: #ffff00;">"beautiful"</span>)
 require(<span style="color: #ffff00;">"naughty"</span>)
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">require("debian.menu")</span>
+
 require(<span style="color: #ffff00;">"freedesktop.utils"</span>)
 require(<span style="color: #ffff00;">"freedesktop.menu"</span>)
 
@@ -468,16 +459,16 @@ require(<span style="color: #ffff00;">"myrc.memory"</span>)
 require(<span style="color: #ffff00;">"myrc.logmon"</span>)
 
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">shifty - dynamic tagging library</span>
-require(<span style="color: #ffff00;">"shifty"</span>)
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">require("shifty")</span>
 </pre>
 
 </div>
 
 </div>
 
-<div id="outline-container-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Debug</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> Debug</h4>
+<div class="outline-text-4" id="text-2-1-2">
 
 
 
@@ -516,9 +507,9 @@ require(<span style="color: #ffff00;">"shifty"</span>)
 
 </div>
 
-<div id="outline-container-2-3" class="outline-3">
-<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Run or raise function</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-2-1-3" class="outline-4">
+<h4 id="sec-2-1-3"><span class="section-number-4">2.1.3</span> Run or raise function</h4>
+<div class="outline-text-4" id="text-2-1-3">
 
 
 
@@ -588,9 +579,9 @@ require(<span style="color: #ffff00;">"shifty"</span>)
 
 </div>
 
-<div id="outline-container-2-4" class="outline-3">
-<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Execute adjustMonitor</h3>
-<div class="outline-text-3" id="text-2-4">
+<div id="outline-container-2-1-4" class="outline-4">
+<h4 id="sec-2-1-4"><span class="section-number-4">2.1.4</span> Execute adjustMonitor</h4>
+<div class="outline-text-4" id="text-2-1-4">
 
 
 
@@ -603,9 +594,9 @@ require(<span style="color: #ffff00;">"shifty"</span>)
 
 </div>
 
-<div id="outline-container-2-5" class="outline-3">
-<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Data serialisation helpers</h3>
-<div class="outline-text-3" id="text-2-5">
+<div id="outline-container-2-1-5" class="outline-4">
+<h4 id="sec-2-1-5"><span class="section-number-4">2.1.5</span> Data serialisation helpers</h4>
+<div class="outline-text-4" id="text-2-1-5">
 
 
 
@@ -766,9 +757,9 @@ require(<span style="color: #ffff00;">"shifty"</span>)
 
 </div>
 
-<div id="outline-container-2-6" class="outline-3">
-<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Menu helpers</h3>
-<div class="outline-text-3" id="text-2-6">
+<div id="outline-container-2-1-6" class="outline-4">
+<h4 id="sec-2-1-6"><span class="section-number-4">2.1.6</span> Menu helpers</h4>
+<div class="outline-text-4" id="text-2-1-6">
 
 
 
@@ -932,17 +923,12 @@ mymenu = <span style="color: #00ffff;">nil</span>
 
 </div>
 
-<div id="outline-container-2-7" class="outline-3">
-<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Variable definitions</h3>
-<div class="outline-text-3" id="text-2-7">
+<div id="outline-container-2-1-7" class="outline-4">
+<h4 id="sec-2-1-7"><span class="section-number-4">2.1.7</span> Variable definitions</h4>
+<div class="outline-text-4" id="text-2-1-7">
 
-
-</div>
-
-<div id="outline-container-2-7-1" class="outline-4">
-<h4 id="sec-2-7-1"><span class="section-number-4">2.7.1</span> Default modkey</h4>
-<div class="outline-text-4" id="text-2-7-1">
-
+<ul>
+<li id="sec-2-1-7-1">Default modkey<br/>
 
 
 
@@ -952,14 +938,10 @@ modkey = <span style="color: #ffff00;">"Mod4"</span>
 altkey = <span style="color: #ffff00;">"Mod1"</span>
 </pre>
 
-</div>
-
-</div>
-
-<div id="outline-container-2-7-2" class="outline-4">
-<h4 id="sec-2-7-2"><span class="section-number-4">2.7.2</span> Environment programs</h4>
-<div class="outline-text-4" id="text-2-7-2">
-
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-7-2">Environment programs<br/>
 
 
 
@@ -990,19 +972,16 @@ env = {
       wimax = <span style="color: #ffff00;">"sudo /usr/local/bin/laptop-net wimax"</span>,
       off = <span style="color: #ffff00;">"sudo /usr/local/bin/laptop-net off"</span>},
    syslog = <span style="color: #ffff00;">"urxvt -e vim -T xterm-256color /var/log/messages"</span>,
-   volumecontrol = <span style="color: #ffff00;">"pavucontrol "</span>
+   volumecontrol = <span style="color: #ffff00;">"pavucontrol "</span>,
+   skype = <span style="color: #ffff00;">"skype "</span>
 }
 
 </pre>
 
-</div>
-
-</div>
-
-<div id="outline-container-2-7-3" class="outline-4">
-<h4 id="sec-2-7-3"><span class="section-number-4">2.7.3</span> Default modkey</h4>
-<div class="outline-text-4" id="text-2-7-3">
-
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-7-3">Default modkey<br/>
 
 
 
@@ -1011,14 +990,10 @@ pipelets.config.script_path = awful.util.getdir(<span style="color: #ffff00;">"c
 
 </pre>
 
-</div>
-
-</div>
-
-<div id="outline-container-2-7-4" class="outline-4">
-<h4 id="sec-2-7-4"><span class="section-number-4">2.7.4</span> Naughty</h4>
-<div class="outline-text-4" id="text-2-7-4">
-
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-7-4">Naughty<br/>
 
 
 
@@ -1035,14 +1010,10 @@ naughty.config.presets.critical.width = logmon_width
 
 </pre>
 
-</div>
-
-</div>
-
-<div id="outline-container-2-7-5" class="outline-4">
-<h4 id="sec-2-7-5"><span class="section-number-4">2.7.5</span> Table of layouts</h4>
-<div class="outline-text-4" id="text-2-7-5">
-
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-7-5">Table of layouts<br/>
 
 
 
@@ -1089,14 +1060,10 @@ layouts =
 
 </pre>
 
-</div>
-
-</div>
-
-<div id="outline-container-2-7-6" class="outline-4">
-<h4 id="sec-2-7-6"><span class="section-number-4">2.7.6</span> Custom Icons</h4>
-<div class="outline-text-4" id="text-2-7-6">
-
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-7-6">Custom Icons<br/>
 
 
 
@@ -1114,22 +1081,18 @@ pipelets.init()
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">}}}</span>
 </pre>
 
+</li>
+</ul>
 </div>
-</div>
-
-</div>
-
-<div id="outline-container-2-8" class="outline-3">
-<h3 id="sec-2-8"><span class="section-number-3">2.8</span> Shifty</h3>
-<div class="outline-text-3" id="text-2-8">
-
 
 </div>
 
-<div id="outline-container-2-8-1" class="outline-4">
-<h4 id="sec-2-8-1"><span class="section-number-4">2.8.1</span> Shifty Configured tags</h4>
-<div class="outline-text-4" id="text-2-8-1">
+<div id="outline-container-2-1-8" class="outline-4">
+<h4 id="sec-2-1-8"><span class="section-number-4">2.1.8</span> <span class="todo TODO">TODO</span> Shifty</h4>
+<div class="outline-text-4" id="text-2-1-8">
 
+<ul>
+<li id="sec-2-1-8-1">Shifty Configured tags<br/>
 
 
 
@@ -1146,26 +1109,29 @@ shifty.config.tags = {
    },
    web = {
       layout      = awful.layout.suit.tile.bottom,
+      screen      = 1,
       mwfact      = 0.65,
       exclusive   = <span style="color: #00ffff;">true</span>,
       max_clients = <span style="color: #00ffff;">true</span>,
       position    = 4,
-      spawn       = browser,
+      <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">spawn       = env.browser,</span>
    },
    mail = {
       layout    = awful.layout.suit.tile,
+      screen    = math.max(screen.count(), 1),
       mwfact    = 0.55,
       exclusive = <span style="color: #00ffff;">false</span>,
       position  = 5,
-      spawn     = mail,
+      spawn     = env.mail,
       slave     = <span style="color: #00ffff;">true</span>
    },
    skype = {
       layout    = awful.layout.suit.tile,
+      screen    = 1,
       mwfact    = 0.55,
-      exclusive = <span style="color: #00ffff;">false</span>,
+      exclusive = <span style="color: #00ffff;">true</span>,
       position  = 6,
-      spawn     = skype,
+      <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">spawn     = env.skype,</span>
       slave     = <span style="color: #00ffff;">true</span>
    },
    emacs = {
@@ -1173,7 +1139,7 @@ shifty.config.tags = {
       mwfact    = 0.55,
       exclusive = <span style="color: #00ffff;">false</span>,
       position  = 5,
-      spawn     = emacs,
+      spawn     = <span style="color: #ffff00;">"emacs"</span>,
       slave     = <span style="color: #00ffff;">true</span>
    },
    media = {
@@ -1188,14 +1154,10 @@ shifty.config.tags = {
 }
 </pre>
 
-</div>
-
-</div>
-
-<div id="outline-container-2-8-2" class="outline-4">
-<h4 id="sec-2-8-2"><span class="section-number-4">2.8.2</span> Shifty application matching rules</h4>
-<div class="outline-text-4" id="text-2-8-2">
-
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-8-2">Shifty application matching rules<br/>
 
 
 
@@ -1205,6 +1167,7 @@ shifty.config.apps = {
     {
         match = {
             <span style="color: #ffff00;">"Navigator"</span>,
+            <span style="color: #ffff00;">"Firefox"</span>,
             <span style="color: #ffff00;">"Vimperator"</span>,
             <span style="color: #ffff00;">"Gran Paradiso"</span>,
         },
@@ -1229,7 +1192,8 @@ shifty.config.apps = {
             <span style="color: #ffff00;">"OpenOffice.*"</span>,
             <span style="color: #ffff00;">"Abiword"</span>,
             <span style="color: #ffff00;">"Gnumeric"</span>,
-            <span style="color: #ffff00;">"Lyx"</span>
+            <span style="color: #ffff00;">"Lyx"</span>,
+            <span style="color: #ffff00;">"*LibreOffice*"</span>
         },
         tag = <span style="color: #ffff00;">"office"</span>,
     },
@@ -1287,14 +1251,10 @@ shifty.config.apps = {
 }
 </pre>
 
-</div>
-
-</div>
-
-<div id="outline-container-2-8-3" class="outline-4">
-<h4 id="sec-2-8-3"><span class="section-number-4">2.8.3</span> Shifty default tag creation rules</h4>
-<div class="outline-text-4" id="text-2-8-3">
-
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-8-3">Shifty default tag creation rules<br/>
 
 
 
@@ -1316,22 +1276,18 @@ shifty.config.defaults = {
 }
 </pre>
 
+</li>
+</ul>
 </div>
-</div>
-
-</div>
-
-<div id="outline-container-2-9" class="outline-3">
-<h3 id="sec-2-9"><span class="section-number-3">2.9</span> Wibox</h3>
-<div class="outline-text-3" id="text-2-9">
-
 
 </div>
 
-<div id="outline-container-2-9-1" class="outline-4">
-<h4 id="sec-2-9-1"><span class="section-number-4">2.9.1</span> Empty launcher</h4>
-<div class="outline-text-4" id="text-2-9-1">
+<div id="outline-container-2-1-9" class="outline-4">
+<h4 id="sec-2-1-9"><span class="section-number-4">2.1.9</span> Wibox</h4>
+<div class="outline-text-4" id="text-2-1-9">
 
+<ul>
+<li id="sec-2-1-9-1">Empty launcher<br/>
 
 
 
@@ -1345,14 +1301,10 @@ mylauncher:buttons(awful.util.table.join(mylauncher:buttons(),
 
 </pre>
 
-</div>
-
-</div>
-
-<div id="outline-container-2-9-2" class="outline-4">
-<h4 id="sec-2-9-2"><span class="section-number-4">2.9.2</span> Create systray</h4>
-<div class="outline-text-4" id="text-2-9-2">
-
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-9-2">Create systray<br/>
 
 
 
@@ -1360,14 +1312,10 @@ mylauncher:buttons(awful.util.table.join(mylauncher:buttons(),
 mysystray = widget({ type = <span style="color: #ffff00;">"systray"</span> })
 </pre>
 
-</div>
-
-</div>
-
-<div id="outline-container-2-9-3" class="outline-4">
-<h4 id="sec-2-9-3"><span class="section-number-4">2.9.3</span> Create a wibox for each screen and add it</h4>
-<div class="outline-text-4" id="text-2-9-3">
-
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-9-3">Create a wibox for each screen and add it<br/>
 
 
 
@@ -1394,16 +1342,12 @@ myclientmenu.buttons = awful.util.table.join(
 
 </pre>
 
-</div>
-
-</div>
-
-<div id="outline-container-2-9-4" class="outline-4">
-<h4 id="sec-2-9-4"><span class="section-number-4">2.9.4</span> Define widgets</h4>
-<div class="outline-text-4" id="text-2-9-4">
-
+</li>
+</ul>
 <ul>
-<li id="sec-2-9-4-1">Clock<br/>
+<li id="sec-2-1-9-4">Define widgets<br/>
+<ul>
+<li id="sec-2-1-9-4-1">Clock<br/>
 
 
 
@@ -1416,7 +1360,7 @@ pipelets.register_fmt(mytextclock, <span style="color: #ffff00;">"date"</span>, 
 </li>
 </ul>
 <ul>
-<li id="sec-2-9-4-2">Mountbox<br/>
+<li id="sec-2-1-9-4-2">Mountbox<br/>
 
 
 
@@ -1428,7 +1372,7 @@ pipelets.register_fmt( mymountbox, <span style="color: #ffff00;">"mmount"</span>
 </li>
 </ul>
 <ul>
-<li id="sec-2-9-4-3">BatteryBox<br/>
+<li id="sec-2-1-9-4-3">BatteryBox<br/>
 
 
 
@@ -1440,7 +1384,7 @@ pipelets.register( mybatbox, <span style="color: #ffff00;">"batmon"</span>)
 </li>
 </ul>
 <ul>
-<li id="sec-2-9-4-4">Temp<br/>
+<li id="sec-2-1-9-4-4">Temp<br/>
 
 
 
@@ -1452,7 +1396,7 @@ pipelets.register_fmt( mytemp, <span style="color: #ffff00;">"temp"</span>, <spa
 </li>
 </ul>
 <ul>
-<li id="sec-2-9-4-5">Layoutbox<br/>
+<li id="sec-2-1-9-4-5">Layoutbox<br/>
 
 
 
@@ -1473,7 +1417,7 @@ mylayoutbox.buttons = awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-9-4-6">Taglist<br/>
+<li id="sec-2-1-9-4-6">Taglist<br/>
 
 
 
@@ -1489,10 +1433,24 @@ mytaglist.buttons = awful.util.table.join(
                                          )
 </pre>
 
+<ul>
+<li id="sec-2-1-9-4-6-1">Shifty initialize<br/>
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">SHIFTY: initialize shifty</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">the assignment of shifty.taglist must always be after its actually</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">initialized with awful.widget.taglist.new()</span>
+shifty.taglist = mytaglist
+shifty.init()
+</pre>
+
+</li>
+</ul>
 </li>
 </ul>
 <ul>
-<li id="sec-2-9-4-7">Tasklist<br/>
+<li id="sec-2-1-9-4-7">Tasklist<br/>
 
 
 
@@ -1526,108 +1484,155 @@ mytasklist.buttons = awful.util.table.join(
 
 </li>
 </ul>
-</div>
-
-</div>
-
-<div id="outline-container-2-9-5" class="outline-4">
-<h4 id="sec-2-9-5"><span class="section-number-4">2.9.5</span> Assemble it</h4>
-<div class="outline-text-4" id="text-2-9-5">
-
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-9-5">Assemble it<br/>
+<ul>
+<li id="sec-2-1-9-5-1">Begin<br/>
+For each screen begin
 
 
 
 <pre class="src src-lua"><span style="color: #00ffff;">for</span> s = 1, screen.count() <span style="color: #00ffff;">do</span>
-   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a promptbox for each screen</span>
-   mypromptbox[s] = awful.widget.prompt({layout = awful.widget.layout.horizontal.leftright})
+</pre>
 
-   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create an imagebox widget which will contains an icon indicating</span>
-   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">which layout we're using. We need one layoutbox per screen.</span>
-   mylayoutbox[s] = awful.widget.layoutbox(s)
-   mylayoutbox[s]:buttons(mylayoutbox.buttons)
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-9-5-2">Create a promptbox for each screen<br/>
 
-   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a taglist widget</span>
-   mytaglist[s] = awful.widget.taglist(s, 
-                                       awful.widget.taglist.label.all, 
-                                       mytaglist.buttons)
 
-   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a tasklist widget</span>
-   mytasklist[s] = awful.widget.tasklist( <span style="color: #00ffff;">function</span> (c)
-                                             <span style="color: #00ffff;">return</span> awful.widget.tasklist.label.currenttags(c,s)
-                                          <span style="color: #00ffff;">end</span>, mytasklist.buttons)
 
-   myclientmenu[s] = awful.widget.button({image = clientmenu_icon})
-   myclientmenu[s]:buttons(myclientmenu.buttons)
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a promptbox for each screen</span>
+mypromptbox[s] = awful.widget.prompt({layout = awful.widget.layout.horizontal.leftright})
 
-   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">mykbd[s] = awful.widget.button({image = kbd_icon})</span>
-   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">mykbd[s]:buttons(mykbd.buttons)</span>
+</pre>
 
-   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create top wibox</span>
-   mytop[s] = awful.wibox({ 
-                             position = <span style="color: #ffff00;">"top"</span>, screen = s, height = beautiful.wibox_height })
-   mytop[s].widgets = {
-      mylauncher,
-      mylayoutbox[s],
-      mytaglist[s],
-      mypromptbox[s],
-      {
-         myclientmenu[s],
-         s == 1 <span style="color: #00ffff;">and</span> mysystray <span style="color: #00ffff;">or</span> <span style="color: #00ffff;">nil</span>,
-         mytextclock,
-         layout = awful.widget.layout.horizontal.rightleft
-      },
-      mytasklist[s],
-      layout = awful.widget.layout.horizontal.leftright,
-      height = mytop[s].height
-   }
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-9-5-3">imagebox widget<br/>
 
-   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create bottom wibox</span>
-   mybottom[s] = awful.wibox({ 
-                                position = <span style="color: #ffff00;">"bottom"</span>, screen = s, height = beautiful.wibox_bottom_height })
-   mybottom[s].widgets = {
-      {
-         <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">mykbdbox,</span>
-         <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">mykbd[s],</span>
-         layout = awful.widget.layout.horizontal.rightleft
-      },
-      <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">myrfkill,</span>
-      mytemp,
-      mybatbox,
-      mymountbox,
-      <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">mywifibox,</span>
-      <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">mywimaxbox,</span>
-      layout = awful.widget.layout.horizontal.leftright
-   }
-<span style="color: #00ffff;">end</span>
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create an imagebox widget which will contains an icon indicating</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">which layout we're using. We need one layoutbox per screen.</span>
+mylayoutbox[s] = awful.widget.layoutbox(s)
+mylayoutbox[s]:buttons(mylayoutbox.buttons)
+</pre>
+
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-9-5-4">taglist widget<br/>
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a taglist widget</span>
+mytaglist[s] = awful.widget.taglist(s, 
+                                    awful.widget.taglist.label.all, 
+                                    mytaglist.buttons)
+
+</pre>
+
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-9-5-5">tasklist widget<br/>
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a tasklist widget</span>
+mytasklist[s] = awful.widget.tasklist( <span style="color: #00ffff;">function</span> (c)
+                                          <span style="color: #00ffff;">return</span> awful.widget.tasklist.label.currenttags(c,s)
+                                       <span style="color: #00ffff;">end</span>, mytasklist.buttons)
+
+myclientmenu[s] = awful.widget.button({image = clientmenu_icon})
+myclientmenu[s]:buttons(myclientmenu.buttons)
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">mykbd[s] = awful.widget.button({image = kbd_icon})</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">mykbd[s]:buttons(mykbd.buttons)</span>
+
+</pre>
+
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-9-5-6">Create top wibox<br/>
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create top wibox</span>
+mytop[s] = awful.wibox({ 
+                          position = <span style="color: #ffff00;">"top"</span>, screen = s, height = beautiful.wibox_height })
+mytop[s].widgets = {
+   mylauncher,
+   mylayoutbox[s],
+   mytaglist[s],
+   mypromptbox[s],
+   {
+      myclientmenu[s],
+      s == 1 <span style="color: #00ffff;">and</span> mysystray <span style="color: #00ffff;">or</span> <span style="color: #00ffff;">nil</span>,
+      mytextclock,
+      layout = awful.widget.layout.horizontal.rightleft
+   },
+   mytasklist[s],
+   layout = awful.widget.layout.horizontal.leftright,
+   height = mytop[s].height
+}
+
+</pre>
+
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-9-5-7">Create bottom wibox<br/>
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create bottom wibox</span>
+mybottom[s] = awful.wibox({ 
+                             position = <span style="color: #ffff00;">"bottom"</span>, screen = s, height = beautiful.wibox_bottom_height })
+mybottom[s].widgets = {
+   {
+      <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">mykbdbox,</span>
+      <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">mykbd[s],</span>
+      layout = awful.widget.layout.horizontal.rightleft
+   },
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">myrfkill,</span>
+   mytemp,
+   mybatbox,
+   mymountbox,
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">mywifibox,</span>
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">mywimaxbox,</span>
+   layout = awful.widget.layout.horizontal.leftright
+}
+</pre>
+
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-9-5-8">End<br/>
+
+
+
+<pre class="src src-lua"><span style="color: #00ffff;">end</span>
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">}}}</span>
 </pre>
 
+
+</li>
+</ul>
+</li>
+</ul>
 </div>
 
 </div>
 
-<div id="outline-container-2-9-6" class="outline-4">
-<h4 id="sec-2-9-6"><span class="section-number-4">2.9.6</span> Shifty initialize</h4>
-<div class="outline-text-4" id="text-2-9-6">
-
-
-
-
-<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">SHIFTY: initialize shifty</span>
-<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">the assignment of shifty.taglist must always be after its actually</span>
-<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">initialized with awful.widget.taglist.new()</span>
-shifty.taglist = mytaglist
-shifty.init()
-</pre>
-
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-2-10" class="outline-3">
-<h3 id="sec-2-10"><span class="section-number-3">2.10</span> Mouse bindings</h3>
-<div class="outline-text-3" id="text-2-10">
+<div id="outline-container-2-1-10" class="outline-4">
+<h4 id="sec-2-1-10"><span class="section-number-4">2.1.10</span> Mouse bindings</h4>
+<div class="outline-text-4" id="text-2-1-10">
 
 
 
@@ -1645,19 +1650,14 @@ root.buttons(awful.util.table.join(
 
 </div>
 
-<div id="outline-container-2-11" class="outline-3">
-<h3 id="sec-2-11"><span class="section-number-3">2.11</span> Key bindings</h3>
-<div class="outline-text-3" id="text-2-11">
-
-
-</div>
-
-<div id="outline-container-2-11-1" class="outline-4">
-<h4 id="sec-2-11-1"><span class="section-number-4">2.11.1</span> Some functions</h4>
-<div class="outline-text-4" id="text-2-11-1">
+<div id="outline-container-2-1-11" class="outline-4">
+<h4 id="sec-2-1-11"><span class="section-number-4">2.1.11</span> Key bindings</h4>
+<div class="outline-text-4" id="text-2-1-11">
 
 <ul>
-<li id="sec-2-11-1-1">switch<sub>to</sub><sub>client</sub><br/>
+<li id="sec-2-1-11-1">Some functions<br/>
+<ul>
+<li id="sec-2-1-11-1-1">switch<sub>to</sub><sub>client</sub><br/>
 
 
 
@@ -1677,7 +1677,7 @@ root.buttons(awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-1-2">toggle<sub>tag</sub><br/>
+<li id="sec-2-1-11-1-2">toggle<sub>tag</sub><br/>
 
 
 
@@ -1701,7 +1701,7 @@ root.buttons(awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-1-3">chord<sub>mpd</sub><br/>
+<li id="sec-2-1-11-1-3">chord<sub>mpd</sub><br/>
 
 
 
@@ -1753,7 +1753,7 @@ root.buttons(awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-1-4">chord<sub>tags</sub><br/>
+<li id="sec-2-1-11-1-4">chord<sub>tags</sub><br/>
 
 
 
@@ -1820,16 +1820,77 @@ root.buttons(awful.util.table.join(
 
 </li>
 </ul>
-</div>
-
-</div>
-
-<div id="outline-container-2-11-2" class="outline-4">
-<h4 id="sec-2-11-2"><span class="section-number-4">2.11.2</span> Global keys</h4>
-<div class="outline-text-4" id="text-2-11-2">
-
+</li>
+</ul>
 <ul>
-<li id="sec-2-11-2-1">Bind them<br/>
+<li id="sec-2-1-11-2">Global keys<br/>
+<ul>
+<li id="sec-2-1-11-2-1">The Keys<br/>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">Section</th><th scope="col" class="left">modkey 1</th><th scope="col" class="left">modkey 2</th><th scope="col" class="left">key</th><th scope="col" class="left">action</th><th scope="col" class="left">comment</th><th scope="col" class="left"></th></tr>
+</thead>
+<tbody>
+<tr><td class="left">Menu</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">Escape</td><td class="left">Main Menu</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left">Awesome control</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">q</td><td class="left">quit awesome</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">r</td><td class="left">restart awesome</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left">Application hotkeys</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">Return</td><td class="left">spawn env.terminal</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">b</td><td class="left">spawn env.browser</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">e</td><td class="left">spawn env.email</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left"></td><td class="left"></td><td class="left">Scroll<sub>Lock</sub></td><td class="left">spawn env.locker</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">r</td><td class="left">run</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">p</td><td class="left">spawn env.im</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">d</td><td class="left">spawn env.editor</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">v</td><td class="left">env.volumecontrol</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left">Tag hotkeys</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">m</td><td class="left">toggle<sub>tag</sub>("im")</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">w</td><td class="left">toggle<sub>tag</sub>("work")</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">n</td><td class="left">toggle<sub>tag</sub>("net")</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">f</td><td class="left">toggle<sub>tag</sub>("fun")</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">e</td><td class="left">toggle<sub>tag</sub>("sys")</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">Tab</td><td class="left">restore tag history</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left">Client manipulations</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">j</td><td class="left">switch<sub>to</sub><sub>client</sub>(-1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">k</td><td class="left">switch<sub>to</sub><sub>client</sub>(1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">1</td><td class="left">switch<sub>to</sub><sub>client</sub>(-1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">2</td><td class="left">switch<sub>to</sub><sub>client</sub>(1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Shift</td><td class="left">j</td><td class="left">awful.client.swap.byidx(1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Shift</td><td class="left">k</td><td class="left">awful.client.swap.byidx(-1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">Tab</td><td class="left">switch<sub>to</sub><sub>client</sub>(0)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Shift</td><td class="left">c</td><td class="left">kill</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left">Layout Manipulations</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">F1</td><td class="left">awful.tag.viewprev</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">F2</td><td class="left">awful.tag.viewnext</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">Left</td><td class="left">awful.tag.viewprev</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">Right</td><td class="left">awful.tag.viewprev</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">h</td><td class="left">awful.tag.incmwfact(-0.05)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">l</td><td class="left">awful.tag.incmwfact(0.05)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Shift</td><td class="left">h</td><td class="left">awful.tag.incnmaster(1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Shift</td><td class="left">l</td><td class="left">awful.tag.incnmaster(-1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">h</td><td class="left">awful.tag.incncol(1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">l</td><td class="left">awful.tag.incncol(-1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">space</td><td class="left">awful.layout.inc(layouts, 1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Shift</td><td class="left">space</td><td class="left">awful.layout.inc(layouts, -1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left">Multimedia keys</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left"></td><td class="left"></td><td class="left">XF86AudioRaiseVolume</td><td class="left">awful.util.spawn("pactl &ndash; set-sink-volume 0 +10%"</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left"></td><td class="left"></td><td class="left">XF86AudioLowerVolume</td><td class="left">awful.util.spawn("pactl &ndash; set-sink-volume 0 -10%")</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left"></td><td class="left"></td><td class="left">XF86AudioMute</td><td class="left">awful.util.spawn("")</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left">Tagset operations</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">F3</td><td class="left">myrc.keybind.push<sub>menu</sub>(chord<sub>tags</sub>(), chord<sub>menu</sub><sub>args</sub>)</td><td class="left">Do things with tags</td><td class="left"></td></tr>
+</tbody>
+</table>
+
+
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-11-2-2">Bind them<br/>
 
 
 
@@ -1840,7 +1901,7 @@ globalkeys = awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-2-2">Main Menu<br/>
+<li id="sec-2-1-11-2-3">Main Menu<br/>
 
 
 
@@ -1851,7 +1912,7 @@ awful.key({ altkey            }, <span style="color: #ffff00;">"Escape"</span>, 
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-2-3">Awesome control<br/>
+<li id="sec-2-1-11-2-4">Awesome control<br/>
 
 
 
@@ -1863,7 +1924,7 @@ awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span styl
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-2-4">Application hotkeys<br/>
+<li id="sec-2-1-11-2-5">Application hotkeys<br/>
 
 
 
@@ -1875,7 +1936,7 @@ awful.key({                   }, <span style="color: #ffff00;">"Scroll_Lock"</sp
 awful.key({ modkey            }, <span style="color: #ffff00;">"r"</span>, <span style="color: #00ffff;">function</span> () mypromptbox[mouse.screen]:run() <span style="color: #00ffff;">end</span>),
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.key({ modkey,           }, "m", function () run_or_raise("gmpc", { class = "Gmpc" }) end),</span>
 awful.key({ modkey            }, <span style="color: #ffff00;">"p"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(<span style="color: #ffff00;">"pidgin"</span>) <span style="color: #00ffff;">end</span>),
-awful.key({ modkey            }, <span style="color: #ffff00;">"c"</span>, <span style="color: #00ffff;">function</span> () run_or_raise(<span style="color: #ffff00;">"xterm -e calc"</span>, { class=<span style="color: #ffff00;">"XTerm"</span>, name = <span style="color: #ffff00;">"calc"</span> }) <span style="color: #00ffff;">end</span>),
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.key({ modkey            }, "c", function () run_or_raise("xterm -e calc", { class="XTerm", name = "calc" }) end),</span>
 awful.key({ modkey,           }, <span style="color: #ffff00;">"d"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(<span style="color: #ffff00;">"ec"</span>) <span style="color: #00ffff;">end</span>),
 awful.key({ modkey,           }, <span style="color: #ffff00;">"v"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(env.volumecontrol) <span style="color: #00ffff;">end</span>),
 </pre>
@@ -1883,7 +1944,7 @@ awful.key({ modkey,           }, <span style="color: #ffff00;">"v"</span>, <span
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-2-5">Tag hotkeys<br/>
+<li id="sec-2-1-11-2-6">Tag hotkeys<br/>
 
 
 
@@ -1899,7 +1960,7 @@ awful.key({ modkey            }, <span style="color: #ffff00;">"Tab"</span>, <sp
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-2-6">Client manipulations<br/>
+<li id="sec-2-1-11-2-7">Client manipulations<br/>
 
 
 
@@ -1917,7 +1978,7 @@ awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span styl
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-2-7">Layout manipulation<br/>
+<li id="sec-2-1-11-2-8">Layout manipulation<br/>
 
 
 
@@ -1934,13 +1995,13 @@ awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span styl
 awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span style="color: #ffff00;">"l"</span>, <span style="color: #00ffff;">function</span> () awful.tag.incncol(-1) <span style="color: #00ffff;">end</span>),
 awful.key({ modkey,           }, <span style="color: #ffff00;">"space"</span>, <span style="color: #00ffff;">function</span> () awful.layout.inc(layouts, 1) <span style="color: #00ffff;">end</span>),
 awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span style="color: #ffff00;">"space"</span>, <span style="color: #00ffff;">function</span> () awful.layout.inc(layouts, -1) <span style="color: #00ffff;">end</span>),
-awful.key({ altkey,           }, <span style="color: #ffff00;">"e"</span>, <span style="color: #00ffff;">function</span> () myrc.keybind.push_menu(chord_mpd(), chord_menu_args) <span style="color: #00ffff;">end</span>),
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.key({ altkey,           }, "e", function () myrc.keybind.push_menu(chord_mpd(), chord_menu_args) end),</span>
 </pre>
 
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-2-8">Multimedia keys<br/>
+<li id="sec-2-1-11-2-9">Multimedia keys<br/>
 
 
 
@@ -1953,18 +2014,18 @@ awful.key({ }, <span style="color: #ffff00;">"XF86AudioMute"</span>, <span style
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-2-9">Tagset operations<br/>
+<li id="sec-2-1-11-2-10">Tagset operations<br/>
 
 
 
 <pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Tagset operations (Win+Ctrl+s,&lt;letter&gt; chords)</span>
-awful.key({ altkey,           }, <span style="color: #ffff00;">"F3"</span>, <span style="color: #00ffff;">function</span> () myrc.keybind.push_menu(chord_tags(), chord_menu_args) <span style="color: #00ffff;">end</span>),
+awful.key({ altkey,           }, <span style="color: #ffff00;">"F3"</span>, <span style="color: #00ffff;">function</span> () myrc.keybind.push_menu(chord_tags(), chord_menu_args) <span style="color: #00ffff;">end</span>)
 </pre>
 
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-2-10">Shifty specific keybindings<br/>
+<li id="sec-2-1-11-2-11"><span class="todo TODO">TODO</span> Shifty specific keybindings<br/>
 
 
 
@@ -1984,7 +2045,7 @@ awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="c
 </li>
 </ul>
 <ul>
-<li id="sec-2-11-2-11">Set them<br/>
+<li id="sec-2-1-11-2-12">Set them<br/>
 
 
 
@@ -1995,13 +2056,29 @@ root.keys(globalkeys)
 
 </li>
 </ul>
-</div>
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-11-3">Client keys<br/>
+<ul>
+<li id="sec-2-1-11-3-1">The keys<br/>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">Section</th><th scope="col" class="left">modkey 1</th><th scope="col" class="left">modkey 2</th><th scope="col" class="left">key</th><th scope="col" class="left">action</th><th scope="col" class="left">comment</th><th scope="col" class="left"></th></tr>
+</thead>
+<tbody>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">F1</td><td class="left"></td><td class="left">move client to next tag and go there</td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">F2</td><td class="left"></td><td class="left">move client to previous tag and go there</td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">F4</td><td class="left"></td><td class="left">kill client</td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">F5</td><td class="left"></td><td class="left">toggle horizontal and vertical maximised</td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">F6</td><td class="left"></td><td class="left">debug client</td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">3</td><td class="left"></td><td class="left">show client context menu</td><td class="left"></td></tr>
+</tbody>
+</table>
 
-</div>
-
-<div id="outline-container-2-11-3" class="outline-4">
-<h4 id="sec-2-11-3"><span class="section-number-4">2.11.3</span> Client keys</h4>
-<div class="outline-text-4" id="text-2-11-3">
 
 
 
@@ -2027,14 +2104,24 @@ root.keys(globalkeys)
 
    awful.key({ altkey }, <span style="color: #ffff00;">"F6"</span>, <span style="color: #00ffff;">function</span> (c) dbg_client(c) <span style="color: #00ffff;">end</span>),
 
-   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Client keys</span>
    awful.key({ altkey ,        }, <span style="color: #ffff00;">"3"</span>, <span style="color: #00ffff;">function</span>(c) 
                 <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">menu</span> = client_contex_menu(c)
                 menu_current(menu, contextmenu_args)
                                        <span style="color: #00ffff;">end</span>)
                                   )
+</pre>
 
-clientbuttons = awful.util.table.join(
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-11-4">Client buttons<br/>
+
+
+
+<pre class="src src-lua">clientbuttons = awful.util.table.join(
    awful.button({ }, 1, <span style="color: #00ffff;">function</span> (c) client.focus = c; c:raise() <span style="color: #00ffff;">end</span>),
    awful.button({ modkey }, 1, awful.mouse.client.move),
    awful.button({ modkey }, 3, awful.mouse.client.resize)
@@ -2043,14 +2130,10 @@ clientbuttons = awful.util.table.join(
 </pre>
 
 
-</div>
-
-</div>
-
-<div id="outline-container-2-11-4" class="outline-4">
-<h4 id="sec-2-11-4"><span class="section-number-4">2.11.4</span> Shifty client keys</h4>
-<div class="outline-text-4" id="text-2-11-4">
-
+</li>
+</ul>
+<ul>
+<li id="sec-2-1-11-5"><span class="todo TODO">TODO</span> Shifty client keys<br/>
 
 
 
@@ -2060,14 +2143,15 @@ shifty.config.clientkeys = clientkeys
 shifty.config.modkey = modkey
 </pre>
 
-</div>
+</li>
+</ul>
 </div>
 
 </div>
 
-<div id="outline-container-2-12" class="outline-3">
-<h3 id="sec-2-12"><span class="section-number-3">2.12</span> Compute the maximum number of digit we need, limited to 9</h3>
-<div class="outline-text-3" id="text-2-12">
+<div id="outline-container-2-1-12" class="outline-4">
+<h4 id="sec-2-1-12"><span class="section-number-4">2.1.12</span> <span class="todo TODO">TODO</span> Shifty: Compute the maximum number of digit we need, limited to 9</h4>
+<div class="outline-text-4" id="text-2-1-12">
 
 
 
@@ -2102,9 +2186,9 @@ shifty.config.modkey = modkey
 
 </div>
 
-<div id="outline-container-2-13" class="outline-3">
-<h3 id="sec-2-13"><span class="section-number-3">2.13</span> Hooks</h3>
-<div class="outline-text-3" id="text-2-13">
+<div id="outline-container-2-1-13" class="outline-4">
+<h4 id="sec-2-1-13"><span class="section-number-4">2.1.13</span> Hooks</h4>
+<div class="outline-text-4" id="text-2-1-13">
 
 
 
@@ -2240,9 +2324,9 @@ awesome.add_signal(<span style="color: #ffff00;">"tagman::update"</span>, <span 
 
 </div>
 
-<div id="outline-container-2-14" class="outline-3">
-<h3 id="sec-2-14"><span class="section-number-3">2.14</span> Autostart</h3>
-<div class="outline-text-3" id="text-2-14">
+<div id="outline-container-2-1-14" class="outline-4">
+<h4 id="sec-2-1-14"><span class="section-number-4">2.1.14</span> Autostart</h4>
+<div class="outline-text-4" id="text-2-1-14">
 
 
 
@@ -2256,16 +2340,16 @@ awesome.add_signal(<span style="color: #ffff00;">"tagman::update"</span>, <span 
 
 </div>
 
-<div id="outline-container-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> freedesktop</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> freedesktop</h3>
+<div class="outline-text-3" id="text-2-2">
 
 
 </div>
 
-<div id="outline-container-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> desktop.lua</h3>
-<div class="outline-text-3" id="text-3-1">
+<div id="outline-container-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> desktop.lua</h4>
+<div class="outline-text-4" id="text-2-2-1">
 
 
 
@@ -2364,9 +2448,9 @@ module(<span style="color: #ffff00;">"freedesktop.desktop"</span>)
 
 </div>
 
-<div id="outline-container-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> menu.lua</h3>
-<div class="outline-text-3" id="text-3-2">
+<div id="outline-container-2-2-2" class="outline-4">
+<h4 id="sec-2-2-2"><span class="section-number-4">2.2.2</span> menu.lua</h4>
+<div class="outline-text-4" id="text-2-2-2">
 
 
 
@@ -2381,74 +2465,74 @@ module(<span style="color: #ffff00;">"freedesktop.desktop"</span>)
 module(<span style="color: #ffff00;">"freedesktop.menu"</span>)
 
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">new</span>()
-        <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">the categories and their synonyms where shamelessly copied from lxpanel</span>
-        <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">source code.</span>
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">programs</span> = {}
-        programs[<span style="color: #ffff00;">'AudioVideo'</span>] = {}
-        <span style="color: #ff0000;">--programs['Audio'] = {}</span>
-        <span style="color: #ff0000;">--programs['Video'] = {}</span>
-        programs[<span style="color: #ffff00;">'Development'</span>] = {}
-        <span style="color: #ff0000;">--programs['Education'] = {}</span>
-        <span style="color: #ff0000;">--programs['Game'] = {}</span>
-        programs[<span style="color: #ffff00;">'Graphics'</span>] = {}
-        programs[<span style="color: #ffff00;">'Network'</span>] = {}
-        programs[<span style="color: #ffff00;">'Office'</span>] = {}
-        <span style="color: #ff0000;">--programs['Settings'] = {}</span>
-        programs[<span style="color: #ffff00;">'System'</span>] = {}
-        programs[<span style="color: #ffff00;">'Utility'</span>] = {}
-        programs[<span style="color: #ffff00;">'Other'</span>] = {}
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">the categories and their synonyms where shamelessly copied from lxpanel</span>
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">source code.</span>
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">programs</span> = {}
+   programs[<span style="color: #ffff00;">'AudioVideo'</span>] = {}
+   <span style="color: #ff0000;">--programs['Audio'] = {}</span>
+   <span style="color: #ff0000;">--programs['Video'] = {}</span>
+   programs[<span style="color: #ffff00;">'Development'</span>] = {}
+   <span style="color: #ff0000;">--programs['Education'] = {}</span>
+   <span style="color: #ff0000;">--programs['Game'] = {}</span>
+   programs[<span style="color: #ffff00;">'Graphics'</span>] = {}
+   programs[<span style="color: #ffff00;">'Network'</span>] = {}
+   programs[<span style="color: #ffff00;">'Office'</span>] = {}
+   <span style="color: #ff0000;">--programs['Settings'] = {}</span>
+   programs[<span style="color: #ffff00;">'System'</span>] = {}
+   programs[<span style="color: #ffff00;">'Utility'</span>] = {}
+   programs[<span style="color: #ffff00;">'Other'</span>] = {}
 
 
-        <span style="color: #00ffff;">for</span> i, program <span style="color: #00ffff;">in</span> ipairs(utils.parse_dir(<span style="color: #ffff00;">'/usr/share/applications/'</span>)) <span style="color: #00ffff;">do</span>
+   <span style="color: #00ffff;">for</span> i, program <span style="color: #00ffff;">in</span> ipairs(utils.parse_dir(<span style="color: #ffff00;">'/usr/share/applications/'</span>)) <span style="color: #00ffff;">do</span>
 
-                <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">check whether to include in the menu</span>
-                <span style="color: #00ffff;">if</span> program.show <span style="color: #00ffff;">and</span> program.Name <span style="color: #00ffff;">and</span> program.cmdline <span style="color: #00ffff;">then</span>
-                        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">target_category</span> = <span style="color: #00ffff;">nil</span>
-                        <span style="color: #00ffff;">if</span> program.categories <span style="color: #00ffff;">then</span>
-                                <span style="color: #00ffff;">for</span> _, category <span style="color: #00ffff;">in</span> ipairs(program.categories) <span style="color: #00ffff;">do</span>
-                                        <span style="color: #00ffff;">if</span> programs[category] <span style="color: #00ffff;">then</span>
-                                                target_category = category
-                                                <span style="color: #00ffff;">break</span>
-                                        <span style="color: #00ffff;">end</span>
-                                <span style="color: #00ffff;">end</span>
-                        <span style="color: #00ffff;">end</span>
-                        <span style="color: #00ffff;">if</span> <span style="color: #00ffff;">not</span> target_category <span style="color: #00ffff;">then</span>
-                                target_category = <span style="color: #ffff00;">'Other'</span>
-                        <span style="color: #00ffff;">end</span>
-                        <span style="color: #00ffff;">if</span> target_category <span style="color: #00ffff;">then</span>
-                                table.insert(programs[target_category], { program.Name, program.cmdline, program.icon_path })
-                        <span style="color: #00ffff;">end</span>
-                <span style="color: #00ffff;">end</span>
+      <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">check whether to include in the menu</span>
+      <span style="color: #00ffff;">if</span> program.show <span style="color: #00ffff;">and</span> program.Name <span style="color: #00ffff;">and</span> program.cmdline <span style="color: #00ffff;">then</span>
+         <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">target_category</span> = <span style="color: #00ffff;">nil</span>
+         <span style="color: #00ffff;">if</span> program.categories <span style="color: #00ffff;">then</span>
+            <span style="color: #00ffff;">for</span> _, category <span style="color: #00ffff;">in</span> ipairs(program.categories) <span style="color: #00ffff;">do</span>
+               <span style="color: #00ffff;">if</span> programs[category] <span style="color: #00ffff;">then</span>
+                  target_category = category
+                  <span style="color: #00ffff;">break</span>
+               <span style="color: #00ffff;">end</span>
+            <span style="color: #00ffff;">end</span>
+         <span style="color: #00ffff;">end</span>
+         <span style="color: #00ffff;">if</span> <span style="color: #00ffff;">not</span> target_category <span style="color: #00ffff;">then</span>
+            target_category = <span style="color: #ffff00;">'Other'</span>
+         <span style="color: #00ffff;">end</span>
+         <span style="color: #00ffff;">if</span> target_category <span style="color: #00ffff;">then</span>
+            table.insert(programs[target_category], { program.Name, program.cmdline, program.icon_path })
+         <span style="color: #00ffff;">end</span>
+      <span style="color: #00ffff;">end</span>
 
-        <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">end</span>
 
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">menu</span> = {
-                { <span style="color: #ffff00;">"&amp;A Accessories"</span>, programs[<span style="color: #ffff00;">"Utility"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-accessories.png'</span> }) },
-                { <span style="color: #ffff00;">"&amp;D Development"</span>, programs[<span style="color: #ffff00;">"Development"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-development.png'</span> }) },
-                { <span style="color: #ffff00;">"&amp;U Education"</span>, programs[<span style="color: #ffff00;">"Education"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-science.png'</span> }) },
-                { <span style="color: #ffff00;">"Games"</span>, programs[<span style="color: #ffff00;">"Game"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-games.png'</span> }) },
-                { <span style="color: #ffff00;">"&amp;G Graphics"</span>, programs[<span style="color: #ffff00;">"Graphics"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-graphics.png'</span> }) },
-                { <span style="color: #ffff00;">"&amp;I Internet"</span>, programs[<span style="color: #ffff00;">"Network"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-internet.png'</span> }) },
-                { <span style="color: #ffff00;">"&amp;M Multimedia"</span>, programs[<span style="color: #ffff00;">"AudioVideo"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-multimedia.png'</span> }) },
-                { <span style="color: #ffff00;">"&amp;C Office"</span>, programs[<span style="color: #ffff00;">"Office"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-office.png'</span> }) },
-                { <span style="color: #ffff00;">"&amp;H Other"</span>, programs[<span style="color: #ffff00;">"Other"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-other.png'</span> }) },
-                { <span style="color: #ffff00;">"Settings"</span>, programs[<span style="color: #ffff00;">"Settings"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-utilities.png'</span> }) },
-                { <span style="color: #ffff00;">"&amp;T System Tools"</span>, programs[<span style="color: #ffff00;">"System"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-system.png'</span> }) },
-        }
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">menu</span> = {
+      { <span style="color: #ffff00;">"&amp;A Accessories"</span>, programs[<span style="color: #ffff00;">"Utility"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-accessories.png'</span> }) },
+      { <span style="color: #ffff00;">"&amp;D Development"</span>, programs[<span style="color: #ffff00;">"Development"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-development.png'</span> }) },
+      { <span style="color: #ffff00;">"&amp;U Education"</span>, programs[<span style="color: #ffff00;">"Education"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-science.png'</span> }) },
+      { <span style="color: #ffff00;">"Games"</span>, programs[<span style="color: #ffff00;">"Game"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-games.png'</span> }) },
+      { <span style="color: #ffff00;">"&amp;G Graphics"</span>, programs[<span style="color: #ffff00;">"Graphics"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-graphics.png'</span> }) },
+      { <span style="color: #ffff00;">"&amp;I Internet"</span>, programs[<span style="color: #ffff00;">"Network"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-internet.png'</span> }) },
+      { <span style="color: #ffff00;">"&amp;M Multimedia"</span>, programs[<span style="color: #ffff00;">"AudioVideo"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-multimedia.png'</span> }) },
+      { <span style="color: #ffff00;">"&amp;C Office"</span>, programs[<span style="color: #ffff00;">"Office"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-office.png'</span> }) },
+      { <span style="color: #ffff00;">"&amp;H Other"</span>, programs[<span style="color: #ffff00;">"Other"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-other.png'</span> }) },
+      { <span style="color: #ffff00;">"Settings"</span>, programs[<span style="color: #ffff00;">"Settings"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-utilities.png'</span> }) },
+      { <span style="color: #ffff00;">"&amp;T System Tools"</span>, programs[<span style="color: #ffff00;">"System"</span>], utils.lookup_icon({ icon = <span style="color: #ffff00;">'applications-system.png'</span> }) },
+   }
 
-        <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Removing empty entries from menu</span>
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">bad_indexes</span> = {}
-        <span style="color: #00ffff;">for</span> index , item <span style="color: #00ffff;">in</span> ipairs(menu) <span style="color: #00ffff;">do</span>
-                <span style="color: #00ffff;">if</span> <span style="color: #00ffff;">not</span> item[2] <span style="color: #00ffff;">then</span>
-                        table.insert(bad_indexes, index)
-                <span style="color: #00ffff;">end</span>
-        <span style="color: #00ffff;">end</span>
-        table.sort(bad_indexes, <span style="color: #00ffff;">function</span> (a,b) <span style="color: #00ffff;">return</span> a &gt; b <span style="color: #00ffff;">end</span>)
-        <span style="color: #00ffff;">for</span> _, index <span style="color: #00ffff;">in</span> ipairs(bad_indexes) <span style="color: #00ffff;">do</span>
-                table.remove(menu, index)
-        <span style="color: #00ffff;">end</span>
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Removing empty entries from menu</span>
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">bad_indexes</span> = {}
+   <span style="color: #00ffff;">for</span> index , item <span style="color: #00ffff;">in</span> ipairs(menu) <span style="color: #00ffff;">do</span>
+      <span style="color: #00ffff;">if</span> <span style="color: #00ffff;">not</span> item[2] <span style="color: #00ffff;">then</span>
+         table.insert(bad_indexes, index)
+      <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">end</span>
+   table.sort(bad_indexes, <span style="color: #00ffff;">function</span> (a,b) <span style="color: #00ffff;">return</span> a &gt; b <span style="color: #00ffff;">end</span>)
+   <span style="color: #00ffff;">for</span> _, index <span style="color: #00ffff;">in</span> ipairs(bad_indexes) <span style="color: #00ffff;">do</span>
+      table.remove(menu, index)
+   <span style="color: #00ffff;">end</span>
 
-        <span style="color: #00ffff;">return</span> menu
+   <span style="color: #00ffff;">return</span> menu
 <span style="color: #00ffff;">end</span>
 </pre>
 
@@ -2456,9 +2540,9 @@ module(<span style="color: #ffff00;">"freedesktop.menu"</span>)
 
 </div>
 
-<div id="outline-container-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> utils.lua</h3>
-<div class="outline-text-3" id="text-3-3">
+<div id="outline-container-2-2-3" class="outline-4">
+<h4 id="sec-2-2-3"><span class="section-number-4">2.2.3</span> utils.lua</h4>
+<div class="outline-text-4" id="text-2-2-3">
 
 
 
@@ -2612,16 +2696,16 @@ icon_sizes = {}
 
 </div>
 
-<div id="outline-container-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> myrc</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> myrc</h3>
+<div class="outline-text-3" id="text-2-3">
 
 
 </div>
 
-<div id="outline-container-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> mainmenu.lua</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> mainmenu.lua</h4>
+<div class="outline-text-4" id="text-2-3-1">
 
 
 
@@ -2729,9 +2813,9 @@ module(<span style="color: #ffff00;">"myrc.mainmenu"</span>)
 
 </div>
 
-<div id="outline-container-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> tagman.lua</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-2-3-2" class="outline-4">
+<h4 id="sec-2-3-2"><span class="section-number-4">2.3.2</span> tagman.lua</h4>
+<div class="outline-text-4" id="text-2-3-2">
 
 
 
@@ -2747,12 +2831,12 @@ module(<span style="color: #ffff00;">"myrc.mainmenu"</span>)
 <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">beautiful</span> = require(<span style="color: #ffff00;">"beautiful"</span>)
 
 <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">capi</span> = {
-        io = io,
-        screen = screen,
-        tag = tag,
-        mouse = mouse,
-        client = client,
-    awesome = awesome
+   io = io,
+   screen = screen,
+   tag = tag,
+   mouse = mouse,
+   client = client,
+   awesome = awesome
 }
 
 <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">client</span> = client
@@ -2767,34 +2851,34 @@ module(<span style="color: #ffff00;">"myrc.tagman"</span>)
 
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Returns tag by name</span>
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">find</span>(name,s)
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
-        <span style="color: #00ffff;">for</span> _,t <span style="color: #00ffff;">in</span> ipairs(capi.screen[s]:tags()) <span style="color: #00ffff;">do</span> 
-        <span style="color: #00ffff;">if</span> name == t.name <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> t <span style="color: #00ffff;">end</span> 
-    <span style="color: #00ffff;">end</span>
-        <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">nil</span>
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
+   <span style="color: #00ffff;">for</span> _,t <span style="color: #00ffff;">in</span> ipairs(capi.screen[s]:tags()) <span style="color: #00ffff;">do</span> 
+      <span style="color: #00ffff;">if</span> name == t.name <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> t <span style="color: #00ffff;">end</span> 
+   <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">nil</span>
 <span style="color: #00ffff;">end</span>
 
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Returns list of tag names at screen @s</span>
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">names</span>(s)
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">result</span> = {}
-        <span style="color: #00ffff;">for</span> _,t <span style="color: #00ffff;">in</span> ipairs(capi.screen[s]:tags()) <span style="color: #00ffff;">do</span> 
-        table.insert(result, t.name) 
-    <span style="color: #00ffff;">end</span>
-        <span style="color: #00ffff;">return</span> result
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">result</span> = {}
+   <span style="color: #00ffff;">for</span> _,t <span style="color: #00ffff;">in</span> ipairs(capi.screen[s]:tags()) <span style="color: #00ffff;">do</span> 
+      table.insert(result, t.name) 
+   <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">return</span> result
 <span style="color: #00ffff;">end</span>
 
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Returns tag by index @index, starting from 0.</span>
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">get</span>(index, s)
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">stags</span> = capi.screen[s]:tags()
-    <span style="color: #00ffff;">return</span> stags[awful.util.cycle(#stags, index)]
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">stags</span> = capi.screen[s]:tags()
+   <span style="color: #00ffff;">return</span> stags[awful.util.cycle(#stags, index)]
 <span style="color: #00ffff;">end</span>
 
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Returns index of current tag (on this screen)</span>
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">indexof</span>(tag)
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">all_tags</span> = capi.screen[tag.screen]:tags()
-        <span style="color: #00ffff;">return</span> awful.util.table.hasitem(all_tags,tag)
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">all_tags</span> = capi.screen[tag.screen]:tags()
+   <span style="color: #00ffff;">return</span> awful.util.table.hasitem(all_tags,tag)
 <span style="color: #00ffff;">end</span>
 
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">next_to</span>(t,n) <span style="color: #00ffff;">return</span> get(indexof(t)+(n <span style="color: #00ffff;">or</span> 1),s) <span style="color: #00ffff;">end</span>
@@ -2804,98 +2888,98 @@ module(<span style="color: #ffff00;">"myrc.tagman"</span>)
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Gets tag object, by its offset @offset, starting from </span>
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">tag @basetag</span>
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">getn</span>(offset, basetag, s)
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">offset</span> = offset <span style="color: #00ffff;">or</span> 0
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">stags</span> = capi.screen[s]:tags()
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">basetag</span> = basetag <span style="color: #00ffff;">or</span> awful.tag.selected()
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">k</span> = awful.util.table.hasitem(stags,basetag)
-    <span style="color: #00ffff;">return</span> stags[awful.util.cycle(#stags, k + offset)]
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">offset</span> = offset <span style="color: #00ffff;">or</span> 0
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">stags</span> = capi.screen[s]:tags()
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">basetag</span> = basetag <span style="color: #00ffff;">or</span> awful.tag.selected()
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">k</span> = awful.util.table.hasitem(stags,basetag)
+   <span style="color: #00ffff;">return</span> stags[awful.util.cycle(#stags, k + offset)]
 <span style="color: #00ffff;">end</span>
 
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Moves all tagless clients of screen @s to tag @deftag</span>
 <span style="color: #00ffff;">local function</span> <span style="color: #4186be;">handle_orphans</span>(s, deftag)
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">stags</span> = capi.screen[s]:tags()
-        <span style="color: #00ffff;">if</span> #stags &lt; 1 <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">end</span>
-    <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">deftag</span> = deftag <span style="color: #00ffff;">or</span> stags[1]
-    <span style="color: #00ffff;">for</span> _, c <span style="color: #00ffff;">in</span> pairs(client.get(s)) <span style="color: #00ffff;">do</span>
-        <span style="color: #00ffff;">if</span> #c:tags() == 0 <span style="color: #00ffff;">then</span>
-            c:tags({deftag})
-        <span style="color: #00ffff;">end</span>
-    <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">stags</span> = capi.screen[s]:tags()
+   <span style="color: #00ffff;">if</span> #stags &lt; 1 <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">deftag</span> = deftag <span style="color: #00ffff;">or</span> stags[1]
+   <span style="color: #00ffff;">for</span> _, c <span style="color: #00ffff;">in</span> pairs(client.get(s)) <span style="color: #00ffff;">do</span>
+      <span style="color: #00ffff;">if</span> #c:tags() == 0 <span style="color: #00ffff;">then</span>
+         c:tags({deftag})
+      <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">end</span>
 <span style="color: #00ffff;">end</span>
 
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Does what?</span>
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">sort</span>(s, fn)
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">fn</span> = fn <span style="color: #00ffff;">or</span> <span style="color: #00ffff;">function</span> (a, b) <span style="color: #00ffff;">return</span> a.name &lt; b.name <span style="color: #00ffff;">end</span>
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
-    <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">all_tags</span> = capi.screen[s]:tags()
-    table.sort(all_tags, fn)
-    capi.screen[s]:tags(all_tags)
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">fn</span> = fn <span style="color: #00ffff;">or</span> <span style="color: #00ffff;">function</span> (a, b) <span style="color: #00ffff;">return</span> a.name &lt; b.name <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">all_tags</span> = capi.screen[s]:tags()
+   table.sort(all_tags, fn)
+   capi.screen[s]:tags(all_tags)
 <span style="color: #00ffff;">end</span>
 
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Moves tag to position @where (if where is number) -OR- next</span>
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">to tag @where (if @where is object)</span>
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">In latter case @where should be on the @tag's screen</span>
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">move</span>(tag, where)
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">stags</span> = capi.screen[tag.screen]:tags()
-    <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Current possition of the tag</span>
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">oldkey</span> = indexof(tag)
-    <span style="color: #00ffff;">if</span> oldkey == <span style="color: #00ffff;">nil</span> <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">end</span>
-    <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">New position of the tag</span>
-    <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">newkey</span> = <span style="color: #00ffff;">nil</span>
-        <span style="color: #00ffff;">if</span> type(where) == <span style="color: #ffff00;">"number"</span> <span style="color: #00ffff;">then</span>
-                newkey = awful.util.cycle(#stags, where)
-        <span style="color: #00ffff;">else</span>
-        <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">dest tag should be on the same screen with src</span>
-        <span style="color: #00ffff;">if</span> where.screen ~= tag.screen <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">end</span>
-        <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">expect a table (a tag)</span>
-                newkey = indexof(where)
-        <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">stags</span> = capi.screen[tag.screen]:tags()
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Current possition of the tag</span>
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">oldkey</span> = indexof(tag)
+   <span style="color: #00ffff;">if</span> oldkey == <span style="color: #00ffff;">nil</span> <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">end</span>
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">New position of the tag</span>
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">newkey</span> = <span style="color: #00ffff;">nil</span>
+   <span style="color: #00ffff;">if</span> type(where) == <span style="color: #ffff00;">"number"</span> <span style="color: #00ffff;">then</span>
+      newkey = awful.util.cycle(#stags, where)
+   <span style="color: #00ffff;">else</span>
+      <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">dest tag should be on the same screen with src</span>
+      <span style="color: #00ffff;">if</span> where.screen ~= tag.screen <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">end</span>
+      <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">expect a table (a tag)</span>
+      newkey = indexof(where)
+   <span style="color: #00ffff;">end</span>
 
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">c</span> = capi.client.focus
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">c</span> = capi.client.focus
 
-    table.remove(stags,oldkey)
-    table.insert(stags,newkey,tag)
-    capi.screen[tag.screen]:tags(stags)
+   table.remove(stags,oldkey)
+   table.insert(stags,newkey,tag)
+   capi.screen[tag.screen]:tags(stags)
 
-        awesome.emit_signal(<span style="color: #ffff00;">"tagman::update"</span>, tag, tag.screen)
-    <span style="color: #00ffff;">if</span> c~= <span style="color: #00ffff;">nil</span> <span style="color: #00ffff;">then</span> 
-        capi.client.focus = c 
-    <span style="color: #00ffff;">end</span>
+   awesome.emit_signal(<span style="color: #ffff00;">"tagman::update"</span>, tag, tag.screen)
+   <span style="color: #00ffff;">if</span> c~= <span style="color: #00ffff;">nil</span> <span style="color: #00ffff;">then</span> 
+      capi.client.focus = c 
+   <span style="color: #00ffff;">end</span>
 <span style="color: #00ffff;">end</span>
 
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Adds a tag named @tn with props @props</span>
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">NOTE: those properties are not the same with awful.tag's</span>
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">add</span>(tn, props, s)
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">props</span> = props <span style="color: #00ffff;">or</span> {}
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">tname</span> = tostring(tn)
-    <span style="color: #00ffff;">if</span> tname == <span style="color: #00ffff;">nil</span> <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">end</span>
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">t</span> = awful.tag.add(tname)
-        t.screen = s
-        awful.layout.set(props.layout <span style="color: #00ffff;">or</span> awful.layout.suit.max, t)
-        <span style="color: #00ffff;">if</span> props.setsel == <span style="color: #00ffff;">true</span> <span style="color: #00ffff;">then</span> t.selected = <span style="color: #00ffff;">true</span> <span style="color: #00ffff;">end</span>
-        awesome.emit_signal(<span style="color: #ffff00;">"tagman::update"</span>, t, s)
-        <span style="color: #00ffff;">return</span> t
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">props</span> = props <span style="color: #00ffff;">or</span> {}
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = s <span style="color: #00ffff;">or</span> client.focus <span style="color: #00ffff;">and</span> client.focus.screen <span style="color: #00ffff;">or</span> capi.mouse.screen
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">tname</span> = tostring(tn)
+   <span style="color: #00ffff;">if</span> tname == <span style="color: #00ffff;">nil</span> <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">t</span> = awful.tag.add(tname)
+   t.screen = s
+   awful.layout.set(props.layout <span style="color: #00ffff;">or</span> awful.layout.suit.max, t)
+   <span style="color: #00ffff;">if</span> props.setsel == <span style="color: #00ffff;">true</span> <span style="color: #00ffff;">then</span> t.selected = <span style="color: #00ffff;">true</span> <span style="color: #00ffff;">end</span>
+   awesome.emit_signal(<span style="color: #ffff00;">"tagman::update"</span>, t, s)
+   <span style="color: #00ffff;">return</span> t
 <span style="color: #00ffff;">end</span>
 
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Removes tag @t. Move it's clients to tag @deft</span>
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">del</span>(tag, deft)
-    <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = tag.screen
-    <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">stags</span> = capi.screen[s]:tags()
-    <span style="color: #00ffff;">if</span> #stags &lt;= 1 <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">end</span>
-    <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">deft</span> = deft <span style="color: #00ffff;">or</span> prev_to(tag)
-    <span style="color: #00ffff;">if</span> deft == <span style="color: #00ffff;">nil</span> <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">end</span>
-    tag.screen = <span style="color: #00ffff;">nil</span>
-    awesome.emit_signal(<span style="color: #ffff00;">"tagman::update"</span>, tag, s)
-    handle_orphans(s, deft)
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">s</span> = tag.screen
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">stags</span> = capi.screen[s]:tags()
+   <span style="color: #00ffff;">if</span> #stags &lt;= 1 <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">deft</span> = deft <span style="color: #00ffff;">or</span> prev_to(tag)
+   <span style="color: #00ffff;">if</span> deft == <span style="color: #00ffff;">nil</span> <span style="color: #00ffff;">then</span> <span style="color: #00ffff;">return</span> <span style="color: #00ffff;">end</span>
+   tag.screen = <span style="color: #00ffff;">nil</span>
+   awesome.emit_signal(<span style="color: #ffff00;">"tagman::update"</span>, tag, s)
+   handle_orphans(s, deft)
 <span style="color: #00ffff;">end</span>
 
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Renames tag @tag with name @newname</span>
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">rename</span>(tag, newname)
-        tag.name = newname
-        awesome.emit_signal(<span style="color: #ffff00;">"tagman::update"</span>, tag, tag.screen)
+   tag.name = newname
+   awesome.emit_signal(<span style="color: #ffff00;">"tagman::update"</span>, tag, tag.screen)
 <span style="color: #00ffff;">end</span>
 
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Initializes the library. </span>
@@ -2903,17 +2987,17 @@ module(<span style="color: #ffff00;">"myrc.tagman"</span>)
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">@name_getter is a function taking screen index and returning </span>
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">a list of tag names.</span>
 <span style="color: #00ffff;">function</span> <span style="color: #4186be;">init</span>(name_getter)
-        <span style="color: #00ffff;">for</span> s = 1, capi.screen.count() <span style="color: #00ffff;">do</span>
-        <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">namelist</span> = name_getter(s)
-        <span style="color: #00ffff;">if</span> namelist == <span style="color: #00ffff;">nil</span> <span style="color: #00ffff;">or</span> #namelist == 0 <span style="color: #00ffff;">then</span>
-            namelist = {}
-            <span style="color: #00ffff;">for</span> i=1,9 <span style="color: #00ffff;">do</span> namelist[i] = tostring(i) <span style="color: #00ffff;">end</span>
-        <span style="color: #00ffff;">end</span>
-                <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Each screen has its own tag table.</span>
-                <span style="color: #00ffff;">for</span> i, name <span style="color: #00ffff;">in</span> ipairs(namelist) <span style="color: #00ffff;">do</span> 
-                        add(name, { setsel=(i==1) }, s) 
-                <span style="color: #00ffff;">end</span>
-        <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">for</span> s = 1, capi.screen.count() <span style="color: #00ffff;">do</span>
+      <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">namelist</span> = name_getter(s)
+      <span style="color: #00ffff;">if</span> namelist == <span style="color: #00ffff;">nil</span> <span style="color: #00ffff;">or</span> #namelist == 0 <span style="color: #00ffff;">then</span>
+         namelist = {}
+         <span style="color: #00ffff;">for</span> i=1,9 <span style="color: #00ffff;">do</span> namelist[i] = tostring(i) <span style="color: #00ffff;">end</span>
+      <span style="color: #00ffff;">end</span>
+      <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Each screen has its own tag table.</span>
+      <span style="color: #00ffff;">for</span> i, name <span style="color: #00ffff;">in</span> ipairs(namelist) <span style="color: #00ffff;">do</span> 
+         add(name, { setsel=(i==1) }, s) 
+      <span style="color: #00ffff;">end</span>
+   <span style="color: #00ffff;">end</span>
 <span style="color: #00ffff;">end</span>
 </pre>
 
@@ -2921,9 +3005,9 @@ module(<span style="color: #ffff00;">"myrc.tagman"</span>)
 
 </div>
 
-<div id="outline-container-4-3" class="outline-3">
-<h3 id="sec-4-3"><span class="section-number-3">4.3</span> keybind.lua</h3>
-<div class="outline-text-3" id="text-4-3">
+<div id="outline-container-2-3-3" class="outline-4">
+<h4 id="sec-2-3-3"><span class="section-number-4">2.3.3</span> keybind.lua</h4>
+<div class="outline-text-4" id="text-2-3-3">
 
 
 
@@ -3128,9 +3212,9 @@ module(<span style="color: #ffff00;">"myrc.keybind"</span>)
 
 </div>
 
-<div id="outline-container-4-4" class="outline-3">
-<h3 id="sec-4-4"><span class="section-number-3">4.4</span> logmon.lua</h3>
-<div class="outline-text-3" id="text-4-4">
+<div id="outline-container-2-3-4" class="outline-4">
+<h4 id="sec-2-3-4"><span class="section-number-4">2.3.4</span> logmon.lua</h4>
+<div class="outline-text-4" id="text-2-3-4">
 
 
 
@@ -3148,9 +3232,9 @@ module(<span style="color: #ffff00;">"myrc.logmon"</span>)
 
 </div>
 
-<div id="outline-container-4-5" class="outline-3">
-<h3 id="sec-4-5"><span class="section-number-3">4.5</span> memory.lua</h3>
-<div class="outline-text-3" id="text-4-5">
+<div id="outline-container-2-3-5" class="outline-4">
+<h4 id="sec-2-3-5"><span class="section-number-4">2.3.5</span> memory.lua</h4>
+<div class="outline-text-4" id="text-2-3-5">
 
 
 
@@ -3221,9 +3305,9 @@ module(<span style="color: #ffff00;">"myrc.memory"</span>)
 
 </div>
 
-<div id="outline-container-4-6" class="outline-3">
-<h3 id="sec-4-6"><span class="section-number-3">4.6</span> themes.lua</h3>
-<div class="outline-text-3" id="text-4-6">
+<div id="outline-container-2-3-6" class="outline-4">
+<h4 id="sec-2-3-6"><span class="section-number-4">2.3.6</span> themes.lua</h4>
+<div class="outline-text-4" id="text-2-3-6">
 
 
 
@@ -3303,16 +3387,16 @@ module(<span style="color: #ffff00;">"myrc.themes"</span>)
 
 </div>
 
-<div id="outline-container-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> pipelets</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> pipelets</h3>
+<div class="outline-text-3" id="text-2-4">
 
 
 </div>
 
-<div id="outline-container-5-1" class="outline-3">
-<h3 id="sec-5-1"><span class="section-number-3">5.1</span> temp</h3>
-<div class="outline-text-3" id="text-5-1">
+<div id="outline-container-2-4-1" class="outline-4">
+<h4 id="sec-2-4-1"><span class="section-number-4">2.4.1</span> temp</h4>
+<div class="outline-text-4" id="text-2-4-1">
 
 
 
@@ -3338,9 +3422,9 @@ module(<span style="color: #ffff00;">"myrc.themes"</span>)
 
 </div>
 
-<div id="outline-container-5-2" class="outline-3">
-<h3 id="sec-5-2"><span class="section-number-3">5.2</span> batmon</h3>
-<div class="outline-text-3" id="text-5-2">
+<div id="outline-container-2-4-2" class="outline-4">
+<h4 id="sec-2-4-2"><span class="section-number-4">2.4.2</span> batmon</h4>
+<div class="outline-text-4" id="text-2-4-2">
 
 
 
@@ -3375,9 +3459,9 @@ which acpi_listen &gt;/dev/null || <span style="color: #00ffff;">exit</span> 1
 
 </div>
 
-<div id="outline-container-5-3" class="outline-3">
-<h3 id="sec-5-3"><span class="section-number-3">5.3</span> date</h3>
-<div class="outline-text-3" id="text-5-3">
+<div id="outline-container-2-4-3" class="outline-4">
+<h4 id="sec-2-4-3"><span class="section-number-4">2.4.3</span> date</h4>
+<div class="outline-text-4" id="text-2-4-3">
 
 
 
@@ -3394,9 +3478,9 @@ which acpi_listen &gt;/dev/null || <span style="color: #00ffff;">exit</span> 1
 
 </div>
 
-<div id="outline-container-5-4" class="outline-3">
-<h3 id="sec-5-4"><span class="section-number-3">5.4</span> mmount</h3>
-<div class="outline-text-3" id="text-5-4">
+<div id="outline-container-2-4-4" class="outline-4">
+<h4 id="sec-2-4-4"><span class="section-number-4">2.4.4</span> mmount</h4>
+<div class="outline-text-4" id="text-2-4-4">
 
 
 
@@ -3435,9 +3519,9 @@ which acpi_listen &gt;/dev/null || <span style="color: #00ffff;">exit</span> 1
 
 </div>
 
-<div id="outline-container-6" class="outline-2">
-<h2 id="sec-6"><span class="section-number-2">6</span> Autostart</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Autostart</h3>
+<div class="outline-text-3" id="text-2-5">
 
 
 
@@ -3520,7 +3604,7 @@ run_once radiotray &amp;
  <span style="color: #ff0000;"># </span><span style="color: #ff0000;">nitrogen --restore &amp;</span>
 <span style="color: #ff0000;">###################</span>
 <span style="color: #ff0000;">## </span><span style="color: #ff0000;">start guake</span>
-run_once guake &amp; 
+<span style="color: #ff0000;">## </span><span style="color: #ff0000;">run_once guake &amp; </span>
 <span style="color: #ff0000;">###################</span>
 <span style="color: #ff0000;">## </span><span style="color: #ff0000;">start recollindex usin ionice Idle</span>
  <span style="color: #ff0000;"># </span><span style="color: #ff0000;">ionice -c 3 recollindex -m &amp;</span>
@@ -3528,6 +3612,1425 @@ run_once guake &amp;
 
 </pre>
 
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> rc.default.lua</h2>
+<div class="outline-text-2" id="text-3">
+
+<p>This is the default rc.lua file for awesome (which is awesome)
+</p>
+</div>
+
+<div id="outline-container-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> loading libraries</h3>
+<div class="outline-text-3" id="text-3-1">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Standard awesome library</span>
+require(<span style="color: #ffff00;">"awful"</span>)
+require(<span style="color: #ffff00;">"awful.autofocus"</span>)
+require(<span style="color: #ffff00;">"awful.rules"</span>)
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Theme handling library</span>
+require(<span style="color: #ffff00;">"beautiful"</span>)
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Notification library</span>
+require(<span style="color: #ffff00;">"naughty"</span>)
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">shifty - dynamic tagging library</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">require("shifty")</span>
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Vicious widget library</span>
+require(<span style="color: #ffff00;">"vicious"</span>)
+
+<span style="color: #ff0000;">--OSX Expose</span>
+<span style="color: #ff0000;">--require("revelation")</span>
+<span style="color: #ff0000;">--awful.key({ modkey }, "e",  revelation.revelation)</span>
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Load Debian menu entries</span>
+require(<span style="color: #ffff00;">"debian.menu"</span>)  
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Variable definitions</h3>
+<div class="outline-text-3" id="text-3-2">
+
+
+</div>
+
+<div id="outline-container-3-2-1" class="outline-4">
+<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> Beautiful</h4>
+<div class="outline-text-4" id="text-3-2-1">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">config = awful.util.getdir("config")</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">{{{ Variable definitions</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Themes define colours, icons, and wallpapers</span>
+beautiful.init(<span style="color: #ffff00;">"/home/rkrug/.config/awesome/themes/Rainer/theme.lua"</span>)
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-2-2" class="outline-4">
+<h4 id="sec-3-2-2"><span class="section-number-4">3.2.2</span> Default programs</h4>
+<div class="outline-text-4" id="text-3-2-2">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">This is used later as the default terminal and editor to run.</span>
+browser = <span style="color: #ffff00;">"firefox"</span>
+mail = <span style="color: #ffff00;">"thunderbird"</span>
+terminal = <span style="color: #ffff00;">"xterm"</span>
+editor = os.getenv(<span style="color: #ffff00;">"EDITOR"</span>) <span style="color: #00ffff;">or</span> <span style="color: #ffff00;">"ec"</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">editor_cmd = terminal .. " -e " .. editor</span>
+editor_cmd = editor
+
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-2-3" class="outline-4">
+<h4 id="sec-3-2-3"><span class="section-number-4">3.2.3</span> Default modkey</h4>
+<div class="outline-text-4" id="text-3-2-3">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Default modkey.</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Usually, Mod4 is the key with a logo between Control and Alt.</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">If you do not like this or do not have such a key,</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">I suggest you to remap Mod4 to another key using xmodmap or other tools.</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">However, you can use another modifier like Mod1, but it may interact with others.</span>
+modkey = <span style="color: #ffff00;">"Mod4"</span>
+
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-2-4" class="outline-4">
+<h4 id="sec-3-2-4"><span class="section-number-4">3.2.4</span> Layouts</h4>
+<div class="outline-text-4" id="text-3-2-4">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Table of layouts to cover with awful.layout.inc, order matters.</span>
+layouts = {
+   awful.layout.suit.tile,
+   awful.layout.suit.floating,
+   awful.layout.suit.tile.left,
+   awful.layout.suit.tile.bottom,
+   awful.layout.suit.tile.top,
+   awful.layout.suit.fair,
+   awful.layout.suit.fair.horizontal,
+   awful.layout.suit.spiral,
+   awful.layout.suit.spiral.dwindle,
+   awful.layout.suit.max,
+   awful.layout.suit.max.fullscreen,
+   awful.layout.suit.magnifier
+}
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">}}}</span>
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Use titlebar on all applications?</h3>
+<div class="outline-text-3" id="text-3-3">
+
+
+
+
+<pre class="src src-lua">  <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Define if we want to use titlebar on all applications.</span>
+use_titlebar = <span style="color: #00ffff;">false</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> tags</h3>
+<div class="outline-text-3" id="text-3-4">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">{{{ Tags</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Define a tag table which hold all screen tags.</span>
+tags = {}
+<span style="color: #00ffff;">for</span> s = 1, screen.count() <span style="color: #00ffff;">do</span>
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Each screen has its own tag table.</span>
+   tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+<span style="color: #00ffff;">end</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">}}}</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Menu</h3>
+<div class="outline-text-3" id="text-3-5">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">{{{ Menu</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a laucher widget and a main menu</span>
+myawesomemenu = {
+   { <span style="color: #ffff00;">"manual"</span>, terminal .. <span style="color: #ffff00;">" -e man awesome"</span> },
+   { <span style="color: #ffff00;">"edit config"</span>, editor_cmd .. <span style="color: #ffff00;">" "</span> .. awful.util.getdir(<span style="color: #ffff00;">"config"</span>) .. <span style="color: #ffff00;">"/rc.lua"</span> },
+   { <span style="color: #ffff00;">"restart"</span>, awesome.restart },
+   { <span style="color: #ffff00;">"quit"</span>, awesome.quit }
+}
+
+mymainmenu = awful.menu({ items = { { <span style="color: #ffff00;">"awesome"</span>, myawesomemenu, beautiful.awesome_icon },
+                                    { <span style="color: #ffff00;">"Debian"</span>, debian.menu.Debian_menu.Debian },
+                                    { <span style="color: #ffff00;">"open terminal"</span>, terminal }
+                                  }
+                        })
+
+mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
+                                     menu = mymainmenu })
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">}}}</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Wibox</h3>
+<div class="outline-text-3" id="text-3-6">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">{{{ Wibox</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;"> Network usage widget</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Initialize widget</span>
+netwidget = widget({ type = <span style="color: #ffff00;">"textbox"</span> })
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Register widget</span>
+vicious.register(netwidget, vicious.widgets.net, <span style="color: #ffff00;">' | &lt;span color="#CC9393"&gt;${eth0 down_kb}&lt;/span&gt; &lt;span color="#7F9F7F"&gt;${eth0 up_kb}&lt;/span&gt;'</span>, 3)
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">memwidgetText</span>
+memwidgetText = widget({ type = <span style="color: #ffff00;">"textbox"</span> })
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Register widget</span>
+vicious.register(memwidgetText, vicious.widgets.mem, <span style="color: #ffff00;">" | $1% ($2MB/$3MB)"</span>, 13)
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">memwidgetGraph</span>
+memwidgetGraph = awful.widget.progressbar()
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Progressbar properties</span>
+memwidgetGraph:set_width(8)
+memwidgetGraph:set_height(10)
+memwidgetGraph:set_vertical(<span style="color: #00ffff;">true</span>)
+memwidgetGraph:set_background_color(<span style="color: #ffff00;">"#494B4F"</span>)
+memwidgetGraph:set_border_color(<span style="color: #00ffff;">nil</span>)
+memwidgetGraph:set_color(<span style="color: #ffff00;">"#AECF96"</span>)
+memwidgetGraph:set_gradient_colors({ <span style="color: #ffff00;">"#AECF96"</span>, <span style="color: #ffff00;">"#88A175"</span>, <span style="color: #ffff00;">"#FF5656"</span> })
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Register widgetGraph</span>
+vicious.register(memwidgetGraph, vicious.widgets.mem, <span style="color: #ffff00;">"$1"</span>, 13)
+
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">cpuwidgetText</span>
+cpuwidgetText = widget({ type = <span style="color: #ffff00;">"textbox"</span> })
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Register widget</span>
+vicious.register(cpuwidgetText, vicious.widgets.cpu, <span style="color: #ffff00;">" | CPU: $1% | "</span>)
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a textclock widget</span>
+mytextclock = awful.widget.textclock({ align = <span style="color: #ffff00;">"right"</span> })
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a systray</span>
+mysystray = widget({ type = <span style="color: #ffff00;">"systray"</span> })
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a wibox for each screen and add it</span>
+mywibox = {}
+mypromptbox = {}
+mylayoutbox = {}
+mytaglist = {}
+mytaglist.buttons = awful.util.table.join(
+   awful.button({ }, 1, awful.tag.viewonly),
+   awful.button({ modkey }, 1, awful.client.movetotag),
+   awful.button({ }, 3, awful.tag.viewtoggle),
+   awful.button({ modkey }, 3, awful.client.toggletag),
+   awful.button({ }, 4, awful.tag.viewnext),
+   awful.button({ }, 5, awful.tag.viewprev)
+                                         )
+mytasklist = {}
+mytasklist.buttons = awful.util.table.join(
+   awful.button({ }, 1, <span style="color: #00ffff;">function</span> (c)
+                   <span style="color: #00ffff;">if</span> <span style="color: #00ffff;">not</span> c:isvisible() <span style="color: #00ffff;">then</span>
+                      awful.tag.viewonly(c:tags()[1])
+                   <span style="color: #00ffff;">end</span>
+                   client.focus = c
+                   c:raise()
+                        <span style="color: #00ffff;">end</span>),
+   awful.button({ }, 3, <span style="color: #00ffff;">function</span> ()
+                   <span style="color: #00ffff;">if</span> instance <span style="color: #00ffff;">then</span>
+                      instance:hide()
+                      instance = <span style="color: #00ffff;">nil</span>
+                   <span style="color: #00ffff;">else</span>
+                      instance = awful.menu.clients({ width=250 })
+                   <span style="color: #00ffff;">end</span>
+                        <span style="color: #00ffff;">end</span>),
+   awful.button({ }, 4, <span style="color: #00ffff;">function</span> ()
+                   awful.client.focus.byidx(1)
+                   <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">then</span> client.focus:raise() <span style="color: #00ffff;">end</span>
+                        <span style="color: #00ffff;">end</span>),
+   awful.button({ }, 5, <span style="color: #00ffff;">function</span> ()
+                   awful.client.focus.byidx(-1)
+                   <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">then</span> client.focus:raise() <span style="color: #00ffff;">end</span>
+                        <span style="color: #00ffff;">end</span>))
+
+<span style="color: #00ffff;">for</span> s = 1, screen.count() <span style="color: #00ffff;">do</span>
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a promptbox for each screen</span>
+   mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create an imagebox widget which will contains an icon indicating which layout we're using.</span>
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">We need one layoutbox per screen.</span>
+   mylayoutbox[s] = awful.widget.layoutbox(s)
+   mylayoutbox[s]:buttons(awful.util.table.join(
+                             awful.button({ }, 1, <span style="color: #00ffff;">function</span> () awful.layout.inc(layouts, 1) <span style="color: #00ffff;">end</span>),
+                             awful.button({ }, 3, <span style="color: #00ffff;">function</span> () awful.layout.inc(layouts, -1) <span style="color: #00ffff;">end</span>),
+                             awful.button({ }, 4, <span style="color: #00ffff;">function</span> () awful.layout.inc(layouts, 1) <span style="color: #00ffff;">end</span>),
+                             awful.button({ }, 5, <span style="color: #00ffff;">function</span> () awful.layout.inc(layouts, -1) <span style="color: #00ffff;">end</span>)))
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a taglist widget</span>
+   mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist.buttons)
+
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a tasklist widget</span>
+   mytasklist[s] = awful.widget.tasklist(<span style="color: #00ffff;">function</span>(c)
+                                            <span style="color: #00ffff;">return</span> awful.widget.tasklist.label.currenttags(c, s)
+                                         <span style="color: #00ffff;">end</span>, mytasklist.buttons)
+
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create the wibox</span>
+   mywibox[s] = awful.wibox({ position = <span style="color: #ffff00;">"top"</span>, screen = s })
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Add widgets to the wibox - order matters</span>
+   mywibox[s].widgets = {
+      {
+         mylauncher,
+         mytaglist[s],
+         mypromptbox[s],
+         layout = awful.widget.layout.horizontal.leftright
+      },
+      mylayoutbox[s],
+      mytextclock,
+      cpuwidgetText,
+      memwidgetText,
+      netwidget,
+      s == 1 <span style="color: #00ffff;">and</span> mysystray <span style="color: #00ffff;">or</span> <span style="color: #00ffff;">nil</span>,
+      mytasklist[s],
+      layout = awful.widget.layout.horizontal.rightleft
+   }
+<span style="color: #00ffff;">end</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">}}}</span>
+
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Mouse Bindings</h3>
+<div class="outline-text-3" id="text-3-7">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">{{{ Mouse bindings</span>
+root.buttons(awful.util.table.join(
+                awful.button({ }, 3, <span style="color: #00ffff;">function</span> () mymainmenu:toggle() <span style="color: #00ffff;">end</span>),
+                awful.button({ }, 4, awful.tag.viewnext),
+                awful.button({ }, 5, awful.tag.viewprev)
+                                  ))
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">}}}</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Key Bindings</h3>
+<div class="outline-text-3" id="text-3-8">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">{{{ Key bindings</span>
+globalkeys = awful.util.table.join(
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"Left"</span>,   awful.tag.viewprev       ),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"Right"</span>,  awful.tag.viewnext       ),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"Escape"</span>, awful.tag.history.restore),
+
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"j"</span>,
+             <span style="color: #00ffff;">function</span> ()
+                awful.client.focus.byidx( 1)
+                <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">then</span> client.focus:raise() <span style="color: #00ffff;">end</span>
+             <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"k"</span>,
+             <span style="color: #00ffff;">function</span> ()
+                awful.client.focus.byidx(-1)
+                <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">then</span> client.focus:raise() <span style="color: #00ffff;">end</span>
+             <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"w"</span>, <span style="color: #00ffff;">function</span> () mymainmenu:show(<span style="color: #00ffff;">true</span>)        <span style="color: #00ffff;">end</span>),
+
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Layout manipulation</span>
+   awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span style="color: #ffff00;">"j"</span>, <span style="color: #00ffff;">function</span> () awful.client.swap.byidx(  1)    <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span style="color: #ffff00;">"k"</span>, <span style="color: #00ffff;">function</span> () awful.client.swap.byidx( -1)    <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span style="color: #ffff00;">"j"</span>, <span style="color: #00ffff;">function</span> () awful.screen.focus_relative( 1) <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span style="color: #ffff00;">"k"</span>, <span style="color: #00ffff;">function</span> () awful.screen.focus_relative(-1) <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"u"</span>, awful.client.urgent.jumpto),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"Tab"</span>,
+             <span style="color: #00ffff;">function</span> ()
+                awful.client.focus.history.previous()
+                <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">then</span>
+                   client.focus:raise()
+                <span style="color: #00ffff;">end</span>
+             <span style="color: #00ffff;">end</span>),
+
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Standard program</span>
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"Return"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(terminal) <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span style="color: #ffff00;">"r"</span>, awesome.restart),
+   awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span style="color: #ffff00;">"q"</span>, awesome.quit),
+
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"l"</span>,     <span style="color: #00ffff;">function</span> () awful.tag.incmwfact( 0.05)    <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"h"</span>,     <span style="color: #00ffff;">function</span> () awful.tag.incmwfact(-0.05)    <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span style="color: #ffff00;">"h"</span>,     <span style="color: #00ffff;">function</span> () awful.tag.incnmaster( 1)      <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span style="color: #ffff00;">"l"</span>,     <span style="color: #00ffff;">function</span> () awful.tag.incnmaster(-1)      <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span style="color: #ffff00;">"h"</span>,     <span style="color: #00ffff;">function</span> () awful.tag.incncol( 1)         <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span style="color: #ffff00;">"l"</span>,     <span style="color: #00ffff;">function</span> () awful.tag.incncol(-1)         <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"space"</span>, <span style="color: #00ffff;">function</span> () awful.layout.inc(layouts,  1) <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span style="color: #ffff00;">"space"</span>, <span style="color: #00ffff;">function</span> () awful.layout.inc(layouts, -1) <span style="color: #00ffff;">end</span>),
+
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Prompt</span>
+   awful.key({ modkey },            <span style="color: #ffff00;">"r"</span>,     <span style="color: #00ffff;">function</span> () mypromptbox[mouse.screen]:run() <span style="color: #00ffff;">end</span>),
+
+   awful.key({ modkey }, <span style="color: #ffff00;">"x"</span>,
+             <span style="color: #00ffff;">function</span> ()
+                awful.prompt.run({ prompt = <span style="color: #ffff00;">"Run Lua code: "</span> },
+                                 mypromptbox[mouse.screen].widget,
+                                 awful.util.eval, <span style="color: #00ffff;">nil</span>,
+                                 awful.util.getdir(<span style="color: #ffff00;">"cache"</span>) .. <span style="color: #ffff00;">"/history_eval"</span>)
+             <span style="color: #00ffff;">end</span>)
+                                  )
+
+
+
+clientkeys = awful.util.table.join(
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"f"</span>,      <span style="color: #00ffff;">function</span> (c) c.fullscreen = <span style="color: #00ffff;">not</span> c.fullscreen  <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span style="color: #ffff00;">"c"</span>,      <span style="color: #00ffff;">function</span> (c) c:kill()                         <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span style="color: #ffff00;">"space"</span>,  awful.client.floating.toggle                     ),
+   awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span style="color: #ffff00;">"Return"</span>, <span style="color: #00ffff;">function</span> (c) c:swap(awful.client.getmaster()) <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"o"</span>,      awful.client.movetoscreen                        ),
+   awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span style="color: #ffff00;">"r"</span>,      <span style="color: #00ffff;">function</span> (c) c:redraw()                       <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"n"</span>,      <span style="color: #00ffff;">function</span> (c) c.minimized = <span style="color: #00ffff;">not</span> c.minimized    <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"m"</span>,
+             <span style="color: #00ffff;">function</span> (c)
+                c.maximized_horizontal = <span style="color: #00ffff;">not</span> c.maximized_horizontal
+                c.maximized_vertical   = <span style="color: #00ffff;">not</span> c.maximized_vertical
+             <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"e"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(<span style="color: #ffff00;">"ec"</span>) <span style="color: #00ffff;">end</span>),
+   awful.key({ modkey,           }, <span style="color: #ffff00;">"v"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(<span style="color: #ffff00;">"pavucontrol"</span>) <span style="color: #00ffff;">end</span>),
+   awful.key({ }, <span style="color: #ffff00;">"XF86AudioRaiseVolume"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(<span style="color: #ffff00;">"pactl -- set-sink-volume 0 +10%"</span>) <span style="color: #00ffff;">end</span>),
+   awful.key({ }, <span style="color: #ffff00;">"XF86AudioLowerVolume"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(<span style="color: #ffff00;">"pactl -- set-sink-volume 0 -10%"</span>) <span style="color: #00ffff;">end</span>),
+   awful.key({ }, <span style="color: #ffff00;">"XF86AudioMute"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(<span style="color: #ffff00;">""</span>) <span style="color: #00ffff;">end</span>)
+                                  )
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Compute the maximum number of digit we need, limited to 9</span>
+keynumber = 0
+<span style="color: #00ffff;">for</span> s = 1, screen.count() <span style="color: #00ffff;">do</span>
+   keynumber = math.min(9, math.max(#tags[s], keynumber));
+<span style="color: #00ffff;">end</span>
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Bind all key numbers to tags.</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Be careful: we use keycodes to make it works on any keyboard layout.</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">This should map on the top row of your keyboard, usually 1 to 9.</span>
+<span style="color: #00ffff;">for</span> i = 1, keynumber <span style="color: #00ffff;">do</span>
+   globalkeys = awful.util.table.join(globalkeys,
+                                      awful.key({ modkey }, <span style="color: #ffff00;">"#"</span> .. i + 9,
+                                                <span style="color: #00ffff;">function</span> ()
+                                                   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">screen</span> = mouse.screen
+                                                   <span style="color: #00ffff;">if</span> tags[screen][i] <span style="color: #00ffff;">then</span>
+                                                      awful.tag.viewonly(tags[screen][i])
+                                                   <span style="color: #00ffff;">end</span>
+                                                <span style="color: #00ffff;">end</span>),
+                                      awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span style="color: #ffff00;">"#"</span> .. i + 9,
+                                                <span style="color: #00ffff;">function</span> ()
+                                                   <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">screen</span> = mouse.screen
+                                                   <span style="color: #00ffff;">if</span> tags[screen][i] <span style="color: #00ffff;">then</span>
+                                                      awful.tag.viewtoggle(tags[screen][i])
+                                                   <span style="color: #00ffff;">end</span>
+                                                <span style="color: #00ffff;">end</span>),
+                                      awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span> }, <span style="color: #ffff00;">"#"</span> .. i + 9,
+                                                <span style="color: #00ffff;">function</span> ()
+                                                   <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">and</span> tags[client.focus.screen][i] <span style="color: #00ffff;">then</span>
+                                                      awful.client.movetotag(tags[client.focus.screen][i])
+                                                   <span style="color: #00ffff;">end</span>
+                                                <span style="color: #00ffff;">end</span>),
+                                      awful.key({ modkey, <span style="color: #ffff00;">"Control"</span>, <span style="color: #ffff00;">"Shift"</span> }, <span style="color: #ffff00;">"#"</span> .. i + 9,
+                                                <span style="color: #00ffff;">function</span> ()
+                                                   <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">and</span> tags[client.focus.screen][i] <span style="color: #00ffff;">then</span>
+                                                      awful.client.toggletag(tags[client.focus.screen][i])
+                                                   <span style="color: #00ffff;">end</span>
+                                                <span style="color: #00ffff;">end</span>))
+<span style="color: #00ffff;">end</span>
+
+clientbuttons = awful.util.table.join(
+   awful.button({ }, 1, <span style="color: #00ffff;">function</span> (c) client.focus = c; c:raise() <span style="color: #00ffff;">end</span>),
+   awful.button({ modkey }, 1, awful.mouse.client.move),
+   awful.button({ modkey }, 3, awful.mouse.client.resize))
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Set keys</span>
+root.keys(globalkeys)
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">}}}</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-9" class="outline-3">
+<h3 id="sec-3-9"><span class="section-number-3">3.9</span> Rules</h3>
+<div class="outline-text-3" id="text-3-9">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">{{{ Rules</span>
+awful.rules.rules = {
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">All clients will match this rule.</span>
+   { rule = { },
+     properties = { border_width = beautiful.border_width,
+                    border_color = beautiful.border_normal,
+                    focus = <span style="color: #00ffff;">true</span>,
+                    keys = clientkeys,
+                    buttons = clientbuttons } },
+   { rule = { class = <span style="color: #ffff00;">"MPlayer"</span> },
+     properties = { floating = <span style="color: #00ffff;">true</span> } },
+   { rule = { class = <span style="color: #ffff00;">"pinentry"</span> },
+     properties = { floating = <span style="color: #00ffff;">true</span> } },
+   { rule = { class = <span style="color: #ffff00;">"gimp"</span> },
+     properties = { floating = <span style="color: #00ffff;">true</span> } },
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Set Firefox to always map on tags number 2 of screen 1.</span>
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">{ rule = { class = "Firefox" },</span>
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">  properties = { tag = tags[1][2] } },</span>
+}
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">}}}</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-10" class="outline-3">
+<h3 id="sec-3-10"><span class="section-number-3">3.10</span> Signals</h3>
+<div class="outline-text-3" id="text-3-10">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">{{{ Signals</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Signal function to execute when a new client appears.</span>
+client.add_signal(<span style="color: #ffff00;">"manage"</span>, <span style="color: #00ffff;">function</span> (c, startup)
+                     <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Add a titlebar</span>
+                     <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.titlebar.add(c, { modkey = modkey })</span>
+
+                     <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Enable sloppy focus</span>
+                     c:add_signal(<span style="color: #ffff00;">"mouse::enter"</span>, <span style="color: #00ffff;">function</span>(c)
+                                     <span style="color: #00ffff;">if</span> awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
+                                        <span style="color: #00ffff;">and</span> awful.client.focus.filter(c) <span style="color: #00ffff;">then</span>
+                                     client.focus = c
+                                     <span style="color: #00ffff;">end</span>
+                                                  <span style="color: #00ffff;">end</span>)
+
+                     <span style="color: #00ffff;">if</span> <span style="color: #00ffff;">not</span> startup <span style="color: #00ffff;">then</span>
+                        <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Set the windows at the slave,</span>
+                        <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">i.e. put it at the end of others instead of setting it master.</span>
+                        <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.client.setslave(c)</span>
+
+                        <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Put windows in a smart way, only if they does not set an initial position.</span>
+                        <span style="color: #00ffff;">if</span> <span style="color: #00ffff;">not</span> c.size_hints.user_position <span style="color: #00ffff;">and</span> <span style="color: #00ffff;">not</span> c.size_hints.program_position <span style="color: #00ffff;">then</span>
+                           awful.placement.no_overlap(c)
+                           awful.placement.no_offscreen(c)
+                        <span style="color: #00ffff;">end</span>
+                     <span style="color: #00ffff;">end</span>
+                            <span style="color: #00ffff;">end</span>)
+
+client.add_signal(<span style="color: #ffff00;">"focus"</span>, <span style="color: #00ffff;">function</span>(c) c.border_color = beautiful.border_focus <span style="color: #00ffff;">end</span>)
+client.add_signal(<span style="color: #ffff00;">"unfocus"</span>, <span style="color: #00ffff;">function</span>(c) c.border_color = beautiful.border_normal <span style="color: #00ffff;">end</span>)
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">}}}</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-11" class="outline-3">
+<h3 id="sec-3-11"><span class="section-number-3">3.11</span> Autostart</h3>
+<div class="outline-text-3" id="text-3-11">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.util.spawn_with_shell("dex -a")</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.util.spawn_with_shell("wmname LG3D")</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.util.spawn_with_shell("_JAVA_AWT_WM_NONREPARENTING=1; export _JAVA_AWT_WM_NONREPARENTING")</span>
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">execute autostart script</span>
+awful.util.spawn_with_shell(<span style="color: #ffff00;">"~/.config/awesome/autostart.sh"</span>)
+
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">set background using nitrogen</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.util.spawn_with_shell("nitrogen --restore")"</span>
+</pre>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> rc.shifty.lua</h2>
+<div class="outline-text-2" id="text-4">
+
+<p>Shifty example configuration file
+</p>
+</div>
+
+<div id="outline-container-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Include libraries</h3>
+<div class="outline-text-3" id="text-4-1">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">default rc.lua for shifty</span>
+<span style="color: #ff0000;">--</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Standard awesome library</span>
+require(<span style="color: #ffff00;">"awful"</span>)
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Theme handling library</span>
+require(<span style="color: #ffff00;">"beautiful"</span>)
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Notification library</span>
+require(<span style="color: #ffff00;">"naughty"</span>)
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">shifty - dynamic tagging library</span>
+require(<span style="color: #ffff00;">"shifty"</span>)
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> For debugging</h3>
+<div class="outline-text-3" id="text-4-2">
+
+
+
+
+<pre class="src src-lua">  <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">useful for debugging, marks the beginning of rc.lua exec</span>
+print(<span style="color: #ffff00;">"Entered rc.lua: "</span> .. os.time())
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Variable definitions</h3>
+<div class="outline-text-3" id="text-4-3">
+
+
+</div>
+
+<div id="outline-container-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> Default programs</h4>
+<div class="outline-text-4" id="text-4-3-1">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">This is used later as the default terminal and editor to run.</span>
+browser = <span style="color: #ffff00;">"firefox"</span>
+mail = <span style="color: #ffff00;">"thunderbird"</span>
+terminal = <span style="color: #ffff00;">"xterm"</span>
+editor = os.getenv(<span style="color: #ffff00;">"EDITOR"</span>) <span style="color: #00ffff;">or</span> <span style="color: #ffff00;">"nano"</span>
+editor_cmd = terminal .. <span style="color: #ffff00;">" -e "</span> .. editor
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-3-2" class="outline-4">
+<h4 id="sec-4-3-2"><span class="section-number-4">4.3.2</span> Default modkey</h4>
+<div class="outline-text-4" id="text-4-3-2">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Default modkey.</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Usually, Mod4 is the key with a logo between Control and Alt.</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">If you do not like this or do not have such a key, I suggest you to remap</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Mod4 to another key using xmodmap or other tools.  However, you can use</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">another modifier like Mod1, but it may interact with others.</span>
+modkey = <span style="color: #ffff00;">"Mod4"</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-3-3" class="outline-4">
+<h4 id="sec-4-3-3"><span class="section-number-4">4.3.3</span> Layouts</h4>
+<div class="outline-text-4" id="text-4-3-3">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Table of layouts to cover with awful.layout.inc, order matters.</span>
+layouts =
+{
+    awful.layout.suit.tile,
+    awful.layout.suit.tile.left,
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.top,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen,
+    awful.layout.suit.magnifier,
+    awful.layout.suit.floating
+}
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-3-4" class="outline-4">
+<h4 id="sec-4-3-4"><span class="section-number-4">4.3.4</span> Do we want to use titlebar on all applications?</h4>
+<div class="outline-text-4" id="text-4-3-4">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Define if we want to use titlebar on all applications.</span>
+use_titlebar = <span style="color: #00ffff;">false</span>
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Theme</h3>
+<div class="outline-text-3" id="text-4-4">
+
+
+</div>
+
+<div id="outline-container-4-4-1" class="outline-4">
+<h4 id="sec-4-4-1"><span class="section-number-4">4.4.1</span> Define theme</h4>
+<div class="outline-text-4" id="text-4-4-1">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Variable definitions</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Themes define colours, icons, and wallpapers</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">The default is a dark theme</span>
+theme_path = <span style="color: #ffff00;">"/usr/share/awesome/themes/default/theme.lua"</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Uncommment this for a lighter theme</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">theme_path = "/usr/share/awesome/themes/sky/theme"</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-4-2" class="outline-4">
+<h4 id="sec-4-4-2"><span class="section-number-4">4.4.2</span> Load Theme</h4>
+<div class="outline-text-4" id="text-4-4-2">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Actually load theme</span>
+beautiful.init(theme_path)
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> Shifty Configured tabs</h3>
+<div class="outline-text-3" id="text-4-5">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Shifty configured tags.</span>
+shifty.config.tags = {
+    w1 = {
+        layout    = awful.layout.suit.max,
+        mwfact    = 0.60,
+        exclusive = <span style="color: #00ffff;">false</span>,
+        position  = 1,
+        init      = <span style="color: #00ffff;">true</span>,
+        screen    = 1,
+        slave     = <span style="color: #00ffff;">true</span>,
+    },
+    web = {
+        layout      = awful.layout.suit.tile.bottom,
+        mwfact      = 0.65,
+        exclusive   = <span style="color: #00ffff;">true</span>,
+        max_clients = <span style="color: #00ffff;">true</span>,
+        position    = 4,
+        spawn       = browser,
+    },
+    mail = {
+        layout    = awful.layout.suit.tile,
+        mwfact    = 0.55,
+        exclusive = <span style="color: #00ffff;">false</span>,
+        position  = 5,
+        spawn     = mail,
+        slave     = <span style="color: #00ffff;">true</span>
+    },
+    media = {
+        layout    = awful.layout.suit.float,
+        exclusive = <span style="color: #00ffff;">false</span>,
+        position  = 8,
+    },
+    office = {
+        layout   = awful.layout.suit.tile,
+        position = 9,
+    },
+}
+
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-6" class="outline-3">
+<h3 id="sec-4-6"><span class="section-number-3">4.6</span> Shifty application matching rules</h3>
+<div class="outline-text-3" id="text-4-6">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">SHIFTY: application matching rules</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">order here matters, early rules will be applied first</span>
+shifty.config.apps = {
+    {
+        match = {
+            <span style="color: #ffff00;">"Navigator"</span>,
+            <span style="color: #ffff00;">"Vimperator"</span>,
+            <span style="color: #ffff00;">"Gran Paradiso"</span>,
+        },
+        tag = <span style="color: #ffff00;">"web"</span>,
+    },
+    {
+        match = {
+            <span style="color: #ffff00;">"Shredder.*"</span>,
+            <span style="color: #ffff00;">"Thunderbird"</span>,
+            <span style="color: #ffff00;">"mutt"</span>,
+        },
+        tag = <span style="color: #ffff00;">"mail"</span>,
+    },
+    {
+        match = {
+            <span style="color: #ffff00;">"pcmanfm"</span>,
+        },
+        slave = <span style="color: #00ffff;">true</span>
+    },
+    {
+        match = {
+            <span style="color: #ffff00;">"OpenOffice.*"</span>,
+            <span style="color: #ffff00;">"Abiword"</span>,
+            <span style="color: #ffff00;">"Gnumeric"</span>,
+        },
+        tag = <span style="color: #ffff00;">"office"</span>,
+    },
+    {
+        match = {
+            <span style="color: #ffff00;">"Mplayer.*"</span>,
+            <span style="color: #ffff00;">"Mirage"</span>,
+            <span style="color: #ffff00;">"gimp"</span>,
+            <span style="color: #ffff00;">"gtkpod"</span>,
+            <span style="color: #ffff00;">"Ufraw"</span>,
+            <span style="color: #ffff00;">"easytag"</span>,
+        },
+        tag = <span style="color: #ffff00;">"media"</span>,
+        nopopup = <span style="color: #00ffff;">true</span>,
+    },
+    {
+        match = {
+            <span style="color: #ffff00;">"MPlayer"</span>,
+            <span style="color: #ffff00;">"Gnuplot"</span>,
+            <span style="color: #ffff00;">"galculator"</span>,
+        },
+        float = <span style="color: #00ffff;">true</span>,
+    },
+    {
+        match = {
+            terminal,
+        },
+        honorsizehints = <span style="color: #00ffff;">false</span>,
+        slave = <span style="color: #00ffff;">true</span>,
+    },
+    {
+        match = {<span style="color: #ffff00;">""</span>},
+        buttons = awful.util.table.join(
+            awful.button({}, 1, <span style="color: #00ffff;">function</span> (c) client.focus = c; c:raise() <span style="color: #00ffff;">end</span>),
+            awful.button({modkey}, 1, <span style="color: #00ffff;">function</span>(c)
+                client.focus = c
+                c:raise()
+                awful.mouse.client.move(c)
+                <span style="color: #00ffff;">end</span>),
+            awful.button({modkey}, 3, awful.mouse.client.resize)
+            )
+    },
+}
+
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-7" class="outline-3">
+<h3 id="sec-4-7"><span class="section-number-3">4.7</span> Shifty default tag creation rules</h3>
+<div class="outline-text-3" id="text-4-7">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">SHIFTY: default tag creation rules</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">parameter description</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;"> * floatBars : if floating clients should always have a titlebar</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;"> * guess_name : should shifty try and guess tag names when creating</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">                new (unconfigured) tags?</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;"> * guess_position: as above, but for position parameter</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;"> * run : function to exec when shifty creates a new tag</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;"> * all other parameters (e.g. layout, mwfact) follow awesome's tag API</span>
+shifty.config.defaults = {
+    layout = awful.layout.suit.tile.bottom,
+    ncol = 1,
+    mwfact = 0.60,
+    floatBars = <span style="color: #00ffff;">true</span>,
+    guess_name = <span style="color: #00ffff;">true</span>,
+    guess_position = <span style="color: #00ffff;">true</span>,
+}
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-8" class="outline-3">
+<h3 id="sec-4-8"><span class="section-number-3">4.8</span> Wibox</h3>
+<div class="outline-text-3" id="text-4-8">
+
+
+</div>
+
+<div id="outline-container-4-8-1" class="outline-4">
+<h4 id="sec-4-8-1"><span class="section-number-4">4.8.1</span> Textbox widget</h4>
+<div class="outline-text-4" id="text-4-8-1">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;"> Wibox</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a textbox widget</span>
+mytextclock = awful.widget.textclock({align = <span style="color: #ffff00;">"right"</span>})
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-8-2" class="outline-4">
+<h4 id="sec-4-8-2"><span class="section-number-4">4.8.2</span> Launcher widget</h4>
+<div class="outline-text-4" id="text-4-8-2">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a laucher widget and a main menu</span>
+myawesomemenu = {
+    {<span style="color: #ffff00;">"manual"</span>, terminal .. <span style="color: #ffff00;">" -e man awesome"</span>},
+    {<span style="color: #ffff00;">"edit config"</span>,
+     editor_cmd .. <span style="color: #ffff00;">" "</span> .. awful.util.getdir(<span style="color: #ffff00;">"config"</span>) .. <span style="color: #ffff00;">"/rc.lua"</span>},
+    {<span style="color: #ffff00;">"restart"</span>, awesome.restart},
+    {<span style="color: #ffff00;">"quit"</span>, awesome.quit}
+}
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-8-3" class="outline-4">
+<h4 id="sec-4-8-3"><span class="section-number-4">4.8.3</span> Main menu</h4>
+<div class="outline-text-4" id="text-4-8-3">
+
+
+
+
+<pre class="src src-lua">mymainmenu = awful.menu(
+   {
+      items = {
+         {<span style="color: #ffff00;">"awesome"</span>, myawesomemenu, beautiful.awesome_icon},
+         {<span style="color: #ffff00;">"open terminal"</span>, terminal}}
+   })
+
+mylauncher = awful.widget.launcher({image = image(beautiful.awesome_icon),
+                                    menu = mymainmenu})
+
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-8-4" class="outline-4">
+<h4 id="sec-4-8-4"><span class="section-number-4">4.8.4</span> Create systray</h4>
+<div class="outline-text-4" id="text-4-8-4">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a systray</span>
+mysystray = widget({type = <span style="color: #ffff00;">"systray"</span>, align = <span style="color: #ffff00;">"right"</span>})
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-8-5" class="outline-4">
+<h4 id="sec-4-8-5"><span class="section-number-4">4.8.5</span> Create a wibox</h4>
+<div class="outline-text-4" id="text-4-8-5">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a wibox for each screen and add it</span>
+mywibox = {}
+mypromptbox = {}
+mylayoutbox = {}
+mytaglist = {}
+mytaglist.buttons = awful.util.table.join(
+   awful.button({}, 1, awful.tag.viewonly),
+   awful.button({modkey}, 1, awful.client.movetotag),
+   awful.button({}, 3, <span style="color: #00ffff;">function</span>(tag) tag.selected = <span style="color: #00ffff;">not</span> tag.selected <span style="color: #00ffff;">end</span>),
+   awful.button({modkey}, 3, awful.client.toggletag),
+   awful.button({}, 4, awful.tag.viewnext),
+   awful.button({}, 5, awful.tag.viewprev)
+                                         )
+
+mytasklist = {}
+mytasklist.buttons = awful.util.table.join(
+   awful.button({}, 1, <span style="color: #00ffff;">function</span>(c)
+                   <span style="color: #00ffff;">if</span> <span style="color: #00ffff;">not</span> c:isvisible() <span style="color: #00ffff;">then</span>
+                      awful.tag.viewonly(c:tags()[1])
+                   <span style="color: #00ffff;">end</span>
+                   client.focus = c
+                   c:raise()
+                       <span style="color: #00ffff;">end</span>),
+   awful.button({}, 3, <span style="color: #00ffff;">function</span>()
+                   <span style="color: #00ffff;">if</span> instance <span style="color: #00ffff;">then</span>
+                      instance:hide()
+                      instance = <span style="color: #00ffff;">nil</span>
+                   <span style="color: #00ffff;">else</span>
+                      instance = awful.menu.clients({width=250})
+                   <span style="color: #00ffff;">end</span>
+                       <span style="color: #00ffff;">end</span>),
+   awful.button({}, 4, <span style="color: #00ffff;">function</span>()
+                   awful.client.focus.byidx(1)
+                   <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">then</span> client.focus:raise() <span style="color: #00ffff;">end</span>
+                       <span style="color: #00ffff;">end</span>),
+   awful.button({}, 5, <span style="color: #00ffff;">function</span>()
+                   awful.client.focus.byidx(-1)
+                   <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">then</span> client.focus:raise() <span style="color: #00ffff;">end</span>
+                       <span style="color: #00ffff;">end</span>))
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-8-6" class="outline-4">
+<h4 id="sec-4-8-6"><span class="section-number-4">4.8.6</span> And add it to each screen</h4>
+<div class="outline-text-4" id="text-4-8-6">
+
+
+
+
+<pre class="src src-lua"><span style="color: #00ffff;">for</span> s = 1, screen.count() <span style="color: #00ffff;">do</span>
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a promptbox for each screen</span>
+   mypromptbox[s] =
+      awful.widget.prompt({layout = awful.widget.layout.leftright})
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create an imagebox widget which will contains an icon indicating which</span>
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">layout we're using.  We need one layoutbox per screen.</span>
+   mylayoutbox[s] = awful.widget.layoutbox(s)
+   mylayoutbox[s]:buttons(awful.util.table.join(
+                             awful.button({}, 1, <span style="color: #00ffff;">function</span>() awful.layout.inc(layouts, 1) <span style="color: #00ffff;">end</span>),
+                             awful.button({}, 3, <span style="color: #00ffff;">function</span>() awful.layout.inc(layouts, -1) <span style="color: #00ffff;">end</span>),
+                             awful.button({}, 4, <span style="color: #00ffff;">function</span>() awful.layout.inc(layouts, 1) <span style="color: #00ffff;">end</span>),
+                             awful.button({}, 5, <span style="color: #00ffff;">function</span>() awful.layout.inc(layouts, -1) <span style="color: #00ffff;">end</span>)))
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a taglist widget</span>
+   mytaglist[s] = awful.widget.taglist.new(s,
+                                           awful.widget.taglist.label.all,
+                                           mytaglist.buttons)
+
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create a tasklist widget</span>
+   mytasklist[s] = awful.widget.tasklist.new(<span style="color: #00ffff;">function</span>(c)
+                                                <span style="color: #00ffff;">return</span> awful.widget.tasklist.label.currenttags(c, s)
+                                             <span style="color: #00ffff;">end</span>,
+                                             mytasklist.buttons)
+
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Create the wibox</span>
+   mywibox[s] = awful.wibox({position = <span style="color: #ffff00;">"top"</span>, screen = s})
+   <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Add widgets to the wibox - order matters</span>
+   mywibox[s].widgets = {
+      {
+         mylauncher,
+         mytaglist[s],
+         mypromptbox[s],
+         layout = awful.widget.layout.horizontal.leftright
+      },
+      mylayoutbox[s],
+      mytextclock,
+      s == 1 <span style="color: #00ffff;">and</span> mysystray <span style="color: #00ffff;">or</span> <span style="color: #00ffff;">nil</span>,
+      mytasklist[s],
+      layout = awful.widget.layout.horizontal.rightleft
+   }
+
+   mywibox[s].screen = s
+<span style="color: #00ffff;">end</span>
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4-9" class="outline-3">
+<h3 id="sec-4-9"><span class="section-number-3">4.9</span> Initialize shifty</h3>
+<div class="outline-text-3" id="text-4-9">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">SHIFTY: initialize shifty</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">the assignment of shifty.taglist must always be after its actually</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">initialized with awful.widget.taglist.new()</span>
+shifty.taglist = mytaglist
+shifty.init()
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-10" class="outline-3">
+<h3 id="sec-4-10"><span class="section-number-3">4.10</span> Mouse Bindings</h3>
+<div class="outline-text-3" id="text-4-10">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Mouse bindings</span>
+root.buttons({
+    awful.button({}, 3, <span style="color: #00ffff;">function</span>() mymainmenu:toggle() <span style="color: #00ffff;">end</span>),
+    awful.button({}, 4, awful.tag.viewnext),
+    awful.button({}, 5, awful.tag.viewprev)
+})
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-11" class="outline-3">
+<h3 id="sec-4-11"><span class="section-number-3">4.11</span> Key Bindings</h3>
+<div class="outline-text-3" id="text-4-11">
+
+
+</div>
+
+<div id="outline-container-4-11-1" class="outline-4">
+<h4 id="sec-4-11-1"><span class="section-number-4">4.11.1</span> Global Keys</h4>
+<div class="outline-text-4" id="text-4-11-1">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Key bindings</span>
+globalkeys = awful.util.table.join(
+    <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Tags</span>
+    awful.key({modkey,}, <span style="color: #ffff00;">"Left"</span>, awful.tag.viewprev),
+    awful.key({modkey,}, <span style="color: #ffff00;">"Right"</span>, awful.tag.viewnext),
+    awful.key({modkey,}, <span style="color: #ffff00;">"Escape"</span>, awful.tag.history.restore),
+
+    <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Shifty: keybindings specific to shifty</span>
+    awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="color: #ffff00;">"d"</span>, shifty.del), <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">delete a tag</span>
+    awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="color: #ffff00;">"n"</span>, shifty.send_prev), <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">client to prev tag</span>
+    awful.key({modkey}, <span style="color: #ffff00;">"n"</span>, shifty.send_next), <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">client to next tag</span>
+    awful.key({modkey, <span style="color: #ffff00;">"Control"</span>}, <span style="color: #ffff00;">"n"</span>, <span style="color: #00ffff;">function</span>()
+        shifty.tagtoscr(awful.util.cycle(screen.count(), mouse.screen + 1))
+    <span style="color: #00ffff;">end</span>), <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">move client to next tag</span>
+    awful.key({modkey}, <span style="color: #ffff00;">"a"</span>, shifty.add), <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">creat a new tag</span>
+    awful.key({modkey,}, <span style="color: #ffff00;">"r"</span>, shifty.rename), <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">rename a tag</span>
+    awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="color: #ffff00;">"a"</span>, <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">nopopup new tag</span>
+    <span style="color: #00ffff;">function</span>()
+        shifty.add({nopopup = <span style="color: #00ffff;">true</span>})
+    <span style="color: #00ffff;">end</span>),
+
+    awful.key({modkey,}, <span style="color: #ffff00;">"j"</span>,
+    <span style="color: #00ffff;">function</span>()
+        awful.client.focus.byidx(1)
+        <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">then</span> client.focus:raise() <span style="color: #00ffff;">end</span>
+    <span style="color: #00ffff;">end</span>),
+    awful.key({modkey,}, <span style="color: #ffff00;">"k"</span>,
+    <span style="color: #00ffff;">function</span>()
+        awful.client.focus.byidx(-1)
+        <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">then</span> client.focus:raise() <span style="color: #00ffff;">end</span>
+    <span style="color: #00ffff;">end</span>),
+    awful.key({modkey,}, <span style="color: #ffff00;">"w"</span>, <span style="color: #00ffff;">function</span>() mymainmenu:show(<span style="color: #00ffff;">true</span>) <span style="color: #00ffff;">end</span>),
+
+    <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Layout manipulation</span>
+    awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="color: #ffff00;">"j"</span>,
+        <span style="color: #00ffff;">function</span>() awful.client.swap.byidx(1) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="color: #ffff00;">"k"</span>,
+        <span style="color: #00ffff;">function</span>() awful.client.swap.byidx(-1) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey, <span style="color: #ffff00;">"Control"</span>}, <span style="color: #ffff00;">"j"</span>, <span style="color: #00ffff;">function</span>() awful.screen.focus(1) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey, <span style="color: #ffff00;">"Control"</span>}, <span style="color: #ffff00;">"k"</span>, <span style="color: #00ffff;">function</span>() awful.screen.focus(-1) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey,}, <span style="color: #ffff00;">"u"</span>, awful.client.urgent.jumpto),
+    awful.key({modkey,}, <span style="color: #ffff00;">"Tab"</span>,
+    <span style="color: #00ffff;">function</span>()
+        awful.client.focus.history.previous()
+        <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">then</span>
+            client.focus:raise()
+        <span style="color: #00ffff;">end</span>
+    <span style="color: #00ffff;">end</span>),
+
+    <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Standard program</span>
+    awful.key({modkey,}, <span style="color: #ffff00;">"Return"</span>, <span style="color: #00ffff;">function</span>() awful.util.spawn(terminal) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey, <span style="color: #ffff00;">"Control"</span>}, <span style="color: #ffff00;">"r"</span>, awesome.restart),
+    awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="color: #ffff00;">"q"</span>, awesome.quit),
+
+    awful.key({modkey,}, <span style="color: #ffff00;">"l"</span>, <span style="color: #00ffff;">function</span>() awful.tag.incmwfact(0.05) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey,}, <span style="color: #ffff00;">"h"</span>, <span style="color: #00ffff;">function</span>() awful.tag.incmwfact(-0.05) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="color: #ffff00;">"h"</span>, <span style="color: #00ffff;">function</span>() awful.tag.incnmaster(1) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="color: #ffff00;">"l"</span>, <span style="color: #00ffff;">function</span>() awful.tag.incnmaster(-1) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey, <span style="color: #ffff00;">"Control"</span>}, <span style="color: #ffff00;">"h"</span>, <span style="color: #00ffff;">function</span>() awful.tag.incncol(1) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey, <span style="color: #ffff00;">"Control"</span>}, <span style="color: #ffff00;">"l"</span>, <span style="color: #00ffff;">function</span>() awful.tag.incncol(-1) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey,}, <span style="color: #ffff00;">"space"</span>, <span style="color: #00ffff;">function</span>() awful.layout.inc(layouts, 1) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="color: #ffff00;">"space"</span>,
+        <span style="color: #00ffff;">function</span>() awful.layout.inc(layouts, -1) <span style="color: #00ffff;">end</span>),
+
+    <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Prompt</span>
+    awful.key({modkey}, <span style="color: #ffff00;">"F1"</span>, <span style="color: #00ffff;">function</span>()
+        awful.prompt.run({prompt = <span style="color: #ffff00;">"Run: "</span>},
+        mypromptbox[mouse.screen],
+        awful.util.spawn, awful.completion.shell,
+        awful.util.getdir(<span style="color: #ffff00;">"cache"</span>) .. <span style="color: #ffff00;">"/history"</span>)
+        <span style="color: #00ffff;">end</span>),
+
+    awful.key({modkey}, <span style="color: #ffff00;">"F4"</span>, <span style="color: #00ffff;">function</span>()
+        awful.prompt.run({prompt = <span style="color: #ffff00;">"Run Lua code: "</span>},
+        mypromptbox[mouse.screen],
+        awful.util.eval, <span style="color: #00ffff;">nil</span>,
+        awful.util.getdir(<span style="color: #ffff00;">"cache"</span>) .. <span style="color: #ffff00;">"/history_eval"</span>)
+        <span style="color: #00ffff;">end</span>)
+    )
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-11-2" class="outline-4">
+<h4 id="sec-4-11-2"><span class="section-number-4">4.11.2</span> Client keys</h4>
+<div class="outline-text-4" id="text-4-11-2">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Client awful tagging: this is useful to tag some clients and then do stuff</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">like move to tag on them</span>
+clientkeys =
+{
+    awful.key({modkey,}, <span style="color: #ffff00;">"f"</span>, <span style="color: #00ffff;">function</span>(c) c.fullscreen = <span style="color: #00ffff;">not</span> c.fullscreen  <span style="color: #00ffff;">end</span>),
+    awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="color: #ffff00;">"c"</span>, <span style="color: #00ffff;">function</span>(c) c:kill() <span style="color: #00ffff;">end</span>),
+    awful.key({modkey, <span style="color: #ffff00;">"Control"</span>}, <span style="color: #ffff00;">"space"</span>, awful.client.floating.toggle),
+    awful.key({modkey, <span style="color: #ffff00;">"Control"</span>}, <span style="color: #ffff00;">"Return"</span>,
+        <span style="color: #00ffff;">function</span>(c) c:swap(awful.client.getmaster()) <span style="color: #00ffff;">end</span>),
+    awful.key({modkey,}, <span style="color: #ffff00;">"o"</span>, awful.client.movetoscreen),
+    awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="color: #ffff00;">"r"</span>, <span style="color: #00ffff;">function</span>(c) c:redraw() <span style="color: #00ffff;">end</span>),
+    awful.key({modkey}, <span style="color: #ffff00;">"t"</span>, awful.client.togglemarked),
+    awful.key({modkey,}, <span style="color: #ffff00;">"m"</span>,
+        <span style="color: #00ffff;">function</span>(c)
+            c.maximized_horizontal = <span style="color: #00ffff;">not</span> c.maximized_horizontal
+            c.maximized_vertical   = <span style="color: #00ffff;">not</span> c.maximized_vertical
+        <span style="color: #00ffff;">end</span>),
+}
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-11-3" class="outline-4">
+<h4 id="sec-4-11-3"><span class="section-number-4">4.11.3</span> SHIFTY: assign client keys to shifty for use in</h4>
+<div class="outline-text-4" id="text-4-11-3">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">SHIFTY: assign client keys to shifty for use in</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">match() function(manage hook)</span>
+shifty.config.clientkeys = clientkeys
+shifty.config.modkey = modkey
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-11-4" class="outline-4">
+<h4 id="sec-4-11-4"><span class="section-number-4">4.11.4</span> Compute the maximum number of digit we need, limited to 9</h4>
+<div class="outline-text-4" id="text-4-11-4">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Compute the maximum number of digit we need, limited to 9</span>
+<span style="color: #00ffff;">for</span> i = 1, (shifty.config.maxtags <span style="color: #00ffff;">or</span> 9) <span style="color: #00ffff;">do</span>
+    globalkeys = awful.util.table.join(globalkeys,
+        awful.key({modkey}, i, <span style="color: #00ffff;">function</span>()
+            <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">t</span> =  awful.tag.viewonly(shifty.getpos(i))
+            <span style="color: #00ffff;">end</span>),
+        awful.key({modkey, <span style="color: #ffff00;">"Control"</span>}, i, <span style="color: #00ffff;">function</span>()
+            <span style="color: #00ffff;">local</span> <span style="color: #ffffff; font-weight: bold;">t</span> = shifty.getpos(i)
+            t.selected = <span style="color: #00ffff;">not</span> t.selected
+            <span style="color: #00ffff;">end</span>),
+        awful.key({modkey, <span style="color: #ffff00;">"Control"</span>, <span style="color: #ffff00;">"Shift"</span>}, i, <span style="color: #00ffff;">function</span>()
+            <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">then</span>
+                awful.client.toggletag(shifty.getpos(i))
+            <span style="color: #00ffff;">end</span>
+            <span style="color: #00ffff;">end</span>),
+        <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">move clients to other tags</span>
+        awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, i, <span style="color: #00ffff;">function</span>()
+            <span style="color: #00ffff;">if</span> client.focus <span style="color: #00ffff;">then</span>
+                t = shifty.getpos(i)
+                awful.client.movetotag(t)
+                awful.tag.viewonly(t)
+            <span style="color: #00ffff;">end</span>
+        <span style="color: #00ffff;">end</span>))
+    <span style="color: #00ffff;">end</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-11-5" class="outline-4">
+<h4 id="sec-4-11-5"><span class="section-number-4">4.11.5</span> Set keys</h4>
+<div class="outline-text-4" id="text-4-11-5">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Set keys</span>
+root.keys(globalkeys)
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4-12" class="outline-3">
+<h3 id="sec-4-12"><span class="section-number-3">4.12</span> Hook functions</h3>
+<div class="outline-text-3" id="text-4-12">
+
+
+</div>
+
+<div id="outline-container-4-12-1" class="outline-4">
+<h4 id="sec-4-12-1"><span class="section-number-4">4.12.1</span> When focussing</h4>
+<div class="outline-text-4" id="text-4-12-1">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Hook function to execute when focusing a client.</span>
+client.add_signal(<span style="color: #ffff00;">"focus"</span>, <span style="color: #00ffff;">function</span>(c)
+    <span style="color: #00ffff;">if</span> <span style="color: #00ffff;">not</span> awful.client.ismarked(c) <span style="color: #00ffff;">then</span>
+        c.border_color = beautiful.border_focus
+    <span style="color: #00ffff;">end</span>
+<span style="color: #00ffff;">end</span>)
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-12-2" class="outline-4">
+<h4 id="sec-4-12-2"><span class="section-number-4">4.12.2</span> When unfocussing</h4>
+<div class="outline-text-4" id="text-4-12-2">
+
+
+
+
+<pre class="src src-lua"><span style="color: #ff0000;">-- </span><span style="color: #ff0000;">Hook function to execute when unfocusing a client.</span>
+client.add_signal(<span style="color: #ffff00;">"unfocus"</span>, <span style="color: #00ffff;">function</span>(c)
+    <span style="color: #00ffff;">if</span> <span style="color: #00ffff;">not</span> awful.client.ismarked(c) <span style="color: #00ffff;">then</span>
+        c.border_color = beautiful.border_normal
+    <span style="color: #00ffff;">end</span>
+<span style="color: #00ffff;">end</span>)
+</pre>
+
+</div>
+</div>
 </div>
 </div>
 </div>
