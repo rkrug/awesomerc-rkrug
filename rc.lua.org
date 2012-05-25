@@ -17,6 +17,8 @@
 #+XSLT:
 #+DRAWERS: HIDDEN PROPERTIES STATE CONFIG BABEL OUTPUT LATEXHEADER
 #+STARTUP: hidestars hideblocks
+
+#+OPTIONS: ^:{}
 :END:
 
 :LATEXHEADER:
@@ -513,7 +515,7 @@ This is the default rc.lua file for awesome (which is awesome). It is heavily ba
      music_show = "gmpc --replace",
      music_hide = "gmpc --quit",
      run = "gmrun",
-     locker = "xscreensaver-command -lock",
+     locker = "xlock",
      xkill = "xkill",
      poweroff = "sudo /sbin/poweroff",
      reboot = "sudo /sbin/reboot",
@@ -530,11 +532,10 @@ This is the default rc.lua file for awesome (which is awesome). It is heavily ba
   }
   
 #+end_src
-**** Default modkey
+**** Pipelets dir
 #+begin_src lua
   -- Pipelets
   pipelets.config.script_path = awful.util.getdir("config").."/pipelets/"
-  
 #+end_src
 **** Naughty
 #+begin_src lua
@@ -548,7 +549,6 @@ This is the default rc.lua file for awesome (which is awesome). It is heavily ba
   naughty.config.presets.low.width = logmon_width
   naughty.config.presets.normal.width = logmon_width
   naughty.config.presets.critical.width = logmon_width
-  
 #+end_src
 **** Table of layouts
 #+begin_src lua
@@ -1234,12 +1234,13 @@ For each screen begin
   awful.key({ modkey,           }, "Return", function () awful.util.spawn(env.terminal) end),
   awful.key({ modkey            }, "b", function () awful.util.spawn(env.browser) end),
   awful.key({ modkey            }, "e", function () awful.util.spawn(env.email)  end),
-  awful.key({                   }, "Scroll_Lock", function () awful.util.spawn(env.locker) end),
+  awful.key({ modkey,           }, "l", function () awful.util.spawn(env.locker) end),
   awful.key({ modkey            }, "r", function () mypromptbox[mouse.screen]:run() end),
+  awful.key({ modkey, "Control" }, "r", function () awful.util.spawn(env.run) end),
   -- awful.key({ modkey,           }, "m", function () run_or_raise("gmpc", { class = "Gmpc" }) end),
   awful.key({ modkey            }, "p", function () awful.util.spawn("pidgin") end),
   -- awful.key({ modkey            }, "c", function () run_or_raise("xterm -e calc", { class="XTerm", name = "calc" }) end),
-  awful.key({ modkey,           }, "d", function () awful.util.spawn("ec") end),
+  awful.key({ modkey,           }, "d", function () awful.util.spawn(env.editor) end),
   awful.key({ modkey,           }, "v", function () awful.util.spawn(env.volumecontrol) end),
 #+end_src
 ***** Tag hotkeys
@@ -1271,6 +1272,19 @@ For each screen begin
   awful.key({ altkey,           }, "F2", awful.tag.viewnext ),
   awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
   awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
+  
+  awful.key({ modkey, "Shift"   }, "Left", 
+            function() 
+               local s = mouse.screen == 1 and 2 or 1
+               awful.tag.viewprev(screen[s])
+            end), -- on other screen
+  awful.key({ modkey, "Shift"   }, "Right", 
+            function() 
+               local s = mouse.screen == 1 and 2 or 1
+               awful.tag.viewnext(screen[s])
+            end), -- on other screen
+  
+  
   awful.key({ modkey,           }, "h", function () awful.tag.incmwfact(-0.05) end),
   awful.key({ modkey,           }, "l", function () awful.tag.incmwfact(0.05) end),
   awful.key({ modkey, "Shift"   }, "h", function () awful.tag.incnmaster(1) end),
@@ -1408,131 +1422,131 @@ For each screen begin
 #+end_src
 *** Hooks
 #+begin_src lua
-       -- {{{ Hooks
-     -- Hook function to execute when focusing a client.
-     client.add_signal("focus", function (c)
-                          c.border_color = beautiful.border_focus
-                                end)
+  -- {{{ Hooks
+  -- Hook function to execute when focusing a client.
+  client.add_signal("focus", function (c)
+                       c.border_color = beautiful.border_focus
+                             end)
   
-     -- Hook function to execute when unfocusing a client.
-     client.add_signal("unfocus", function (c)
-                          c.border_color = beautiful.border_normal
-                                  end)
+  -- Hook function to execute when unfocusing a client.
+  client.add_signal("unfocus", function (c)
+                       c.border_color = beautiful.border_normal
+                               end)
   
-     -- Hook function to execute when a new client appears.
-     client.add_signal("manage", function (c, startup)
-  
-                          -- TODO: Handle menu closing on mouse movements
-                          --    c:add_signal("mouse::enter", function(c)
-                          --        function kill_mousemode_menu(m) 
-                          --            if m and (true ~= m.keygrabber) then m:hide() end 
-                          --        end
-                          --        kill_mousemode_menu(mymainmenu)
-                          --        kill_mousemode_menu(mycontextmenu)
-                          --    end)
-  
-                          c:add_signal("mouse::enter", function(c)
-                                          menu_hide()
-                                                       end)
-  
-                          c:add_signal("property::floating", function(c) 
-                                          c.border_width = get_layout_border(c)
-                                                             end)
-  
-                          local name = client_name(c)
-                          if c.type == "dialog" then 
-                             save_snap(c, 'center')
+  -- Hook function to execute when a new client appears.
+  client.add_signal("manage", function (c, startup)
+                       
+                       -- TODO: Handle menu closing on mouse movements
+                       --    c:add_signal("mouse::enter", function(c)
+                       --        function kill_mousemode_menu(m) 
+                       --            if m and (true ~= m.keygrabber) then m:hide() end 
+                       --        end
+                       --        kill_mousemode_menu(mymainmenu)
+                       --        kill_mousemode_menu(mycontextmenu)
+                       --    end)
+                       
+                       c:add_signal("mouse::enter", function(c)
+                                       menu_hide()
+                                                    end)
+                       
+                       c:add_signal("property::floating", function(c) 
+                                       c.border_width = get_layout_border(c)
+                                                          end)
+                       
+                       local name = client_name(c)
+                       if c.type == "dialog" then 
+                          save_snap(c, 'center')
+                       end
+                       
+                       local tag = get_tag(c, nil)
+                       if tag ~= nil then
+                          awful.client.movetotag(tag, c)
+                       end
+                       
+                       local floating = myrc.memory.get("floating", name)
+                       if floating ~= nil then 
+                          awful.client.floating.set(c, floating)
+                       else
+                          floating = awful.client.floating.get(c)
+                       end
+                       
+                       if floating == true then
+                          local dock = get_dockable(c, nil)
+                          if dock ~= nil then
+                             awful.client.dockable.set(c, dock)
                           end
-  
-                          local tag = get_tag(c, nil)
-                          if tag ~= nil then
-                             awful.client.movetotag(tag, c)
+                          local geom = myrc.memory.get("geometry", name)
+                          if geom ~= nil then
+                             c:geometry(geom)
                           end
-  
-                          local floating = myrc.memory.get("floating", name)
-                          if floating ~= nil then 
-                             awful.client.floating.set(c, floating)
-                          else
-                             floating = awful.client.floating.get(c)
+                          local maxhor = get_hor(c, nil)
+                          if maxhor ~= nil then
+                             c.maximized_horizontal = maxhor
                           end
-  
-                          if floating == true then
-                             local dock = get_dockable(c, nil)
-                             if dock ~= nil then
-                                awful.client.dockable.set(c, dock)
-                             end
-                             local geom = myrc.memory.get("geometry", name)
-                             if geom ~= nil then
-                                c:geometry(geom)
-                             end
-                             local maxhor = get_hor(c, nil)
-                             if maxhor ~= nil then
-                                c.maximized_horizontal = maxhor
-                             end
-                             local maxvert = get_vert(c, nil)
-                             if maxvert ~= nil then
-                                c.maximized_vertical = maxvert
-                             end
-                             local snap = get_snap(c, nil)
-                             if snap ~= nil then
-                                client_snap(c, snap, geom)
-                             end
+                          local maxvert = get_vert(c, nil)
+                          if maxvert ~= nil then
+                             c.maximized_vertical = maxvert
                           end
-  
-                          local hidme = get_hidden(c, nil)
-                          if hidme ~= nil then
-                             c.skip_taskbar = hidme
+                          local snap = get_snap(c, nil)
+                          if snap ~= nil then
+                             client_snap(c, snap, geom)
                           end
+                       end
+                       
+                       local hidme = get_hidden(c, nil)
+                       if hidme ~= nil then
+                          c.skip_taskbar = hidme
+                       end
+                       
+                       local titlebar = get_titlebar(c,nil)
+                       if titlebar == true then
+                          awful.titlebar.add(c, { modkey = modkey })
+                       else
+                          awful.titlebar.remove(c)
+                       end
+                       
+                       -- Set key bindings
+                       c:buttons(clientbuttons)
+                       c:keys(clientkeys)
+                       
+                       -- Set default app icon
+                       if not c.icon and theme.default_client_icon then
+                          c.icon = image(theme.default_client_icon)
+                       end
+                       
+                       -- New client may not receive focus
+                       -- if they're not focusable, so set border anyway.
+                       c.border_width = get_layout_border(c)
+                       c.border_color = beautiful.border_normal
+                       c.size_hints_honor = false
+                       
+                       if not c.skip_taskbar then
+                          client.focus = c
+                       end
+                       
+                       -- XVkbd hack
+                       if c.class == "XVkbd" then
+                          local sg = screen[1].geometry
+                          c.maximized_horizontal = sg.height > sg.width
+                       end
+                              end)
   
-                          local titlebar = get_titlebar(c,nil)
-                          if titlebar == true then
-                             awful.titlebar.add(c, { modkey = modkey })
-                          else
-                             awful.titlebar.remove(c)
-                          end
+  -- Signal from tagman lib. 
+  -- Handler will store tag names to registry.
+  -- Those names will be used at next awesome start
+  -- to recreate current tags.
+  awesome.add_signal("tagman::update", function (t, s) 
+                        myrc.memory.set("tagnames", tostring(s), myrc.tagman.names())
+                                       end)
   
-                          -- Set key bindings
-                          c:buttons(clientbuttons)
-                          c:keys(clientkeys)
-  
-                          -- Set default app icon
-                          if not c.icon and theme.default_client_icon then
-                             c.icon = image(theme.default_client_icon)
-                          end
-  
-                          -- New client may not receive focus
-                          -- if they're not focusable, so set border anyway.
-                          c.border_width = get_layout_border(c)
-                          c.border_color = beautiful.border_normal
-                          c.size_hints_honor = false
-  
-                          if not c.skip_taskbar then
-                             client.focus = c
-                          end
-  
-                          -- XVkbd hack
-                          if c.class == "XVkbd" then
-                             local sg = screen[1].geometry
-                             c.maximized_horizontal = sg.height > sg.width
-                          end
-                                 end)
-  
-     -- Signal from tagman lib. 
-     -- Handler will store tag names to registry.
-     -- Those names will be used at next awesome start
-     -- to recreate current tags.
-     awesome.add_signal("tagman::update", function (t, s) 
-                           myrc.memory.set("tagnames", tostring(s), myrc.tagman.names())
-                                          end)
-  
-     -- Will change border width for max layout
-     for s = 1, screen.count() do
-        awful.tag.attached_add_signal(s,"property::layout", function()
-                                         for _,c in pairs(awful.tag.selected():clients()) do
-                                            c.border_width = get_layout_border(c)
-                                         end
-                                                            end)
-     end
+  -- Will change border width for max layout
+  for s = 1, screen.count() do
+     awful.tag.attached_add_signal(s,"property::layout", function()
+                                      for _,c in pairs(awful.tag.selected():clients()) do
+                                         c.border_width = get_layout_border(c)
+                                      end
+                                                         end)
+  end
 #+end_src
 *** Autostart
 #+begin_src lua
@@ -1862,6 +1876,7 @@ For each screen begin
   end
 #+end_src
 ** myrc
+Will be tangled into ./myrc/
 *** mainmenu.lua
 #+header: :tangle ./myrc/mainmenu.lua
 #+begin_src lua
@@ -2492,6 +2507,7 @@ For each screen begin
 #+end_src
 
 ** pipelets
+Will be tangled into ./pipelets/
 *** temp
 #+header: :tangle ./pipelets/temp
 #+begin_src sh
@@ -2664,9 +2680,11 @@ For each screen begin
   ## run_once guake & 
   ###################
   ## start recollindex usin ionice Idle
-   # ionice -c 3 recollindex -m &
+  ionice -c 3 recollindex -m &
   ###################
-  
+  ## start emacs daemon
+  run_once emacs --daemon &
+  ###################
 #+end_src
 
 
@@ -3469,114 +3487,188 @@ mytextclock = awful.widget.textclock({align = "right"})
 #+begin_src lua
   -- Mouse bindings
   root.buttons({
-      awful.button({}, 3, function() mymainmenu:toggle() end),
-      awful.button({}, 4, awful.tag.viewnext),
-      awful.button({}, 5, awful.tag.viewprev)
+                  awful.button({}, 3, 
+                               function() 
+                                  mymainmenu:toggle() 
+                               end),
+                  awful.button({}, 4, awful.tag.viewnext),
+                  awful.button({}, 5, awful.tag.viewprev)
   })
 #+end_src
 ** Key Bindings
 *** Global Keys
+**** Begin
 #+begin_src lua
--- Key bindings
-globalkeys = awful.util.table.join(
+  -- Key bindings
+  globalkeys = awful.util.table.join(
+#+end_src
+**** Tags
+#+begin_src lua
     -- Tags
     awful.key({modkey,}, "Left", awful.tag.viewprev),
     awful.key({modkey,}, "Right", awful.tag.viewnext),
     awful.key({modkey,}, "Escape", awful.tag.history.restore),
-
-    -- Shifty: keybindings specific to shifty
-    awful.key({modkey, "Shift"}, "d", shifty.del), -- delete a tag
-    awful.key({modkey, "Shift"}, "n", shifty.send_prev), -- client to prev tag
-    awful.key({modkey}, "n", shifty.send_next), -- client to next tag
-    awful.key({modkey, "Control"}, "n", function()
-        shifty.tagtoscr(awful.util.cycle(screen.count(), mouse.screen + 1))
-    end), -- move client to next tag
-    awful.key({modkey}, "a", shifty.add), -- creat a new tag
-    awful.key({modkey,}, "r", shifty.rename), -- rename a tag
-    awful.key({modkey, "Shift"}, "a", -- nopopup new tag
-    function()
-        shifty.add({nopopup = true})
-    end),
-
-    awful.key({modkey,}, "j",
-    function()
-        awful.client.focus.byidx(1)
-        if client.focus then client.focus:raise() end
-    end),
-    awful.key({modkey,}, "k",
-    function()
-        awful.client.focus.byidx(-1)
-        if client.focus then client.focus:raise() end
-    end),
-    awful.key({modkey,}, "w", function() mymainmenu:show(true) end),
-
-    -- Layout manipulation
-    awful.key({modkey, "Shift"}, "j",
-        function() awful.client.swap.byidx(1) end),
-    awful.key({modkey, "Shift"}, "k",
-        function() awful.client.swap.byidx(-1) end),
-    awful.key({modkey, "Control"}, "j", function() awful.screen.focus(1) end),
-    awful.key({modkey, "Control"}, "k", function() awful.screen.focus(-1) end),
-    awful.key({modkey,}, "u", awful.client.urgent.jumpto),
-    awful.key({modkey,}, "Tab",
-    function()
-        awful.client.focus.history.previous()
-        if client.focus then
-            client.focus:raise()
-        end
-    end),
-
-    -- Standard program
-    awful.key({modkey,}, "Return", function() awful.util.spawn(terminal) end),
-    awful.key({modkey, "Control"}, "r", awesome.restart),
-    awful.key({modkey, "Shift"}, "q", awesome.quit),
-
-    awful.key({modkey,}, "l", function() awful.tag.incmwfact(0.05) end),
-    awful.key({modkey,}, "h", function() awful.tag.incmwfact(-0.05) end),
-    awful.key({modkey, "Shift"}, "h", function() awful.tag.incnmaster(1) end),
-    awful.key({modkey, "Shift"}, "l", function() awful.tag.incnmaster(-1) end),
-    awful.key({modkey, "Control"}, "h", function() awful.tag.incncol(1) end),
-    awful.key({modkey, "Control"}, "l", function() awful.tag.incncol(-1) end),
-    awful.key({modkey,}, "space", function() awful.layout.inc(layouts, 1) end),
-    awful.key({modkey, "Shift"}, "space",
-        function() awful.layout.inc(layouts, -1) end),
-
-    -- Prompt
-    awful.key({modkey}, "F1", function()
-        awful.prompt.run({prompt = "Run: "},
-        mypromptbox[mouse.screen],
-        awful.util.spawn, awful.completion.shell,
-        awful.util.getdir("cache") .. "/history")
-        end),
-
-    awful.key({modkey}, "F4", function()
-        awful.prompt.run({prompt = "Run Lua code: "},
-        mypromptbox[mouse.screen],
-        awful.util.eval, nil,
-        awful.util.getdir("cache") .. "/history_eval")
-        end)
+#+end_src
+**** Shifty: keybindings specific to shifty
+#+begin_src lua
+  -- Shifty: keybindings specific to shifty
+  awful.key({modkey, "Shift"   }, "d", shifty.del), -- delete a tag
+  awful.key({modkey, "Shift"   }, "n", shifty.send_prev), -- client to prev tag
+  awful.key({modkey            }, "n", shifty.send_next), -- client to next tag
+  awful.key({modkey, "Control" }, "n", 
+            function() 
+               shifty.tagtoscr(awful.util.cycle(screen.count(), mouse.screen + 1)) 
+            end), -- move client to next tag
+  awful.key({modkey            }, "a", shifty.add), -- creat a new tag
+  awful.key({modkey,           }, "r", shifty.rename), -- rename a tag
+  awful.key({modkey, "Shift"   }, "a", -- nopopup new tag function() shifty.add({nopopup = true}) end),
+  
+  awful.key({modkey,           }, "j",
+            function()
+               awful.client.focus.byidx(1)
+               if client.focus then client.focus:raise() end
+            end),
+  awful.key({modkey,           }, "k",
+            function()
+               awful.client.focus.byidx(-1)
+               if client.focus then client.focus:raise() end
+            end),
+  awful.key({modkey,           }, "w", 
+            function() 
+               mymainmenu:show(true) 
+            end),
+#+end_src
+**** Layout manipulation
+#+begin_src lua
+  -- Layout manipulation
+  awful.key({modkey, "Shift"   }, "j",
+            function() 
+               awful.client.swap.byidx(1) 
+            end),
+  awful.key({modkey, "Shift"   }, "k",
+            function() 
+               awful.client.swap.byidx(-1) 
+            end),
+  awful.key({modkey, "Control" }, "j", 
+            function() 
+               awful.screen.focus(1) 
+            end),
+  awful.key({modkey, "Control" }, "k", 
+            function() 
+               awful.screen.focus(-1) 
+            end),
+  awful.key({modkey,           }, "u", awful.client.urgent.jumpto),
+  awful.key({modkey,}, "Tab",
+            function()
+               awful.client.focus.history.previous()
+               if client.focus then
+                  client.focus:raise()
+               end
+            end),
+#+end_src
+**** Application hotkeys
+#+begin_src lua
+  -- Standard program
+  awful.key({modkey,           }, "Return", 
+            function() 
+               awful.util.spawn(terminal) 
+            end),
+  awful.key({modkey, "Control" }, "r", awesome.restart),
+  awful.key({modkey, "Shift"   }, "q", awesome.quit),
+  awful.key({modkey,           }, "l", 
+            function() 
+               awful.tag.incmwfact(0.05) 
+            end),
+  awful.key({modkey,           }, "h", 
+            function() 
+               awful.tag.incmwfact(-0.05)
+            end),
+  awful.key({modkey, "Shift"   }, "h", 
+            function() 
+               awful.tag.incnmaster(1) 
+            end),
+  awful.key({modkey, "Shift"   }, "l", 
+            function() 
+               awful.tag.incnmaster(-1) 
+            end),
+  awful.key({modkey, "Control" }, "h", 
+            function() 
+               awful.tag.incncol(1) 
+            end),
+  awful.key({modkey, "Control" }, "l", 
+            function() 
+               awful.tag.incncol(-1) 
+            end),
+  awful.key({modkey,           }, "space", 
+            function() 
+               awful.layout.inc(layouts, 1) 
+            end),
+  awful.key({modkey, "Shift"   }, "space",
+      function() 
+         awful.layout.inc(layouts, -1) 
+      end),
+#+end_src
+**** Prompt
+#+begin_src lua
+  -- Prompt
+  awful.key({modkey            }, "F1", 
+            function()
+               awful.prompt.run({prompt = "Run: "},
+                                mypromptbox[mouse.screen],
+                                awful.util.spawn, awful.completion.shell,
+                                awful.util.getdir("cache") .. "/history")
+            end),
+  
+  awful.key({modkey            }, "F4",
+            function()
+               awful.prompt.run({prompt = "Run Lua code: "},
+                                mypromptbox[mouse.screen],
+                                awful.util.eval, nil,
+                                awful.util.getdir("cache") .. "/history_eval")
+            end)
+#+end_src
+**** End
+#+begin_src lua
     )
 #+end_src
-*** Client keys 
+*** Client keys
+**** Begin 
+#+begin_src lua 
+  clientkeys =
+     {
+#+end_src
+**** Awful tagging
 #+begin_src lua
--- Client awful tagging: this is useful to tag some clients and then do stuff
--- like move to tag on them
-clientkeys =
-{
-    awful.key({modkey,}, "f", function(c) c.fullscreen = not c.fullscreen  end),
-    awful.key({modkey, "Shift"}, "c", function(c) c:kill() end),
-    awful.key({modkey, "Control"}, "space", awful.client.floating.toggle),
-    awful.key({modkey, "Control"}, "Return",
-        function(c) c:swap(awful.client.getmaster()) end),
-    awful.key({modkey,}, "o", awful.client.movetoscreen),
-    awful.key({modkey, "Shift"}, "r", function(c) c:redraw() end),
-    awful.key({modkey}, "t", awful.client.togglemarked),
-    awful.key({modkey,}, "m",
-        function(c)
-            c.maximized_horizontal = not c.maximized_horizontal
-            c.maximized_vertical   = not c.maximized_vertical
-        end),
-}
+  -- Client awful tagging: this is useful to tag some clients and then do stuff
+  -- like move to tag on them
+  awful.key({modkey,           }, "f", 
+            function(c) 
+               c.fullscreen = not c.fullscreen  
+            end),
+  awful.key({modkey, "Shift"   }, "c", 
+            function(c) 
+               c:kill() 
+            end),
+  awful.key({modkey, "Control" }, "space", awful.client.floating.toggle),
+  awful.key({modkey, "Control" }, "Return",
+            function(c) 
+               c:swap(awful.client.getmaster()) 
+            end),
+  awful.key({modkey,           }, "o", awful.client.movetoscreen),
+  awful.key({modkey, "Shift"   }, "r", 
+            function(c)
+               c:redraw()
+            end),
+  awful.key({modkey            }, "t", awful.client.togglemarked),
+  awful.key({modkey,           }, "m",
+            function(c)
+               c.maximized_horizontal = not c.maximized_horizontal
+               c.maximized_vertical   = not c.maximized_vertical
+            end),
+#+end_src
+**** End
+#+begin_src lua 
+  }  
 #+end_src
 *** SHIFTY: assign client keys to shifty for use in
 #+begin_src lua
@@ -3636,3 +3728,17 @@ clientkeys =
       end
   end)
 #+end_src
+
+** Autostart
+#+begin_src lua
+  awful.util.spawn_with_shell("~/.config/awesome/autostart.sh")
+#+end_src
+
+
+* TODOs
+** TODO Use additional files
+Putt sections like keybindings which I would like to keep the same throughout different configs into separate file which can be linked in.
+- revision :: %![Error: (wrong-type-argument symbolp master)]
+- state    :: edited
+- link     :: [[file:~/.config/awesome.awesomerc-rkrug/rc.lua.org::*Key%20bindings][Key bindings]] 
+- author   :: Rainer M Krug, email: Rainer@krugs.de
