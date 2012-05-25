@@ -12,13 +12,13 @@
 setxkbmap -option compose:caps &
 ###################
 ## disable touchpad when typing
- # syndaemon -d -i 2 &
+syndaemon -d -i 2 &
 ###################
 ## autostart using Freedesktop specifications 
  # fbautostart &
 ###################
 ## start gnome keyring
- # /usr/bin/gnome-keyring-daemon --start --components=ssh
+/usr/bin/gnome-keyring-daemon --start --components=ssh
 ###################
 ## start conky
  # conky -c /home/rkrug/.conky/conkyrc &
@@ -81,5 +81,8 @@ run_once radiotray &
 ## run_once guake & 
 ###################
 ## start recollindex usin ionice Idle
- # ionice -c 3 recollindex -m &
+ionice -c 3 recollindex -m &
+###################
+## start emacs daemon
+run_once emacs --daemon &
 ###################

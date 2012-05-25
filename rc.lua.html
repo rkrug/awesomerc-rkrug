@@ -100,123 +100,122 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 Old README</a></li>
-<li><a href="#sec-2">2 rc.lua and it's needed modules</a>
+<li><a href="#sec-1">1 rc.lua and it's needed modules</a>
 <ul>
-<li><a href="#sec-2-1">2.1 rc.lua</a>
+<li><a href="#sec-1-1">1.1 rc.lua</a>
 <ul>
-<li><a href="#sec-2-1-1">2.1.1 Include libraries</a></li>
-<li><a href="#sec-2-1-2">2.1.2 Debug</a></li>
-<li><a href="#sec-2-1-3">2.1.3 Run or raise function</a></li>
-<li><a href="#sec-2-1-4">2.1.4 Execute adjustMonitor</a></li>
-<li><a href="#sec-2-1-5">2.1.5 Data serialisation helpers</a></li>
-<li><a href="#sec-2-1-6">2.1.6 Menu helpers</a></li>
-<li><a href="#sec-2-1-7">2.1.7 Variable definitions</a></li>
-<li><a href="#sec-2-1-8">2.1.8 Shifty</a></li>
-<li><a href="#sec-2-1-9">2.1.9 Wibox</a></li>
-<li><a href="#sec-2-1-10">2.1.10 Mouse bindings</a></li>
-<li><a href="#sec-2-1-11">2.1.11 Key bindings</a></li>
-<li><a href="#sec-2-1-12">2.1.12 Shifty: Compute the maximum number of digit we need, limited to 9</a></li>
-<li><a href="#sec-2-1-13">2.1.13 Hooks</a></li>
-<li><a href="#sec-2-1-14">2.1.14 Autostart</a></li>
+<li><a href="#sec-1-1-1">1.1.1 Include libraries</a></li>
+<li><a href="#sec-1-1-2">1.1.2 Debug</a></li>
+<li><a href="#sec-1-1-3">1.1.3 Run or raise function</a></li>
+<li><a href="#sec-1-1-4">1.1.4 Execute adjustMonitor</a></li>
+<li><a href="#sec-1-1-5">1.1.5 Data serialisation helpers</a></li>
+<li><a href="#sec-1-1-6">1.1.6 Menu helpers</a></li>
+<li><a href="#sec-1-1-7">1.1.7 Variable definitions</a></li>
+<li><a href="#sec-1-1-8">1.1.8 Shifty</a></li>
+<li><a href="#sec-1-1-9">1.1.9 Wibox</a></li>
+<li><a href="#sec-1-1-10">1.1.10 Mouse bindings</a></li>
+<li><a href="#sec-1-1-11">1.1.11 Key bindings</a></li>
+<li><a href="#sec-1-1-12">1.1.12 Shifty: Compute the maximum number of digit we need, limited to 9</a></li>
+<li><a href="#sec-1-1-13">1.1.13 Hooks</a></li>
+<li><a href="#sec-1-1-14">1.1.14 Autostart</a></li>
 </ul>
 </li>
-<li><a href="#sec-2-2">2.2 freedesktop</a>
+<li><a href="#sec-1-2">1.2 freedesktop</a>
 <ul>
-<li><a href="#sec-2-2-1">2.2.1 desktop.lua</a></li>
-<li><a href="#sec-2-2-2">2.2.2 menu.lua</a></li>
-<li><a href="#sec-2-2-3">2.2.3 utils.lua</a></li>
+<li><a href="#sec-1-2-1">1.2.1 desktop.lua</a></li>
+<li><a href="#sec-1-2-2">1.2.2 menu.lua</a></li>
+<li><a href="#sec-1-2-3">1.2.3 utils.lua</a></li>
 </ul>
 </li>
-<li><a href="#sec-2-3">2.3 myrc</a>
+<li><a href="#sec-1-3">1.3 myrc</a>
 <ul>
-<li><a href="#sec-2-3-1">2.3.1 mainmenu.lua</a></li>
-<li><a href="#sec-2-3-2">2.3.2 tagman.lua</a></li>
-<li><a href="#sec-2-3-3">2.3.3 keybind.lua</a></li>
-<li><a href="#sec-2-3-4">2.3.4 logmon.lua</a></li>
-<li><a href="#sec-2-3-5">2.3.5 memory.lua</a></li>
-<li><a href="#sec-2-3-6">2.3.6 themes.lua</a></li>
+<li><a href="#sec-1-3-1">1.3.1 mainmenu.lua</a></li>
+<li><a href="#sec-1-3-2">1.3.2 tagman.lua</a></li>
+<li><a href="#sec-1-3-3">1.3.3 keybind.lua</a></li>
+<li><a href="#sec-1-3-4">1.3.4 logmon.lua</a></li>
+<li><a href="#sec-1-3-5">1.3.5 memory.lua</a></li>
+<li><a href="#sec-1-3-6">1.3.6 themes.lua</a></li>
 </ul>
 </li>
-<li><a href="#sec-2-4">2.4 pipelets</a>
+<li><a href="#sec-1-4">1.4 pipelets</a>
 <ul>
-<li><a href="#sec-2-4-1">2.4.1 temp</a></li>
-<li><a href="#sec-2-4-2">2.4.2 batmon</a></li>
-<li><a href="#sec-2-4-3">2.4.3 date</a></li>
-<li><a href="#sec-2-4-4">2.4.4 mmount</a></li>
+<li><a href="#sec-1-4-1">1.4.1 temp</a></li>
+<li><a href="#sec-1-4-2">1.4.2 batmon</a></li>
+<li><a href="#sec-1-4-3">1.4.3 date</a></li>
+<li><a href="#sec-1-4-4">1.4.4 mmount</a></li>
 </ul>
 </li>
-<li><a href="#sec-2-5">2.5 Autostart</a></li>
+<li><a href="#sec-1-5">1.5 Autostart</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">3 rc.default.lua</a>
+<li><a href="#sec-2">2 rc.default.lua</a>
 <ul>
-<li><a href="#sec-3-1">3.1 loading libraries</a></li>
-<li><a href="#sec-3-2">3.2 Variable definitions</a>
+<li><a href="#sec-2-1">2.1 loading libraries</a></li>
+<li><a href="#sec-2-2">2.2 Variable definitions</a>
 <ul>
-<li><a href="#sec-3-2-1">3.2.1 Beautiful</a></li>
-<li><a href="#sec-3-2-2">3.2.2 Default programs</a></li>
-<li><a href="#sec-3-2-3">3.2.3 Default modkey</a></li>
-<li><a href="#sec-3-2-4">3.2.4 Layouts</a></li>
+<li><a href="#sec-2-2-1">2.2.1 Beautiful</a></li>
+<li><a href="#sec-2-2-2">2.2.2 Default programs</a></li>
+<li><a href="#sec-2-2-3">2.2.3 Default modkey</a></li>
+<li><a href="#sec-2-2-4">2.2.4 Layouts</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-3">3.3 Use titlebar on all applications?</a></li>
-<li><a href="#sec-3-4">3.4 tags</a></li>
-<li><a href="#sec-3-5">3.5 Menu</a></li>
-<li><a href="#sec-3-6">3.6 Wibox</a></li>
-<li><a href="#sec-3-7">3.7 Mouse Bindings</a></li>
-<li><a href="#sec-3-8">3.8 Key Bindings</a></li>
-<li><a href="#sec-3-9">3.9 Rules</a></li>
-<li><a href="#sec-3-10">3.10 Signals</a></li>
-<li><a href="#sec-3-11">3.11 Autostart</a></li>
+<li><a href="#sec-2-3">2.3 Use titlebar on all applications?</a></li>
+<li><a href="#sec-2-4">2.4 tags</a></li>
+<li><a href="#sec-2-5">2.5 Menu</a></li>
+<li><a href="#sec-2-6">2.6 Wibox</a></li>
+<li><a href="#sec-2-7">2.7 Mouse Bindings</a></li>
+<li><a href="#sec-2-8">2.8 Key Bindings</a></li>
+<li><a href="#sec-2-9">2.9 Rules</a></li>
+<li><a href="#sec-2-10">2.10 Signals</a></li>
+<li><a href="#sec-2-11">2.11 Autostart</a></li>
 </ul>
 </li>
-<li><a href="#sec-4">4 rc.shifty.lua</a>
+<li><a href="#sec-3">3 rc.shifty.lua</a>
 <ul>
-<li><a href="#sec-4-1">4.1 Include libraries</a></li>
-<li><a href="#sec-4-2">4.2 For debugging</a></li>
-<li><a href="#sec-4-3">4.3 Variable definitions</a>
+<li><a href="#sec-3-1">3.1 Include libraries</a></li>
+<li><a href="#sec-3-2">3.2 For debugging</a></li>
+<li><a href="#sec-3-3">3.3 Variable definitions</a>
 <ul>
-<li><a href="#sec-4-3-1">4.3.1 Default programs</a></li>
-<li><a href="#sec-4-3-2">4.3.2 Default modkey</a></li>
-<li><a href="#sec-4-3-3">4.3.3 Layouts</a></li>
-<li><a href="#sec-4-3-4">4.3.4 Do we want to use titlebar on all applications?</a></li>
+<li><a href="#sec-3-3-1">3.3.1 Default programs</a></li>
+<li><a href="#sec-3-3-2">3.3.2 Default modkey</a></li>
+<li><a href="#sec-3-3-3">3.3.3 Layouts</a></li>
+<li><a href="#sec-3-3-4">3.3.4 Do we want to use titlebar on all applications?</a></li>
 </ul>
 </li>
-<li><a href="#sec-4-4">4.4 Theme</a>
+<li><a href="#sec-3-4">3.4 Theme</a>
 <ul>
-<li><a href="#sec-4-4-1">4.4.1 Define theme</a></li>
-<li><a href="#sec-4-4-2">4.4.2 Load Theme</a></li>
+<li><a href="#sec-3-4-1">3.4.1 Define theme</a></li>
+<li><a href="#sec-3-4-2">3.4.2 Load Theme</a></li>
 </ul>
 </li>
-<li><a href="#sec-4-5">4.5 Shifty Configured tabs</a></li>
-<li><a href="#sec-4-6">4.6 Shifty application matching rules</a></li>
-<li><a href="#sec-4-7">4.7 Shifty default tag creation rules</a></li>
-<li><a href="#sec-4-8">4.8 Wibox</a>
+<li><a href="#sec-3-5">3.5 Shifty Configured tabs</a></li>
+<li><a href="#sec-3-6">3.6 Shifty application matching rules</a></li>
+<li><a href="#sec-3-7">3.7 Shifty default tag creation rules</a></li>
+<li><a href="#sec-3-8">3.8 Wibox</a>
 <ul>
-<li><a href="#sec-4-8-1">4.8.1 Textbox widget</a></li>
-<li><a href="#sec-4-8-2">4.8.2 Launcher widget</a></li>
-<li><a href="#sec-4-8-3">4.8.3 Main menu</a></li>
-<li><a href="#sec-4-8-4">4.8.4 Create systray</a></li>
-<li><a href="#sec-4-8-5">4.8.5 Create a wibox</a></li>
-<li><a href="#sec-4-8-6">4.8.6 And add it to each screen</a></li>
+<li><a href="#sec-3-8-1">3.8.1 Textbox widget</a></li>
+<li><a href="#sec-3-8-2">3.8.2 Launcher widget</a></li>
+<li><a href="#sec-3-8-3">3.8.3 Main menu</a></li>
+<li><a href="#sec-3-8-4">3.8.4 Create systray</a></li>
+<li><a href="#sec-3-8-5">3.8.5 Create a wibox</a></li>
+<li><a href="#sec-3-8-6">3.8.6 And add it to each screen</a></li>
 </ul>
 </li>
-<li><a href="#sec-4-9">4.9 Initialize shifty</a></li>
-<li><a href="#sec-4-10">4.10 Mouse Bindings</a></li>
-<li><a href="#sec-4-11">4.11 Key Bindings</a>
+<li><a href="#sec-3-9">3.9 Initialize shifty</a></li>
+<li><a href="#sec-3-10">3.10 Mouse Bindings</a></li>
+<li><a href="#sec-3-11">3.11 Key Bindings</a>
 <ul>
-<li><a href="#sec-4-11-1">4.11.1 Global Keys</a></li>
-<li><a href="#sec-4-11-2">4.11.2 Client keys</a></li>
-<li><a href="#sec-4-11-3">4.11.3 SHIFTY: assign client keys to shifty for use in</a></li>
-<li><a href="#sec-4-11-4">4.11.4 Compute the maximum number of digit we need, limited to 9</a></li>
-<li><a href="#sec-4-11-5">4.11.5 Set keys</a></li>
+<li><a href="#sec-3-11-1">3.11.1 Global Keys</a></li>
+<li><a href="#sec-3-11-2">3.11.2 Client keys</a></li>
+<li><a href="#sec-3-11-3">3.11.3 SHIFTY: assign client keys to shifty for use in</a></li>
+<li><a href="#sec-3-11-4">3.11.4 Compute the maximum number of digit we need, limited to 9</a></li>
+<li><a href="#sec-3-11-5">3.11.5 Set keys</a></li>
 </ul>
 </li>
-<li><a href="#sec-4-12">4.12 Hook functions</a>
+<li><a href="#sec-3-12">3.12 Hook functions</a>
 <ul>
-<li><a href="#sec-4-12-1">4.12.1 When focussing</a></li>
-<li><a href="#sec-4-12-2">4.12.2 When unfocussing</a></li>
+<li><a href="#sec-3-12-1">3.12.1 When focussing</a></li>
+<li><a href="#sec-3-12-2">3.12.2 When unfocussing</a></li>
 </ul>
 </li>
 </ul>
@@ -226,209 +225,23 @@
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Old README</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> rc.lua and it's needed modules</h2>
 <div class="outline-text-2" id="text-1">
 
-<p>  I am sorry, but I <b>DON'T SUPPORT</b> any more. It may not work with newer versions of awesome.
-</p>
-<p>  
-  ** INSTALL
-  Config set uses lots of third-party programs. Here is some of them:
-</p>
-<ul>
-<li>rfkill
-</li>
-<li>inotail
-</li>
-<li>sensors
-</li>
-<li>iwevent
-</li>
-<li>inotifywait
-</li>
-<li>pkill
-</li>
-<li>acpitool
-</li>
-<li>notify-send
-</li>
-<li>xkb-switch (see <a href="http://github.com/ierton/xkb-switch">http://github.com/ierton/xkb-switch</a>)
-</li>
-<li>Search for "Environment programs" in rc.lua for more
-   xvkbd for laptop branch
-</li>
-</ul>
-
-
-<p>  
-  and some well-known files
-</p>
-<ul>
-<li>/var/log/messages (logger should be configureg to not flood it)
-</li>
-<li>/proc/mounts
-</li>
-<li>/etc/mtab
-</li>
-</ul>
-
-
-<p>  
-  Also rfkill pipelet uses hardcoded WIFI<sub>RFKILL</sub><sub>ID</sub> value. Change it to one your
-  wifi card uses (see rfkill list). Well, all pipelets are hackish a bit .
-</p>
-<ol>
-<li>#git clone git@github.com:ierton/awesomerc-ierton.git#
-</li>
-<li>#mv ~/.config/awesome ~/.config/awesome.old#
-</li>
-<li>#ln -s `pwd`/awesomerc-ierton ~/.config/awesome#
-</li>
-</ol>
-
-
-
-<p>  
-  ** DIRECTORY STRUCTURE
-  The directory structure of config:
-  .
-</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption></caption>
-<colgroup><col class="left" />
-</colgroup>
-<thead>
-</thead>
-<tbody>
-<tr><td class="left"><a href="http://github.com/terceiro/awesome-freedesktop/tree">http://github.com/terceiro/awesome-freedesktop/tree</a></td></tr>
-</tbody>
-<tbody>
-</tbody>
-<tbody>
-<tr><td class="left"></td><td class="left">&ndash; keybind.lua                 Library for defining key sequence</td></tr>
-<tr><td class="left"></td><td class="left">&ndash; mainmenu.lua                Main menu generator</td></tr>
-<tr><td class="left"></td><td class="left">&ndash; memory.lua                  Registry routines (client states are saved here)</td></tr>
-<tr><td class="left"></td><td class="left">&ndash; tagman.lua                  Tag routines (renaming, adding, deleting, &hellip;)</td></tr>
-<tr><td class="left">`&ndash; themes.lua</td></tr>
-</tbody>
-<tbody>
-</tbody>
-<tbody>
-</tbody>
-<tbody>
-</tbody>
-<tbody>
-<tr><td class="left"></td><td class="left">&ndash; blue-black-red              My current theme files are here</td></tr>
-<tr><td class="left"></td><td class="left"></td><td class="left">&ndash; theme.lua               My current theme config</td></tr>
-<tr><td class="left"></td><td class="left">`&ndash; titlebar</td></tr>
-<tr><td class="left">`&ndash; &hellip; more</td></tr>
-<tr><td class="left">Another default theme</td></tr>
-</tbody>
-<tbody>
-<tr><td class="left"></td><td class="left">&ndash; date                        Russian-language date pipelet</td></tr>
-<tr><td class="left"></td><td class="left">&ndash; mmount                      Mount info pipelet</td></tr>
-<tr><td class="left"></td><td class="left">&ndash; batmon                      Battery info pipelet</td></tr>
-<tr><td class="left">`&ndash; more</td></tr>
-</tbody>
-<tbody>
-<tr><td class="left">Main thing for registry to work</td></tr>
-</tbody>
-</table>
-
-
-<p>  
-  ** PIPELETS
-  This config uses pipelets to post some information into widgets.
-  pipelet is a program (shell script), which is "conected" 
-  with widget via pipe. 
-</p>
-<p>  
-  All plumbery is hidden in the ./pipeman script. It translates stdout
-  of its children into awesome calls.
-</p>
-<p>  
-  See rc.lua for details and examples.
-</p>
-<p>  
-  ** DEFAULT KEYBINDINGS
-</p>
-
-<p>  
-  Here are some default bindings:
-</p>
-<p>  
-  *** Client keys
-</p>
-<p>  
-  altkey+1 - prev client
-  altkey+j - prev client
-  altkey+2 - next client
-  altkey+k - next client
-  altkey+tab - toggle last 2 active clients
-  altkey+3 - begin client manipulation menu (tooltip will appear)
-</p>
-<p>  
-  *** Tag keys
-</p>
-<p>  
-  altkey+F1 - jump to one tag left
-  altkey+F2 - jump to one tag right
-  modkey+F1 - move focused client one tag left
-  modkey+F2 - move focused client one tag right
-  modkey+tab - switch to previous tag
-  altkey+F3 - begin tag manipulation menu (tooltip will appear)
-</p>
-<p>  
-  *** Other
-</p>
-<p>  
-  altkey+Esc - show main menu
-  altkey+e - begin mpd manipulation menu (tooltip will appear)
-</p>
-<p>  
-  There are vim style keybindings defined for menus 
-  (hjkl - move, o - open, x - back, Enter - open)
-</p>
-
-<p>  
-  ** TODO 
-</p>
-<ul>
-<li>Add client reordering
-</li>
-<li>Implement M$Windows alt+tab functionality (don't know how capture altkey release event)
-</li>
-<li>Add some online translator support
-</li>
-</ul>
-
-
-<p>  
-  --
-  Thanks for your interest! 
-</p>
 
 </div>
 
-</div>
-
-<div id="outline-container-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> rc.lua and it's needed modules</h2>
-<div class="outline-text-2" id="text-2">
-
-
-</div>
-
-<div id="outline-container-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> rc.lua</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> rc.lua</h3>
+<div class="outline-text-3" id="text-1-1">
 
 <p>This is the default rc.lua file for awesome (which is awesome). It is heavily based on <a href="https://github.com/ierton/awesomerc-ierton">https://github.com/ierton/awesomerc-ierton</a>
 </p>
 </div>
 
-<div id="outline-container-2-1-1" class="outline-4">
-<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Include libraries</h4>
-<div class="outline-text-4" id="text-2-1-1">
+<div id="outline-container-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Include libraries</h4>
+<div class="outline-text-4" id="text-1-1-1">
 
 
 
@@ -466,9 +279,9 @@ require(<span style="color: #ffff00;">"myrc.logmon"</span>)
 
 </div>
 
-<div id="outline-container-2-1-2" class="outline-4">
-<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> Debug</h4>
-<div class="outline-text-4" id="text-2-1-2">
+<div id="outline-container-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> Debug</h4>
+<div class="outline-text-4" id="text-1-1-2">
 
 
 
@@ -507,9 +320,9 @@ require(<span style="color: #ffff00;">"myrc.logmon"</span>)
 
 </div>
 
-<div id="outline-container-2-1-3" class="outline-4">
-<h4 id="sec-2-1-3"><span class="section-number-4">2.1.3</span> Run or raise function</h4>
-<div class="outline-text-4" id="text-2-1-3">
+<div id="outline-container-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> Run or raise function</h4>
+<div class="outline-text-4" id="text-1-1-3">
 
 
 
@@ -579,9 +392,9 @@ require(<span style="color: #ffff00;">"myrc.logmon"</span>)
 
 </div>
 
-<div id="outline-container-2-1-4" class="outline-4">
-<h4 id="sec-2-1-4"><span class="section-number-4">2.1.4</span> Execute adjustMonitor</h4>
-<div class="outline-text-4" id="text-2-1-4">
+<div id="outline-container-1-1-4" class="outline-4">
+<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> Execute adjustMonitor</h4>
+<div class="outline-text-4" id="text-1-1-4">
 
 
 
@@ -594,9 +407,9 @@ require(<span style="color: #ffff00;">"myrc.logmon"</span>)
 
 </div>
 
-<div id="outline-container-2-1-5" class="outline-4">
-<h4 id="sec-2-1-5"><span class="section-number-4">2.1.5</span> Data serialisation helpers</h4>
-<div class="outline-text-4" id="text-2-1-5">
+<div id="outline-container-1-1-5" class="outline-4">
+<h4 id="sec-1-1-5"><span class="section-number-4">1.1.5</span> Data serialisation helpers</h4>
+<div class="outline-text-4" id="text-1-1-5">
 
 
 
@@ -757,9 +570,9 @@ require(<span style="color: #ffff00;">"myrc.logmon"</span>)
 
 </div>
 
-<div id="outline-container-2-1-6" class="outline-4">
-<h4 id="sec-2-1-6"><span class="section-number-4">2.1.6</span> Menu helpers</h4>
-<div class="outline-text-4" id="text-2-1-6">
+<div id="outline-container-1-1-6" class="outline-4">
+<h4 id="sec-1-1-6"><span class="section-number-4">1.1.6</span> Menu helpers</h4>
+<div class="outline-text-4" id="text-1-1-6">
 
 
 
@@ -923,12 +736,12 @@ mymenu = <span style="color: #00ffff;">nil</span>
 
 </div>
 
-<div id="outline-container-2-1-7" class="outline-4">
-<h4 id="sec-2-1-7"><span class="section-number-4">2.1.7</span> Variable definitions</h4>
-<div class="outline-text-4" id="text-2-1-7">
+<div id="outline-container-1-1-7" class="outline-4">
+<h4 id="sec-1-1-7"><span class="section-number-4">1.1.7</span> Variable definitions</h4>
+<div class="outline-text-4" id="text-1-1-7">
 
 <ul>
-<li id="sec-2-1-7-1">Default modkey<br/>
+<li id="sec-1-1-7-1">Default modkey<br/>
 
 
 
@@ -941,7 +754,7 @@ altkey = <span style="color: #ffff00;">"Mod1"</span>
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-7-2">Environment programs<br/>
+<li id="sec-1-1-7-2">Environment programs<br/>
 
 
 
@@ -960,7 +773,7 @@ env = {
    music_show = <span style="color: #ffff00;">"gmpc --replace"</span>,
    music_hide = <span style="color: #ffff00;">"gmpc --quit"</span>,
    run = <span style="color: #ffff00;">"gmrun"</span>,
-   locker = <span style="color: #ffff00;">"xscreensaver-command -lock"</span>,
+   locker = <span style="color: #ffff00;">"xlock"</span>,
    xkill = <span style="color: #ffff00;">"xkill"</span>,
    poweroff = <span style="color: #ffff00;">"sudo /sbin/poweroff"</span>,
    reboot = <span style="color: #ffff00;">"sudo /sbin/reboot"</span>,
@@ -981,7 +794,7 @@ env = {
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-7-3">Default modkey<br/>
+<li id="sec-1-1-7-3">Default modkey<br/>
 
 
 
@@ -993,7 +806,7 @@ pipelets.config.script_path = awful.util.getdir(<span style="color: #ffff00;">"c
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-7-4">Naughty<br/>
+<li id="sec-1-1-7-4">Naughty<br/>
 
 
 
@@ -1013,7 +826,7 @@ naughty.config.presets.critical.width = logmon_width
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-7-5">Table of layouts<br/>
+<li id="sec-1-1-7-5">Table of layouts<br/>
 
 
 
@@ -1063,7 +876,7 @@ layouts =
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-7-6">Custom Icons<br/>
+<li id="sec-1-1-7-6">Custom Icons<br/>
 
 
 
@@ -1087,12 +900,12 @@ pipelets.init()
 
 </div>
 
-<div id="outline-container-2-1-8" class="outline-4">
-<h4 id="sec-2-1-8"><span class="section-number-4">2.1.8</span> <span class="todo TODO">TODO</span> Shifty</h4>
-<div class="outline-text-4" id="text-2-1-8">
+<div id="outline-container-1-1-8" class="outline-4">
+<h4 id="sec-1-1-8"><span class="section-number-4">1.1.8</span> <span class="todo TODO">TODO</span> Shifty</h4>
+<div class="outline-text-4" id="text-1-1-8">
 
 <ul>
-<li id="sec-2-1-8-1">Shifty Configured tags<br/>
+<li id="sec-1-1-8-1">Shifty Configured tags<br/>
 
 
 
@@ -1157,7 +970,7 @@ shifty.config.tags = {
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-8-2">Shifty application matching rules<br/>
+<li id="sec-1-1-8-2">Shifty application matching rules<br/>
 
 
 
@@ -1254,7 +1067,7 @@ shifty.config.apps = {
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-8-3">Shifty default tag creation rules<br/>
+<li id="sec-1-1-8-3">Shifty default tag creation rules<br/>
 
 
 
@@ -1282,12 +1095,12 @@ shifty.config.defaults = {
 
 </div>
 
-<div id="outline-container-2-1-9" class="outline-4">
-<h4 id="sec-2-1-9"><span class="section-number-4">2.1.9</span> Wibox</h4>
-<div class="outline-text-4" id="text-2-1-9">
+<div id="outline-container-1-1-9" class="outline-4">
+<h4 id="sec-1-1-9"><span class="section-number-4">1.1.9</span> Wibox</h4>
+<div class="outline-text-4" id="text-1-1-9">
 
 <ul>
-<li id="sec-2-1-9-1">Empty launcher<br/>
+<li id="sec-1-1-9-1">Empty launcher<br/>
 
 
 
@@ -1304,7 +1117,7 @@ mylauncher:buttons(awful.util.table.join(mylauncher:buttons(),
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-2">Create systray<br/>
+<li id="sec-1-1-9-2">Create systray<br/>
 
 
 
@@ -1315,7 +1128,7 @@ mysystray = widget({ type = <span style="color: #ffff00;">"systray"</span> })
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-3">Create a wibox for each screen and add it<br/>
+<li id="sec-1-1-9-3">Create a wibox for each screen and add it<br/>
 
 
 
@@ -1345,9 +1158,9 @@ myclientmenu.buttons = awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-4">Define widgets<br/>
+<li id="sec-1-1-9-4">Define widgets<br/>
 <ul>
-<li id="sec-2-1-9-4-1">Clock<br/>
+<li id="sec-1-1-9-4-1">Clock<br/>
 
 
 
@@ -1360,7 +1173,7 @@ pipelets.register_fmt(mytextclock, <span style="color: #ffff00;">"date"</span>, 
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-4-2">Mountbox<br/>
+<li id="sec-1-1-9-4-2">Mountbox<br/>
 
 
 
@@ -1372,7 +1185,7 @@ pipelets.register_fmt( mymountbox, <span style="color: #ffff00;">"mmount"</span>
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-4-3">BatteryBox<br/>
+<li id="sec-1-1-9-4-3">BatteryBox<br/>
 
 
 
@@ -1384,7 +1197,7 @@ pipelets.register( mybatbox, <span style="color: #ffff00;">"batmon"</span>)
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-4-4">Temp<br/>
+<li id="sec-1-1-9-4-4">Temp<br/>
 
 
 
@@ -1396,7 +1209,7 @@ pipelets.register_fmt( mytemp, <span style="color: #ffff00;">"temp"</span>, <spa
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-4-5">Layoutbox<br/>
+<li id="sec-1-1-9-4-5">Layoutbox<br/>
 
 
 
@@ -1417,7 +1230,7 @@ mylayoutbox.buttons = awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-4-6">Taglist<br/>
+<li id="sec-1-1-9-4-6">Taglist<br/>
 
 
 
@@ -1434,7 +1247,7 @@ mytaglist.buttons = awful.util.table.join(
 </pre>
 
 <ul>
-<li id="sec-2-1-9-4-6-1">Shifty initialize<br/>
+<li id="sec-1-1-9-4-6-1">Shifty initialize<br/>
 
 
 
@@ -1450,7 +1263,7 @@ shifty.init()
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-4-7">Tasklist<br/>
+<li id="sec-1-1-9-4-7">Tasklist<br/>
 
 
 
@@ -1487,9 +1300,9 @@ mytasklist.buttons = awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-5">Assemble it<br/>
+<li id="sec-1-1-9-5">Assemble it<br/>
 <ul>
-<li id="sec-2-1-9-5-1">Begin<br/>
+<li id="sec-1-1-9-5-1">Begin<br/>
 For each screen begin
 
 
@@ -1500,7 +1313,7 @@ For each screen begin
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-5-2">Create a promptbox for each screen<br/>
+<li id="sec-1-1-9-5-2">Create a promptbox for each screen<br/>
 
 
 
@@ -1512,7 +1325,7 @@ mypromptbox[s] = awful.widget.prompt({layout = awful.widget.layout.horizontal.le
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-5-3">imagebox widget<br/>
+<li id="sec-1-1-9-5-3">imagebox widget<br/>
 
 
 
@@ -1525,7 +1338,7 @@ mylayoutbox[s]:buttons(mylayoutbox.buttons)
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-5-4">taglist widget<br/>
+<li id="sec-1-1-9-5-4">taglist widget<br/>
 
 
 
@@ -1539,7 +1352,7 @@ mytaglist[s] = awful.widget.taglist(s,
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-5-5">tasklist widget<br/>
+<li id="sec-1-1-9-5-5">tasklist widget<br/>
 
 
 
@@ -1559,7 +1372,7 @@ myclientmenu[s]:buttons(myclientmenu.buttons)
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-5-6">Create top wibox<br/>
+<li id="sec-1-1-9-5-6">Create top wibox<br/>
 
 
 
@@ -1587,7 +1400,7 @@ mytop[s].widgets = {
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-5-7">Create bottom wibox<br/>
+<li id="sec-1-1-9-5-7">Create bottom wibox<br/>
 
 
 
@@ -1613,7 +1426,7 @@ mybottom[s].widgets = {
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-9-5-8">End<br/>
+<li id="sec-1-1-9-5-8">End<br/>
 
 
 
@@ -1630,9 +1443,9 @@ mybottom[s].widgets = {
 
 </div>
 
-<div id="outline-container-2-1-10" class="outline-4">
-<h4 id="sec-2-1-10"><span class="section-number-4">2.1.10</span> Mouse bindings</h4>
-<div class="outline-text-4" id="text-2-1-10">
+<div id="outline-container-1-1-10" class="outline-4">
+<h4 id="sec-1-1-10"><span class="section-number-4">1.1.10</span> Mouse bindings</h4>
+<div class="outline-text-4" id="text-1-1-10">
 
 
 
@@ -1650,14 +1463,14 @@ root.buttons(awful.util.table.join(
 
 </div>
 
-<div id="outline-container-2-1-11" class="outline-4">
-<h4 id="sec-2-1-11"><span class="section-number-4">2.1.11</span> Key bindings</h4>
-<div class="outline-text-4" id="text-2-1-11">
+<div id="outline-container-1-1-11" class="outline-4">
+<h4 id="sec-1-1-11"><span class="section-number-4">1.1.11</span> Key bindings</h4>
+<div class="outline-text-4" id="text-1-1-11">
 
 <ul>
-<li id="sec-2-1-11-1">Some functions<br/>
+<li id="sec-1-1-11-1">Some functions<br/>
 <ul>
-<li id="sec-2-1-11-1-1">switch<sub>to</sub><sub>client</sub><br/>
+<li id="sec-1-1-11-1-1">switch_to_client<br/>
 
 
 
@@ -1677,7 +1490,7 @@ root.buttons(awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-1-2">toggle<sub>tag</sub><br/>
+<li id="sec-1-1-11-1-2">toggle_tag<br/>
 
 
 
@@ -1701,7 +1514,7 @@ root.buttons(awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-1-3">chord<sub>mpd</sub><br/>
+<li id="sec-1-1-11-1-3">chord_mpd<br/>
 
 
 
@@ -1753,7 +1566,7 @@ root.buttons(awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-1-4">chord<sub>tags</sub><br/>
+<li id="sec-1-1-11-1-4">chord_tags<br/>
 
 
 
@@ -1823,9 +1636,9 @@ root.buttons(awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-2">Global keys<br/>
+<li id="sec-1-1-11-2">Global keys<br/>
 <ul>
-<li id="sec-2-1-11-2-1">The Keys<br/>
+<li id="sec-1-1-11-2-1">The Keys<br/>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
 <colgroup><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" />
@@ -1843,26 +1656,26 @@ root.buttons(awful.util.table.join(
 <tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">Return</td><td class="left">spawn env.terminal</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">b</td><td class="left">spawn env.browser</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">e</td><td class="left">spawn env.email</td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left"></td><td class="left"></td><td class="left"></td><td class="left">Scroll<sub>Lock</sub></td><td class="left">spawn env.locker</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left"></td><td class="left"></td><td class="left">Scroll_Lock</td><td class="left">spawn env.locker</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">r</td><td class="left">run</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">p</td><td class="left">spawn env.im</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">d</td><td class="left">spawn env.editor</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">v</td><td class="left">env.volumecontrol</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left">Tag hotkeys</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">m</td><td class="left">toggle<sub>tag</sub>("im")</td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">w</td><td class="left">toggle<sub>tag</sub>("work")</td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">n</td><td class="left">toggle<sub>tag</sub>("net")</td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">f</td><td class="left">toggle<sub>tag</sub>("fun")</td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">e</td><td class="left">toggle<sub>tag</sub>("sys")</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">m</td><td class="left">toggle_tag("im")</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">w</td><td class="left">toggle_tag("work")</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">n</td><td class="left">toggle_tag("net")</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">f</td><td class="left">toggle_tag("fun")</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">modkey</td><td class="left">Control</td><td class="left">e</td><td class="left">toggle_tag("sys")</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left"></td><td class="left">modkey</td><td class="left"></td><td class="left">Tab</td><td class="left">restore tag history</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left">Client manipulations</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">j</td><td class="left">switch<sub>to</sub><sub>client</sub>(-1)</td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">k</td><td class="left">switch<sub>to</sub><sub>client</sub>(1)</td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">1</td><td class="left">switch<sub>to</sub><sub>client</sub>(-1)</td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">2</td><td class="left">switch<sub>to</sub><sub>client</sub>(1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">j</td><td class="left">switch_to_client(-1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">k</td><td class="left">switch_to_client(1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">1</td><td class="left">switch_to_client(-1)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">2</td><td class="left">switch_to_client(1)</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left"></td><td class="left">modkey</td><td class="left">Shift</td><td class="left">j</td><td class="left">awful.client.swap.byidx(1)</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left"></td><td class="left">modkey</td><td class="left">Shift</td><td class="left">k</td><td class="left">awful.client.swap.byidx(-1)</td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">Tab</td><td class="left">switch<sub>to</sub><sub>client</sub>(0)</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">Tab</td><td class="left">switch_to_client(0)</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left"></td><td class="left">modkey</td><td class="left">Shift</td><td class="left">c</td><td class="left">kill</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left">Layout Manipulations</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">F1</td><td class="left">awful.tag.viewprev</td><td class="left"></td><td class="left"></td></tr>
@@ -1882,7 +1695,7 @@ root.buttons(awful.util.table.join(
 <tr><td class="left"></td><td class="left"></td><td class="left"></td><td class="left">XF86AudioLowerVolume</td><td class="left">awful.util.spawn("pactl &ndash; set-sink-volume 0 -10%")</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left"></td><td class="left"></td><td class="left"></td><td class="left">XF86AudioMute</td><td class="left">awful.util.spawn("")</td><td class="left"></td><td class="left"></td></tr>
 <tr><td class="left">Tagset operations</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">F3</td><td class="left">myrc.keybind.push<sub>menu</sub>(chord<sub>tags</sub>(), chord<sub>menu</sub><sub>args</sub>)</td><td class="left">Do things with tags</td><td class="left"></td></tr>
+<tr><td class="left"></td><td class="left">altkey</td><td class="left"></td><td class="left">F3</td><td class="left">myrc.keybind.push_menu(chord_tags(), chord_menu_args)</td><td class="left">Do things with tags</td><td class="left"></td></tr>
 </tbody>
 </table>
 
@@ -1890,7 +1703,7 @@ root.buttons(awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-2-2">Bind them<br/>
+<li id="sec-1-1-11-2-2">Bind them<br/>
 
 
 
@@ -1901,7 +1714,7 @@ globalkeys = awful.util.table.join(
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-2-3">Main Menu<br/>
+<li id="sec-1-1-11-2-3">Main Menu<br/>
 
 
 
@@ -1912,7 +1725,7 @@ awful.key({ altkey            }, <span style="color: #ffff00;">"Escape"</span>, 
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-2-4">Awesome control<br/>
+<li id="sec-1-1-11-2-4">Awesome control<br/>
 
 
 
@@ -1924,7 +1737,7 @@ awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span styl
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-2-5">Application hotkeys<br/>
+<li id="sec-1-1-11-2-5">Application hotkeys<br/>
 
 
 
@@ -1932,19 +1745,20 @@ awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span styl
 awful.key({ modkey,           }, <span style="color: #ffff00;">"Return"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(env.terminal) <span style="color: #00ffff;">end</span>),
 awful.key({ modkey            }, <span style="color: #ffff00;">"b"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(env.browser) <span style="color: #00ffff;">end</span>),
 awful.key({ modkey            }, <span style="color: #ffff00;">"e"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(env.email)  <span style="color: #00ffff;">end</span>),
-awful.key({                   }, <span style="color: #ffff00;">"Scroll_Lock"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(env.locker) <span style="color: #00ffff;">end</span>),
+awful.key({ modkey,           }, <span style="color: #ffff00;">"l"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(env.locker) <span style="color: #00ffff;">end</span>),
 awful.key({ modkey            }, <span style="color: #ffff00;">"r"</span>, <span style="color: #00ffff;">function</span> () mypromptbox[mouse.screen]:run() <span style="color: #00ffff;">end</span>),
+awful.key({ modkey, <span style="color: #ffff00;">"Control"</span> }, <span style="color: #ffff00;">"r"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(env.run) <span style="color: #00ffff;">end</span>),
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.key({ modkey,           }, "m", function () run_or_raise("gmpc", { class = "Gmpc" }) end),</span>
 awful.key({ modkey            }, <span style="color: #ffff00;">"p"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(<span style="color: #ffff00;">"pidgin"</span>) <span style="color: #00ffff;">end</span>),
 <span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.key({ modkey            }, "c", function () run_or_raise("xterm -e calc", { class="XTerm", name = "calc" }) end),</span>
-awful.key({ modkey,           }, <span style="color: #ffff00;">"d"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(<span style="color: #ffff00;">"ec"</span>) <span style="color: #00ffff;">end</span>),
+awful.key({ modkey,           }, <span style="color: #ffff00;">"d"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(env.editor) <span style="color: #00ffff;">end</span>),
 awful.key({ modkey,           }, <span style="color: #ffff00;">"v"</span>, <span style="color: #00ffff;">function</span> () awful.util.spawn(env.volumecontrol) <span style="color: #00ffff;">end</span>),
 </pre>
 
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-2-6">Tag hotkeys<br/>
+<li id="sec-1-1-11-2-6">Tag hotkeys<br/>
 
 
 
@@ -1960,7 +1774,7 @@ awful.key({ modkey            }, <span style="color: #ffff00;">"Tab"</span>, <sp
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-2-7">Client manipulations<br/>
+<li id="sec-1-1-11-2-7">Client manipulations<br/>
 
 
 
@@ -1978,7 +1792,7 @@ awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span styl
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-2-8">Layout manipulation<br/>
+<li id="sec-1-1-11-2-8">Layout manipulation<br/>
 
 
 
@@ -1987,6 +1801,8 @@ awful.key({ altkey,           }, <span style="color: #ffff00;">"F1"</span>, awfu
 awful.key({ altkey,           }, <span style="color: #ffff00;">"F2"</span>, awful.tag.viewnext ),
 awful.key({ modkey,           }, <span style="color: #ffff00;">"Left"</span>,   awful.tag.viewprev       ),
 awful.key({ modkey,           }, <span style="color: #ffff00;">"Right"</span>,  awful.tag.viewnext       ),
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.key({ modkey, "Shift"   }, "Left",  function() awful.tag.viewprev(2) end), --mouse.screen == 1 and 2 or 1) end),</span>
+<span style="color: #ff0000;">-- </span><span style="color: #ff0000;">awful.key({ modkey, "Shift"   }, "Right", function() awful.tag.viewnext(mouse.screen == 1 and 2 or 1) end), </span>
 awful.key({ modkey,           }, <span style="color: #ffff00;">"h"</span>, <span style="color: #00ffff;">function</span> () awful.tag.incmwfact(-0.05) <span style="color: #00ffff;">end</span>),
 awful.key({ modkey,           }, <span style="color: #ffff00;">"l"</span>, <span style="color: #00ffff;">function</span> () awful.tag.incmwfact(0.05) <span style="color: #00ffff;">end</span>),
 awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span style="color: #ffff00;">"h"</span>, <span style="color: #00ffff;">function</span> () awful.tag.incnmaster(1) <span style="color: #00ffff;">end</span>),
@@ -2001,7 +1817,7 @@ awful.key({ modkey, <span style="color: #ffff00;">"Shift"</span>   }, <span styl
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-2-9">Multimedia keys<br/>
+<li id="sec-1-1-11-2-9">Multimedia keys<br/>
 
 
 
@@ -2014,7 +1830,7 @@ awful.key({ }, <span style="color: #ffff00;">"XF86AudioMute"</span>, <span style
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-2-10">Tagset operations<br/>
+<li id="sec-1-1-11-2-10">Tagset operations<br/>
 
 
 
@@ -2025,7 +1841,7 @@ awful.key({ altkey,           }, <span style="color: #ffff00;">"F3"</span>, <spa
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-2-11"><span class="todo TODO">TODO</span> Shifty specific keybindings<br/>
+<li id="sec-1-1-11-2-11"><span class="todo TODO">TODO</span> Shifty specific keybindings<br/>
 
 
 
@@ -2045,7 +1861,7 @@ awful.key({modkey, <span style="color: #ffff00;">"Shift"</span>}, <span style="c
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-2-12">Set them<br/>
+<li id="sec-1-1-11-2-12">Set them<br/>
 
 
 
@@ -2059,9 +1875,9 @@ root.keys(globalkeys)
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-3">Client keys<br/>
+<li id="sec-1-1-11-3">Client keys<br/>
 <ul>
-<li id="sec-2-1-11-3-1">The keys<br/>
+<li id="sec-1-1-11-3-1">The keys<br/>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
 <colgroup><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" />
@@ -2117,7 +1933,7 @@ root.keys(globalkeys)
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-4">Client buttons<br/>
+<li id="sec-1-1-11-4">Client buttons<br/>
 
 
 
@@ -2133,7 +1949,7 @@ root.keys(globalkeys)
 </li>
 </ul>
 <ul>
-<li id="sec-2-1-11-5"><span class="todo TODO">TODO</span> Shifty client keys<br/>
+<li id="sec-1-1-11-5"><span class="todo TODO">TODO</span> Shifty client keys<br/>
 
 
 
@@ -2149,9 +1965,9 @@ shifty.config.modkey = modkey
 
 </div>
 
-<div id="outline-container-2-1-12" class="outline-4">
-<h4 id="sec-2-1-12"><span class="section-number-4">2.1.12</span> <span class="todo TODO">TODO</span> Shifty: Compute the maximum number of digit we need, limited to 9</h4>
-<div class="outline-text-4" id="text-2-1-12">
+<div id="outline-container-1-1-12" class="outline-4">
+<h4 id="sec-1-1-12"><span class="section-number-4">1.1.12</span> <span class="todo TODO">TODO</span> Shifty: Compute the maximum number of digit we need, limited to 9</h4>
+<div class="outline-text-4" id="text-1-1-12">
 
 
 
@@ -2186,9 +2002,9 @@ shifty.config.modkey = modkey
 
 </div>
 
-<div id="outline-container-2-1-13" class="outline-4">
-<h4 id="sec-2-1-13"><span class="section-number-4">2.1.13</span> Hooks</h4>
-<div class="outline-text-4" id="text-2-1-13">
+<div id="outline-container-1-1-13" class="outline-4">
+<h4 id="sec-1-1-13"><span class="section-number-4">1.1.13</span> Hooks</h4>
+<div class="outline-text-4" id="text-1-1-13">
 
 
 
@@ -2324,9 +2140,9 @@ awesome.add_signal(<span style="color: #ffff00;">"tagman::update"</span>, <span 
 
 </div>
 
-<div id="outline-container-2-1-14" class="outline-4">
-<h4 id="sec-2-1-14"><span class="section-number-4">2.1.14</span> Autostart</h4>
-<div class="outline-text-4" id="text-2-1-14">
+<div id="outline-container-1-1-14" class="outline-4">
+<h4 id="sec-1-1-14"><span class="section-number-4">1.1.14</span> Autostart</h4>
+<div class="outline-text-4" id="text-1-1-14">
 
 
 
@@ -2340,16 +2156,16 @@ awesome.add_signal(<span style="color: #ffff00;">"tagman::update"</span>, <span 
 
 </div>
 
-<div id="outline-container-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> freedesktop</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> freedesktop</h3>
+<div class="outline-text-3" id="text-1-2">
 
 
 </div>
 
-<div id="outline-container-2-2-1" class="outline-4">
-<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> desktop.lua</h4>
-<div class="outline-text-4" id="text-2-2-1">
+<div id="outline-container-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> desktop.lua</h4>
+<div class="outline-text-4" id="text-1-2-1">
 
 
 
@@ -2448,9 +2264,9 @@ module(<span style="color: #ffff00;">"freedesktop.desktop"</span>)
 
 </div>
 
-<div id="outline-container-2-2-2" class="outline-4">
-<h4 id="sec-2-2-2"><span class="section-number-4">2.2.2</span> menu.lua</h4>
-<div class="outline-text-4" id="text-2-2-2">
+<div id="outline-container-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> menu.lua</h4>
+<div class="outline-text-4" id="text-1-2-2">
 
 
 
@@ -2540,9 +2356,9 @@ module(<span style="color: #ffff00;">"freedesktop.menu"</span>)
 
 </div>
 
-<div id="outline-container-2-2-3" class="outline-4">
-<h4 id="sec-2-2-3"><span class="section-number-4">2.2.3</span> utils.lua</h4>
-<div class="outline-text-4" id="text-2-2-3">
+<div id="outline-container-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> utils.lua</h4>
+<div class="outline-text-4" id="text-1-2-3">
 
 
 
@@ -2696,16 +2512,16 @@ icon_sizes = {}
 
 </div>
 
-<div id="outline-container-2-3" class="outline-3">
-<h3 id="sec-2-3"><span class="section-number-3">2.3</span> myrc</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> myrc</h3>
+<div class="outline-text-3" id="text-1-3">
 
 
 </div>
 
-<div id="outline-container-2-3-1" class="outline-4">
-<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> mainmenu.lua</h4>
-<div class="outline-text-4" id="text-2-3-1">
+<div id="outline-container-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> mainmenu.lua</h4>
+<div class="outline-text-4" id="text-1-3-1">
 
 
 
@@ -2813,9 +2629,9 @@ module(<span style="color: #ffff00;">"myrc.mainmenu"</span>)
 
 </div>
 
-<div id="outline-container-2-3-2" class="outline-4">
-<h4 id="sec-2-3-2"><span class="section-number-4">2.3.2</span> tagman.lua</h4>
-<div class="outline-text-4" id="text-2-3-2">
+<div id="outline-container-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> tagman.lua</h4>
+<div class="outline-text-4" id="text-1-3-2">
 
 
 
@@ -3005,9 +2821,9 @@ module(<span style="color: #ffff00;">"myrc.tagman"</span>)
 
 </div>
 
-<div id="outline-container-2-3-3" class="outline-4">
-<h4 id="sec-2-3-3"><span class="section-number-4">2.3.3</span> keybind.lua</h4>
-<div class="outline-text-4" id="text-2-3-3">
+<div id="outline-container-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3"><span class="section-number-4">1.3.3</span> keybind.lua</h4>
+<div class="outline-text-4" id="text-1-3-3">
 
 
 
@@ -3212,9 +3028,9 @@ module(<span style="color: #ffff00;">"myrc.keybind"</span>)
 
 </div>
 
-<div id="outline-container-2-3-4" class="outline-4">
-<h4 id="sec-2-3-4"><span class="section-number-4">2.3.4</span> logmon.lua</h4>
-<div class="outline-text-4" id="text-2-3-4">
+<div id="outline-container-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4"><span class="section-number-4">1.3.4</span> logmon.lua</h4>
+<div class="outline-text-4" id="text-1-3-4">
 
 
 
@@ -3232,9 +3048,9 @@ module(<span style="color: #ffff00;">"myrc.logmon"</span>)
 
 </div>
 
-<div id="outline-container-2-3-5" class="outline-4">
-<h4 id="sec-2-3-5"><span class="section-number-4">2.3.5</span> memory.lua</h4>
-<div class="outline-text-4" id="text-2-3-5">
+<div id="outline-container-1-3-5" class="outline-4">
+<h4 id="sec-1-3-5"><span class="section-number-4">1.3.5</span> memory.lua</h4>
+<div class="outline-text-4" id="text-1-3-5">
 
 
 
@@ -3305,9 +3121,9 @@ module(<span style="color: #ffff00;">"myrc.memory"</span>)
 
 </div>
 
-<div id="outline-container-2-3-6" class="outline-4">
-<h4 id="sec-2-3-6"><span class="section-number-4">2.3.6</span> themes.lua</h4>
-<div class="outline-text-4" id="text-2-3-6">
+<div id="outline-container-1-3-6" class="outline-4">
+<h4 id="sec-1-3-6"><span class="section-number-4">1.3.6</span> themes.lua</h4>
+<div class="outline-text-4" id="text-1-3-6">
 
 
 
@@ -3387,16 +3203,16 @@ module(<span style="color: #ffff00;">"myrc.themes"</span>)
 
 </div>
 
-<div id="outline-container-2-4" class="outline-3">
-<h3 id="sec-2-4"><span class="section-number-3">2.4</span> pipelets</h3>
-<div class="outline-text-3" id="text-2-4">
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> pipelets</h3>
+<div class="outline-text-3" id="text-1-4">
 
 
 </div>
 
-<div id="outline-container-2-4-1" class="outline-4">
-<h4 id="sec-2-4-1"><span class="section-number-4">2.4.1</span> temp</h4>
-<div class="outline-text-4" id="text-2-4-1">
+<div id="outline-container-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> temp</h4>
+<div class="outline-text-4" id="text-1-4-1">
 
 
 
@@ -3422,9 +3238,9 @@ module(<span style="color: #ffff00;">"myrc.themes"</span>)
 
 </div>
 
-<div id="outline-container-2-4-2" class="outline-4">
-<h4 id="sec-2-4-2"><span class="section-number-4">2.4.2</span> batmon</h4>
-<div class="outline-text-4" id="text-2-4-2">
+<div id="outline-container-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> batmon</h4>
+<div class="outline-text-4" id="text-1-4-2">
 
 
 
@@ -3459,9 +3275,9 @@ which acpi_listen &gt;/dev/null || <span style="color: #00ffff;">exit</span> 1
 
 </div>
 
-<div id="outline-container-2-4-3" class="outline-4">
-<h4 id="sec-2-4-3"><span class="section-number-4">2.4.3</span> date</h4>
-<div class="outline-text-4" id="text-2-4-3">
+<div id="outline-container-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> date</h4>
+<div class="outline-text-4" id="text-1-4-3">
 
 
 
@@ -3478,9 +3294,9 @@ which acpi_listen &gt;/dev/null || <span style="color: #00ffff;">exit</span> 1
 
 </div>
 
-<div id="outline-container-2-4-4" class="outline-4">
-<h4 id="sec-2-4-4"><span class="section-number-4">2.4.4</span> mmount</h4>
-<div class="outline-text-4" id="text-2-4-4">
+<div id="outline-container-1-4-4" class="outline-4">
+<h4 id="sec-1-4-4"><span class="section-number-4">1.4.4</span> mmount</h4>
+<div class="outline-text-4" id="text-1-4-4">
 
 
 
@@ -3519,9 +3335,9 @@ which acpi_listen &gt;/dev/null || <span style="color: #00ffff;">exit</span> 1
 
 </div>
 
-<div id="outline-container-2-5" class="outline-3">
-<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Autostart</h3>
-<div class="outline-text-3" id="text-2-5">
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Autostart</h3>
+<div class="outline-text-3" id="text-1-5">
 
 
 
@@ -3607,9 +3423,11 @@ run_once radiotray &amp;
 <span style="color: #ff0000;">## </span><span style="color: #ff0000;">run_once guake &amp; </span>
 <span style="color: #ff0000;">###################</span>
 <span style="color: #ff0000;">## </span><span style="color: #ff0000;">start recollindex usin ionice Idle</span>
- <span style="color: #ff0000;"># </span><span style="color: #ff0000;">ionice -c 3 recollindex -m &amp;</span>
+ionice -c 3 recollindex -m &amp;
 <span style="color: #ff0000;">###################</span>
-
+<span style="color: #ff0000;">## </span><span style="color: #ff0000;">start emacs daemon</span>
+emacs --daemon &amp;
+<span style="color: #ff0000;">###################</span>
 </pre>
 
 
@@ -3619,17 +3437,17 @@ run_once radiotray &amp;
 
 </div>
 
-<div id="outline-container-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> rc.default.lua</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> rc.default.lua</h2>
+<div class="outline-text-2" id="text-2">
 
 <p>This is the default rc.lua file for awesome (which is awesome)
 </p>
 </div>
 
-<div id="outline-container-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> loading libraries</h3>
-<div class="outline-text-3" id="text-3-1">
+<div id="outline-container-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> loading libraries</h3>
+<div class="outline-text-3" id="text-2-1">
 
 
 
@@ -3663,16 +3481,16 @@ require(<span style="color: #ffff00;">"debian.menu"</span>)
 
 </div>
 
-<div id="outline-container-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Variable definitions</h3>
-<div class="outline-text-3" id="text-3-2">
+<div id="outline-container-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Variable definitions</h3>
+<div class="outline-text-3" id="text-2-2">
 
 
 </div>
 
-<div id="outline-container-3-2-1" class="outline-4">
-<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> Beautiful</h4>
-<div class="outline-text-4" id="text-3-2-1">
+<div id="outline-container-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> Beautiful</h4>
+<div class="outline-text-4" id="text-2-2-1">
 
 
 
@@ -3687,9 +3505,9 @@ beautiful.init(<span style="color: #ffff00;">"/home/rkrug/.config/awesome/themes
 
 </div>
 
-<div id="outline-container-3-2-2" class="outline-4">
-<h4 id="sec-3-2-2"><span class="section-number-4">3.2.2</span> Default programs</h4>
-<div class="outline-text-4" id="text-3-2-2">
+<div id="outline-container-2-2-2" class="outline-4">
+<h4 id="sec-2-2-2"><span class="section-number-4">2.2.2</span> Default programs</h4>
+<div class="outline-text-4" id="text-2-2-2">
 
 
 
@@ -3708,9 +3526,9 @@ editor_cmd = editor
 
 </div>
 
-<div id="outline-container-3-2-3" class="outline-4">
-<h4 id="sec-3-2-3"><span class="section-number-4">3.2.3</span> Default modkey</h4>
-<div class="outline-text-4" id="text-3-2-3">
+<div id="outline-container-2-2-3" class="outline-4">
+<h4 id="sec-2-2-3"><span class="section-number-4">2.2.3</span> Default modkey</h4>
+<div class="outline-text-4" id="text-2-2-3">
 
 
 
@@ -3728,9 +3546,9 @@ modkey = <span style="color: #ffff00;">"Mod4"</span>
 
 </div>
 
-<div id="outline-container-3-2-4" class="outline-4">
-<h4 id="sec-3-2-4"><span class="section-number-4">3.2.4</span> Layouts</h4>
-<div class="outline-text-4" id="text-3-2-4">
+<div id="outline-container-2-2-4" class="outline-4">
+<h4 id="sec-2-2-4"><span class="section-number-4">2.2.4</span> Layouts</h4>
+<div class="outline-text-4" id="text-2-2-4">
 
 
 
@@ -3758,9 +3576,9 @@ layouts = {
 
 </div>
 
-<div id="outline-container-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Use titlebar on all applications?</h3>
-<div class="outline-text-3" id="text-3-3">
+<div id="outline-container-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Use titlebar on all applications?</h3>
+<div class="outline-text-3" id="text-2-3">
 
 
 
@@ -3773,9 +3591,9 @@ use_titlebar = <span style="color: #00ffff;">false</span>
 
 </div>
 
-<div id="outline-container-3-4" class="outline-3">
-<h3 id="sec-3-4"><span class="section-number-3">3.4</span> tags</h3>
-<div class="outline-text-3" id="text-3-4">
+<div id="outline-container-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> tags</h3>
+<div class="outline-text-3" id="text-2-4">
 
 
 
@@ -3794,9 +3612,9 @@ tags = {}
 
 </div>
 
-<div id="outline-container-3-5" class="outline-3">
-<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Menu</h3>
-<div class="outline-text-3" id="text-3-5">
+<div id="outline-container-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Menu</h3>
+<div class="outline-text-3" id="text-2-5">
 
 
 
@@ -3825,9 +3643,9 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 </div>
 
-<div id="outline-container-3-6" class="outline-3">
-<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Wibox</h3>
-<div class="outline-text-3" id="text-3-6">
+<div id="outline-container-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Wibox</h3>
+<div class="outline-text-3" id="text-2-6">
 
 
 
@@ -3955,9 +3773,9 @@ mytasklist.buttons = awful.util.table.join(
 
 </div>
 
-<div id="outline-container-3-7" class="outline-3">
-<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Mouse Bindings</h3>
-<div class="outline-text-3" id="text-3-7">
+<div id="outline-container-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Mouse Bindings</h3>
+<div class="outline-text-3" id="text-2-7">
 
 
 
@@ -3975,9 +3793,9 @@ root.buttons(awful.util.table.join(
 
 </div>
 
-<div id="outline-container-3-8" class="outline-3">
-<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Key Bindings</h3>
-<div class="outline-text-3" id="text-3-8">
+<div id="outline-container-2-8" class="outline-3">
+<h3 id="sec-2-8"><span class="section-number-3">2.8</span> Key Bindings</h3>
+<div class="outline-text-3" id="text-2-8">
 
 
 
@@ -4115,9 +3933,9 @@ root.keys(globalkeys)
 
 </div>
 
-<div id="outline-container-3-9" class="outline-3">
-<h3 id="sec-3-9"><span class="section-number-3">3.9</span> Rules</h3>
-<div class="outline-text-3" id="text-3-9">
+<div id="outline-container-2-9" class="outline-3">
+<h3 id="sec-2-9"><span class="section-number-3">2.9</span> Rules</h3>
+<div class="outline-text-3" id="text-2-9">
 
 
 
@@ -4148,9 +3966,9 @@ awful.rules.rules = {
 
 </div>
 
-<div id="outline-container-3-10" class="outline-3">
-<h3 id="sec-3-10"><span class="section-number-3">3.10</span> Signals</h3>
-<div class="outline-text-3" id="text-3-10">
+<div id="outline-container-2-10" class="outline-3">
+<h3 id="sec-2-10"><span class="section-number-3">2.10</span> Signals</h3>
+<div class="outline-text-3" id="text-2-10">
 
 
 
@@ -4191,9 +4009,9 @@ client.add_signal(<span style="color: #ffff00;">"unfocus"</span>, <span style="c
 
 </div>
 
-<div id="outline-container-3-11" class="outline-3">
-<h3 id="sec-3-11"><span class="section-number-3">3.11</span> Autostart</h3>
-<div class="outline-text-3" id="text-3-11">
+<div id="outline-container-2-11" class="outline-3">
+<h3 id="sec-2-11"><span class="section-number-3">2.11</span> Autostart</h3>
+<div class="outline-text-3" id="text-2-11">
 
 
 
@@ -4217,17 +4035,17 @@ awful.util.spawn_with_shell(<span style="color: #ffff00;">"~/.config/awesome/aut
 
 </div>
 
-<div id="outline-container-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> rc.shifty.lua</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> rc.shifty.lua</h2>
+<div class="outline-text-2" id="text-3">
 
 <p>Shifty example configuration file
 </p>
 </div>
 
-<div id="outline-container-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Include libraries</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Include libraries</h3>
+<div class="outline-text-3" id="text-3-1">
 
 
 
@@ -4248,9 +4066,9 @@ require(<span style="color: #ffff00;">"shifty"</span>)
 
 </div>
 
-<div id="outline-container-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> For debugging</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> For debugging</h3>
+<div class="outline-text-3" id="text-3-2">
 
 
 
@@ -4263,16 +4081,16 @@ print(<span style="color: #ffff00;">"Entered rc.lua: "</span> .. os.time())
 
 </div>
 
-<div id="outline-container-4-3" class="outline-3">
-<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Variable definitions</h3>
-<div class="outline-text-3" id="text-4-3">
+<div id="outline-container-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Variable definitions</h3>
+<div class="outline-text-3" id="text-3-3">
 
 
 </div>
 
-<div id="outline-container-4-3-1" class="outline-4">
-<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> Default programs</h4>
-<div class="outline-text-4" id="text-4-3-1">
+<div id="outline-container-3-3-1" class="outline-4">
+<h4 id="sec-3-3-1"><span class="section-number-4">3.3.1</span> Default programs</h4>
+<div class="outline-text-4" id="text-3-3-1">
 
 
 
@@ -4289,9 +4107,9 @@ editor_cmd = terminal .. <span style="color: #ffff00;">" -e "</span> .. editor
 
 </div>
 
-<div id="outline-container-4-3-2" class="outline-4">
-<h4 id="sec-4-3-2"><span class="section-number-4">4.3.2</span> Default modkey</h4>
-<div class="outline-text-4" id="text-4-3-2">
+<div id="outline-container-3-3-2" class="outline-4">
+<h4 id="sec-3-3-2"><span class="section-number-4">3.3.2</span> Default modkey</h4>
+<div class="outline-text-4" id="text-3-3-2">
 
 
 
@@ -4308,9 +4126,9 @@ modkey = <span style="color: #ffff00;">"Mod4"</span>
 
 </div>
 
-<div id="outline-container-4-3-3" class="outline-4">
-<h4 id="sec-4-3-3"><span class="section-number-4">4.3.3</span> Layouts</h4>
-<div class="outline-text-4" id="text-4-3-3">
+<div id="outline-container-3-3-3" class="outline-4">
+<h4 id="sec-3-3-3"><span class="section-number-4">3.3.3</span> Layouts</h4>
+<div class="outline-text-4" id="text-3-3-3">
 
 
 
@@ -4335,9 +4153,9 @@ layouts =
 
 </div>
 
-<div id="outline-container-4-3-4" class="outline-4">
-<h4 id="sec-4-3-4"><span class="section-number-4">4.3.4</span> Do we want to use titlebar on all applications?</h4>
-<div class="outline-text-4" id="text-4-3-4">
+<div id="outline-container-3-3-4" class="outline-4">
+<h4 id="sec-3-3-4"><span class="section-number-4">3.3.4</span> Do we want to use titlebar on all applications?</h4>
+<div class="outline-text-4" id="text-3-3-4">
 
 
 
@@ -4352,16 +4170,16 @@ use_titlebar = <span style="color: #00ffff;">false</span>
 
 </div>
 
-<div id="outline-container-4-4" class="outline-3">
-<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Theme</h3>
-<div class="outline-text-3" id="text-4-4">
+<div id="outline-container-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Theme</h3>
+<div class="outline-text-3" id="text-3-4">
 
 
 </div>
 
-<div id="outline-container-4-4-1" class="outline-4">
-<h4 id="sec-4-4-1"><span class="section-number-4">4.4.1</span> Define theme</h4>
-<div class="outline-text-4" id="text-4-4-1">
+<div id="outline-container-3-4-1" class="outline-4">
+<h4 id="sec-3-4-1"><span class="section-number-4">3.4.1</span> Define theme</h4>
+<div class="outline-text-4" id="text-3-4-1">
 
 
 
@@ -4378,9 +4196,9 @@ theme_path = <span style="color: #ffff00;">"/usr/share/awesome/themes/default/th
 
 </div>
 
-<div id="outline-container-4-4-2" class="outline-4">
-<h4 id="sec-4-4-2"><span class="section-number-4">4.4.2</span> Load Theme</h4>
-<div class="outline-text-4" id="text-4-4-2">
+<div id="outline-container-3-4-2" class="outline-4">
+<h4 id="sec-3-4-2"><span class="section-number-4">3.4.2</span> Load Theme</h4>
+<div class="outline-text-4" id="text-3-4-2">
 
 
 
@@ -4394,9 +4212,9 @@ beautiful.init(theme_path)
 
 </div>
 
-<div id="outline-container-4-5" class="outline-3">
-<h3 id="sec-4-5"><span class="section-number-3">4.5</span> Shifty Configured tabs</h3>
-<div class="outline-text-3" id="text-4-5">
+<div id="outline-container-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Shifty Configured tabs</h3>
+<div class="outline-text-3" id="text-3-5">
 
 
 
@@ -4445,9 +4263,9 @@ shifty.config.tags = {
 
 </div>
 
-<div id="outline-container-4-6" class="outline-3">
-<h3 id="sec-4-6"><span class="section-number-3">4.6</span> Shifty application matching rules</h3>
-<div class="outline-text-3" id="text-4-6">
+<div id="outline-container-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Shifty application matching rules</h3>
+<div class="outline-text-3" id="text-3-6">
 
 
 
@@ -4532,9 +4350,9 @@ shifty.config.apps = {
 
 </div>
 
-<div id="outline-container-4-7" class="outline-3">
-<h3 id="sec-4-7"><span class="section-number-3">4.7</span> Shifty default tag creation rules</h3>
-<div class="outline-text-3" id="text-4-7">
+<div id="outline-container-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Shifty default tag creation rules</h3>
+<div class="outline-text-3" id="text-3-7">
 
 
 
@@ -4561,16 +4379,16 @@ shifty.config.defaults = {
 
 </div>
 
-<div id="outline-container-4-8" class="outline-3">
-<h3 id="sec-4-8"><span class="section-number-3">4.8</span> Wibox</h3>
-<div class="outline-text-3" id="text-4-8">
+<div id="outline-container-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Wibox</h3>
+<div class="outline-text-3" id="text-3-8">
 
 
 </div>
 
-<div id="outline-container-4-8-1" class="outline-4">
-<h4 id="sec-4-8-1"><span class="section-number-4">4.8.1</span> Textbox widget</h4>
-<div class="outline-text-4" id="text-4-8-1">
+<div id="outline-container-3-8-1" class="outline-4">
+<h4 id="sec-3-8-1"><span class="section-number-4">3.8.1</span> Textbox widget</h4>
+<div class="outline-text-4" id="text-3-8-1">
 
 
 
@@ -4584,9 +4402,9 @@ mytextclock = awful.widget.textclock({align = <span style="color: #ffff00;">"rig
 
 </div>
 
-<div id="outline-container-4-8-2" class="outline-4">
-<h4 id="sec-4-8-2"><span class="section-number-4">4.8.2</span> Launcher widget</h4>
-<div class="outline-text-4" id="text-4-8-2">
+<div id="outline-container-3-8-2" class="outline-4">
+<h4 id="sec-3-8-2"><span class="section-number-4">3.8.2</span> Launcher widget</h4>
+<div class="outline-text-4" id="text-3-8-2">
 
 
 
@@ -4605,9 +4423,9 @@ myawesomemenu = {
 
 </div>
 
-<div id="outline-container-4-8-3" class="outline-4">
-<h4 id="sec-4-8-3"><span class="section-number-4">4.8.3</span> Main menu</h4>
-<div class="outline-text-4" id="text-4-8-3">
+<div id="outline-container-3-8-3" class="outline-4">
+<h4 id="sec-3-8-3"><span class="section-number-4">3.8.3</span> Main menu</h4>
+<div class="outline-text-4" id="text-3-8-3">
 
 
 
@@ -4628,9 +4446,9 @@ mylauncher = awful.widget.launcher({image = image(beautiful.awesome_icon),
 
 </div>
 
-<div id="outline-container-4-8-4" class="outline-4">
-<h4 id="sec-4-8-4"><span class="section-number-4">4.8.4</span> Create systray</h4>
-<div class="outline-text-4" id="text-4-8-4">
+<div id="outline-container-3-8-4" class="outline-4">
+<h4 id="sec-3-8-4"><span class="section-number-4">3.8.4</span> Create systray</h4>
+<div class="outline-text-4" id="text-3-8-4">
 
 
 
@@ -4643,9 +4461,9 @@ mysystray = widget({type = <span style="color: #ffff00;">"systray"</span>, align
 
 </div>
 
-<div id="outline-container-4-8-5" class="outline-4">
-<h4 id="sec-4-8-5"><span class="section-number-4">4.8.5</span> Create a wibox</h4>
-<div class="outline-text-4" id="text-4-8-5">
+<div id="outline-container-3-8-5" class="outline-4">
+<h4 id="sec-3-8-5"><span class="section-number-4">3.8.5</span> Create a wibox</h4>
+<div class="outline-text-4" id="text-3-8-5">
 
 
 
@@ -4695,9 +4513,9 @@ mytasklist.buttons = awful.util.table.join(
 
 </div>
 
-<div id="outline-container-4-8-6" class="outline-4">
-<h4 id="sec-4-8-6"><span class="section-number-4">4.8.6</span> And add it to each screen</h4>
-<div class="outline-text-4" id="text-4-8-6">
+<div id="outline-container-3-8-6" class="outline-4">
+<h4 id="sec-3-8-6"><span class="section-number-4">3.8.6</span> And add it to each screen</h4>
+<div class="outline-text-4" id="text-3-8-6">
 
 
 
@@ -4751,9 +4569,9 @@ mytasklist.buttons = awful.util.table.join(
 
 </div>
 
-<div id="outline-container-4-9" class="outline-3">
-<h3 id="sec-4-9"><span class="section-number-3">4.9</span> Initialize shifty</h3>
-<div class="outline-text-3" id="text-4-9">
+<div id="outline-container-3-9" class="outline-3">
+<h3 id="sec-3-9"><span class="section-number-3">3.9</span> Initialize shifty</h3>
+<div class="outline-text-3" id="text-3-9">
 
 
 
@@ -4769,9 +4587,9 @@ shifty.init()
 
 </div>
 
-<div id="outline-container-4-10" class="outline-3">
-<h3 id="sec-4-10"><span class="section-number-3">4.10</span> Mouse Bindings</h3>
-<div class="outline-text-3" id="text-4-10">
+<div id="outline-container-3-10" class="outline-3">
+<h3 id="sec-3-10"><span class="section-number-3">3.10</span> Mouse Bindings</h3>
+<div class="outline-text-3" id="text-3-10">
 
 
 
@@ -4788,16 +4606,16 @@ root.buttons({
 
 </div>
 
-<div id="outline-container-4-11" class="outline-3">
-<h3 id="sec-4-11"><span class="section-number-3">4.11</span> Key Bindings</h3>
-<div class="outline-text-3" id="text-4-11">
+<div id="outline-container-3-11" class="outline-3">
+<h3 id="sec-3-11"><span class="section-number-3">3.11</span> Key Bindings</h3>
+<div class="outline-text-3" id="text-3-11">
 
 
 </div>
 
-<div id="outline-container-4-11-1" class="outline-4">
-<h4 id="sec-4-11-1"><span class="section-number-4">4.11.1</span> Global Keys</h4>
-<div class="outline-text-4" id="text-4-11-1">
+<div id="outline-container-3-11-1" class="outline-4">
+<h4 id="sec-3-11-1"><span class="section-number-4">3.11.1</span> Global Keys</h4>
+<div class="outline-text-4" id="text-3-11-1">
 
 
 
@@ -4887,9 +4705,9 @@ globalkeys = awful.util.table.join(
 
 </div>
 
-<div id="outline-container-4-11-2" class="outline-4">
-<h4 id="sec-4-11-2"><span class="section-number-4">4.11.2</span> Client keys</h4>
-<div class="outline-text-4" id="text-4-11-2">
+<div id="outline-container-3-11-2" class="outline-4">
+<h4 id="sec-3-11-2"><span class="section-number-4">3.11.2</span> Client keys</h4>
+<div class="outline-text-4" id="text-3-11-2">
 
 
 
@@ -4918,9 +4736,9 @@ clientkeys =
 
 </div>
 
-<div id="outline-container-4-11-3" class="outline-4">
-<h4 id="sec-4-11-3"><span class="section-number-4">4.11.3</span> SHIFTY: assign client keys to shifty for use in</h4>
-<div class="outline-text-4" id="text-4-11-3">
+<div id="outline-container-3-11-3" class="outline-4">
+<h4 id="sec-3-11-3"><span class="section-number-4">3.11.3</span> SHIFTY: assign client keys to shifty for use in</h4>
+<div class="outline-text-4" id="text-3-11-3">
 
 
 
@@ -4935,9 +4753,9 @@ shifty.config.modkey = modkey
 
 </div>
 
-<div id="outline-container-4-11-4" class="outline-4">
-<h4 id="sec-4-11-4"><span class="section-number-4">4.11.4</span> Compute the maximum number of digit we need, limited to 9</h4>
-<div class="outline-text-4" id="text-4-11-4">
+<div id="outline-container-3-11-4" class="outline-4">
+<h4 id="sec-3-11-4"><span class="section-number-4">3.11.4</span> Compute the maximum number of digit we need, limited to 9</h4>
+<div class="outline-text-4" id="text-3-11-4">
 
 
 
@@ -4972,9 +4790,9 @@ shifty.config.modkey = modkey
 
 </div>
 
-<div id="outline-container-4-11-5" class="outline-4">
-<h4 id="sec-4-11-5"><span class="section-number-4">4.11.5</span> Set keys</h4>
-<div class="outline-text-4" id="text-4-11-5">
+<div id="outline-container-3-11-5" class="outline-4">
+<h4 id="sec-3-11-5"><span class="section-number-4">3.11.5</span> Set keys</h4>
+<div class="outline-text-4" id="text-3-11-5">
 
 
 
@@ -4988,16 +4806,16 @@ root.keys(globalkeys)
 
 </div>
 
-<div id="outline-container-4-12" class="outline-3">
-<h3 id="sec-4-12"><span class="section-number-3">4.12</span> Hook functions</h3>
-<div class="outline-text-3" id="text-4-12">
+<div id="outline-container-3-12" class="outline-3">
+<h3 id="sec-3-12"><span class="section-number-3">3.12</span> Hook functions</h3>
+<div class="outline-text-3" id="text-3-12">
 
 
 </div>
 
-<div id="outline-container-4-12-1" class="outline-4">
-<h4 id="sec-4-12-1"><span class="section-number-4">4.12.1</span> When focussing</h4>
-<div class="outline-text-4" id="text-4-12-1">
+<div id="outline-container-3-12-1" class="outline-4">
+<h4 id="sec-3-12-1"><span class="section-number-4">3.12.1</span> When focussing</h4>
+<div class="outline-text-4" id="text-3-12-1">
 
 
 
@@ -5014,9 +4832,9 @@ client.add_signal(<span style="color: #ffff00;">"focus"</span>, <span style="col
 
 </div>
 
-<div id="outline-container-4-12-2" class="outline-4">
-<h4 id="sec-4-12-2"><span class="section-number-4">4.12.2</span> When unfocussing</h4>
-<div class="outline-text-4" id="text-4-12-2">
+<div id="outline-container-3-12-2" class="outline-4">
+<h4 id="sec-3-12-2"><span class="section-number-4">3.12.2</span> When unfocussing</h4>
+<div class="outline-text-4" id="text-3-12-2">
 
 
 
@@ -5038,7 +4856,7 @@ client.add_signal(<span style="color: #ffff00;">"unfocus"</span>, <span style="c
 <div id="postamble">
 <p class="date">Date: 2012-05-11 Fri</p>
 <p class="author">Author: Rainer M. Krug</p>
-<p class="creator">Org version 7.8.09 with Emacs version 23</p>
+<p class="creator"><a href="http://orgmode.org">Org</a> version 7.8.10 with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 23</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
 </div>

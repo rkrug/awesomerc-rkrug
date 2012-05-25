@@ -423,44 +423,9 @@ function client_contex_menu(c)
    return awful.menu( { items = menuitmes, height = theme.menu_context_height } ), menupos
 end--}}}
 
--- {{{ Variable definitions
--- Default modkey.
-modkey = "Mod4"
-altkey = "Mod1"
+config = awful.util.getdir("config") .. "/modules/"
 
--- Environment programs
-env = {
-   browser = "firefox ",
-   email = "thunderbird ",
-   man = "xterm -e man ",
-   terminal = "xterm ", 
-   -- screen = "xterm -e screen",
-   fileman = "nautilus",
-   terminal_root = "xterm -e su -c screen",
-   im = "pidgin ",
-   editor = os.getenv("EDITOR") or "ec ",
-   home_dir = os.getenv("HOME"),
-   music_show = "gmpc --replace",
-   music_hide = "gmpc --quit",
-   run = "gmrun",
-   locker = "xscreensaver-command -lock",
-   xkill = "xkill",
-   poweroff = "sudo /sbin/poweroff",
-   reboot = "sudo /sbin/reboot",
-   hibernate = "sudo /usr/sbin/pm-hibernate",
-   suspend = "sudo /usr/sbin/pm-suspend",
-   rotate = "rotator",
-   rfkill = { 
-      wifi = "sudo /usr/local/bin/laptop-net wifi", 
-      wimax = "sudo /usr/local/bin/laptop-net wimax",
-      off = "sudo /usr/local/bin/laptop-net off"},
-   syslog = "urxvt -e vim -T xterm-256color /var/log/messages",
-   volumecontrol = "pavucontrol ",
-   skype = "skype "
-}
-
--- Pipelets
-pipelets.config.script_path = awful.util.getdir("config").."/pipelets/"
+dofile(config .. "/variabledefinitions.lua")
 
 -- Naughty
 naughty.config.presets.keybind = {
@@ -473,46 +438,32 @@ naughty.config.presets.low.width = logmon_width
 naughty.config.presets.normal.width = logmon_width
 naughty.config.presets.critical.width = logmon_width
 
--- Table of layouts to cover with awful.layout.inc, order matters.
-layouts = 
-   {
-   awful.layout.suit.max,
-   awful.layout.suit.tile.bottom,
-   awful.layout.suit.tile,
-   awful.layout.suit.tile.left,
-   awful.layout.suit.tile.top,
-   awful.layout.suit.fair,
-   awful.layout.suit.fair.horizontal,
-   awful.layout.suit.magnifier,
-   awful.layout.suit.floating
-   }
-
-   awful.menu.menu_keys = {
-      up={ "Up", 'k' }, 
-      down = { "Down", 'j' }, 
-      back = { "Left", 'x', 'h' }, 
-      exec = { "Return", "Right", 'o', 'l' },
-      close = { "Escape" }
-   }
-
-   contextmenu_args = {
-      coords={ x=0, y=0 },
-      keygrabber = true
-   }
-
-   mainmenu_args = {
-      coords={ x=0, y=0 },
-      keygrabber = true
-   }
-
-   chord_menu_args = {
-      coords={ x=0, y=0 },
-      keygrabber = false
-   }
-
-   myrc.memory.init()
-
-   beautiful.init(myrc.themes.current())
+awful.menu.menu_keys = {
+   up={ "Up", 'k' }, 
+   down = { "Down", 'j' }, 
+   back = { "Left", 'x', 'h' }, 
+   exec = { "Return", "Right", 'o', 'l' },
+   close = { "Escape" }
+}
+  
+contextmenu_args = {
+   coords={ x=0, y=0 },
+   keygrabber = true
+}
+  
+mainmenu_args = {
+   coords={ x=0, y=0 },
+   keygrabber = true
+}
+  
+chord_menu_args = {
+   coords={ x=0, y=0 },
+   keygrabber = false
+}
+  
+myrc.memory.init()
+  
+beautiful.init(myrc.themes.current())
 
 -- Custom icons
 clientmenu_icon = beautiful.clientmenu_icon or beautiful.awesome_icon
@@ -829,27 +780,14 @@ function chord_tags()
           }
 end
 
+dofile(config .. "/globalkeys.lua")
+
 -- Bind keyboard digits
 globalkeys = awful.util.table.join(
+   globalkeys,
 
 -- Main menu
 awful.key({ altkey            }, "Escape", function()  menu_current(mymainmenu,mainmenu_args) end),
-
--- Awesome control
-awful.key({ modkey, "Control" }, "q", awesome.quit),
-awful.key({ modkey, "Control" }, "r", function() mypromptbox[mouse.screen].widget.text = awful.util.escape(awful.util.restart()) end),
-
--- Application hotkeys
-awful.key({ modkey,           }, "Return", function () awful.util.spawn(env.terminal) end),
-awful.key({ modkey            }, "b", function () awful.util.spawn(env.browser) end),
-awful.key({ modkey            }, "e", function () awful.util.spawn(env.email)  end),
-awful.key({                   }, "Scroll_Lock", function () awful.util.spawn(env.locker) end),
-awful.key({ modkey            }, "r", function () mypromptbox[mouse.screen]:run() end),
--- awful.key({ modkey,           }, "m", function () run_or_raise("gmpc", { class = "Gmpc" }) end),
-awful.key({ modkey            }, "p", function () awful.util.spawn("pidgin") end),
--- awful.key({ modkey            }, "c", function () run_or_raise("xterm -e calc", { class="XTerm", name = "calc" }) end),
-awful.key({ modkey,           }, "d", function () awful.util.spawn("ec") end),
-awful.key({ modkey,           }, "v", function () awful.util.spawn(env.volumecontrol) end),
 
 -- Tag hotkeys
 awful.key({ modkey, "Control" }, "m", function () toggle_tag("im") end),
@@ -859,60 +797,16 @@ awful.key({ modkey, "Control" }, "f", function () toggle_tag("fun") end),
 awful.key({ modkey, "Control" }, "e", function () toggle_tag("sys") end),
 awful.key({ modkey            }, "Tab", function() awful.tag.history.restore() end),
 
--- Client manipulation
-awful.key({ altkey            }, "j", function () switch_to_client(-1) end),
-awful.key({ altkey            }, "k", function () switch_to_client(1) end),
-awful.key({ altkey            }, "1", function () switch_to_client(-1) end),
-awful.key({ altkey            }, "2", function () switch_to_client(1) end),
-awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(1) end),
-awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx(-1) end),
-awful.key({ altkey            }, "Tab", function() switch_to_client(0) end),
-awful.key({ modkey, "Shift"   }, "c",   function (c) c:kill() end),
-
--- Layout manipulation
-awful.key({ altkey,           }, "F1", awful.tag.viewprev ),
-awful.key({ altkey,           }, "F2", awful.tag.viewnext ),
-awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
-awful.key({ modkey,           }, "h", function () awful.tag.incmwfact(-0.05) end),
-awful.key({ modkey,           }, "l", function () awful.tag.incmwfact(0.05) end),
-awful.key({ modkey, "Shift"   }, "h", function () awful.tag.incnmaster(1) end),
-awful.key({ modkey, "Shift"   }, "l", function () awful.tag.incnmaster(-1) end),
-awful.key({ modkey, "Control" }, "h", function () awful.tag.incncol(1) end),
-awful.key({ modkey, "Control" }, "l", function () awful.tag.incncol(-1) end),
-awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts, 1) end),
-awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
--- awful.key({ altkey,           }, "e", function () myrc.keybind.push_menu(chord_mpd(), chord_menu_args) end),
-
--- Multimedia keys
-awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("pactl -- set-sink-volume 0 +10%") end),
-awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("pactl -- set-sink-volume 0 -10%") end),
-awful.key({ }, "XF86AudioMute", function () awful.util.spawn("") end),
-
 -- Tagset operations (Win+Ctrl+s,<letter> chords)
 awful.key({ altkey,           }, "F3", function () myrc.keybind.push_menu(chord_tags(), chord_menu_args) end)
 
 )  
 root.keys(globalkeys)
 
+dofile(config .. "/clientkeys.lua")
+
 clientkeys = awful.util.table.join(
-   awful.key({ modkey }, "F1", function (c) 
-                local tag = myrc.tagman.getn(-1)
-                awful.client.movetotag(tag, c)
-                awful.tag.viewonly(tag)
-                c:raise()
-                               end),
-   awful.key({ modkey }, "F2", function (c) 
-                local tag = myrc.tagman.getn(1)
-                awful.client.movetotag(tag, c)
-                awful.tag.viewonly(tag)
-                c:raise()
-                               end),
-   awful.key({ altkey }, "F4", function (c) c:kill() end),
-   awful.key({ altkey }, "F5", function (c)
-                c.maximized_horizontal = not c.maximized_horizontal
-                c.maximized_vertical   = not c.maximized_vertical
-                               end),
+   clientkeys,
    
    awful.key({ altkey }, "F6", function (c) dbg_client(c) end),
    
@@ -922,27 +816,13 @@ clientkeys = awful.util.table.join(
                                        end)
                                   )
 
-clientbuttons = awful.util.table.join(
-   awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
-   awful.button({ modkey }, 1, awful.mouse.client.move),
-   awful.button({ modkey }, 3, awful.mouse.client.resize)
-                                     )
---}}}
+dofile(config .. "/clientbuttons.lua")
 
--- {{{ Hooks
--- Hook function to execute when focusing a client.
-client.add_signal("focus", function (c)
-                     c.border_color = beautiful.border_focus
-                           end)
-  
--- Hook function to execute when unfocusing a client.
-client.add_signal("unfocus", function (c)
-                     c.border_color = beautiful.border_normal
-                             end)
-  
+dofile(config .. "/hooks.lua")
+
 -- Hook function to execute when a new client appears.
 client.add_signal("manage", function (c, startup)
-  
+                     
                      -- TODO: Handle menu closing on mouse movements
                      --    c:add_signal("mouse::enter", function(c)
                      --        function kill_mousemode_menu(m) 
@@ -951,32 +831,32 @@ client.add_signal("manage", function (c, startup)
                      --        kill_mousemode_menu(mymainmenu)
                      --        kill_mousemode_menu(mycontextmenu)
                      --    end)
-  
+                     
                      c:add_signal("mouse::enter", function(c)
                                      menu_hide()
                                                   end)
-  
+                     
                      c:add_signal("property::floating", function(c) 
                                      c.border_width = get_layout_border(c)
                                                         end)
-  
+                     
                      local name = client_name(c)
                      if c.type == "dialog" then 
                         save_snap(c, 'center')
                      end
-  
+                     
                      local tag = get_tag(c, nil)
                      if tag ~= nil then
                         awful.client.movetotag(tag, c)
                      end
-  
+                     
                      local floating = myrc.memory.get("floating", name)
                      if floating ~= nil then 
                         awful.client.floating.set(c, floating)
                      else
                         floating = awful.client.floating.get(c)
                      end
-  
+                     
                      if floating == true then
                         local dock = get_dockable(c, nil)
                         if dock ~= nil then
@@ -999,45 +879,45 @@ client.add_signal("manage", function (c, startup)
                            client_snap(c, snap, geom)
                         end
                      end
-  
+                     
                      local hidme = get_hidden(c, nil)
                      if hidme ~= nil then
                         c.skip_taskbar = hidme
                      end
-  
+                     
                      local titlebar = get_titlebar(c,nil)
                      if titlebar == true then
                         awful.titlebar.add(c, { modkey = modkey })
                      else
                         awful.titlebar.remove(c)
                      end
-  
+                     
                      -- Set key bindings
                      c:buttons(clientbuttons)
                      c:keys(clientkeys)
-  
+                     
                      -- Set default app icon
                      if not c.icon and theme.default_client_icon then
                         c.icon = image(theme.default_client_icon)
                      end
-  
+                     
                      -- New client may not receive focus
                      -- if they're not focusable, so set border anyway.
                      c.border_width = get_layout_border(c)
                      c.border_color = beautiful.border_normal
                      c.size_hints_honor = false
-  
+                     
                      if not c.skip_taskbar then
                         client.focus = c
                      end
-  
+                     
                      -- XVkbd hack
                      if c.class == "XVkbd" then
                         local sg = screen[1].geometry
                         c.maximized_horizontal = sg.height > sg.width
                      end
                             end)
-  
+
 -- Signal from tagman lib. 
 -- Handler will store tag names to registry.
 -- Those names will be used at next awesome start
@@ -1045,14 +925,5 @@ client.add_signal("manage", function (c, startup)
 awesome.add_signal("tagman::update", function (t, s) 
                       myrc.memory.set("tagnames", tostring(s), myrc.tagman.names())
                                      end)
-  
--- Will change border width for max layout
-for s = 1, screen.count() do
-   awful.tag.attached_add_signal(s,"property::layout", function()
-                                    for _,c in pairs(awful.tag.selected():clients()) do
-                                       c.border_width = get_layout_border(c)
-                                    end
-                                                       end)
-end
 
 awful.util.spawn_with_shell("~/.config/awesome/autostart.sh")
