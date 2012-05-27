@@ -363,6 +363,36 @@
   end
 #+end_src
 
+** ./widgets
+:PROPERTIES:
+:tangle:  ./modules/widgets.lua
+:END:
+*** Clock
+#+begin_src lua
+  -- Clock
+  mytextclock = {}
+  mytextclock = widget({ type = "textbox", align="right" })
+  pipelets.register_fmt(mytextclock, "date", " $1 ")
+#+end_src
+*** Mountbox
+#+begin_src lua
+  -- Mountbox
+  mymountbox = widget({ type = "textbox", align="right" })
+  pipelets.register_fmt( mymountbox, "mmount", " $1")
+#+end_src
+*** BatteryBox
+#+begin_src lua
+  -- BatteryBox
+  mybatbox = widget({ type = "textbox", align="right" })
+  pipelets.register( mybatbox, "batmon")
+#+end_src
+*** Temp
+#+begin_src lua
+  -- Temp
+  mytemp = widget({ type = "textbox", align="right" })
+  pipelets.register_fmt( mytemp, "temp", " $1 ")
+#+end_src
+
 
 * rc.lua and it's needed modules
 ** rc.lua
@@ -918,30 +948,9 @@ This is the default rc.lua file for awesome (which is awesome). It is heavily ba
   
 #+end_src
 **** Define widgets
-***** Clock
-#+begin_src lua
-  -- Clock
-  mytextclock = {}
-  mytextclock = widget({ type = "textbox", align="right" })
-  pipelets.register_fmt(mytextclock, "date", " $1 ")
-#+end_src
-***** Mountbox
-#+begin_src lua
-  -- Mountbox
-  mymountbox = widget({ type = "textbox", align="right" })
-  pipelets.register_fmt( mymountbox, "mmount", " $1")
-#+end_src
-***** BatteryBox
-#+begin_src lua
-  -- BatteryBox
-  mybatbox = widget({ type = "textbox", align="right" })
-  pipelets.register( mybatbox, "batmon")
-#+end_src
-***** Temp
-#+begin_src lua
-  -- Temp
-  mytemp = widget({ type = "textbox", align="right" })
-  pipelets.register_fmt( mytemp, "temp", " $1 ")
+***** Load ./module/widgets.lua
+#+begin_src lua 
+  dofile(config .. "/widgets.lua")
 #+end_src
 ***** Layoutbox
 #+begin_src lua
@@ -970,17 +979,6 @@ This is the default rc.lua file for awesome (which is awesome). It is heavily ba
        awful.button({ }, 4, awful.tag.viewnext),
        awful.button({ }, 5, awful.tag.viewprev) 
                                              )
-#+end_src
-****** Shifty initialize
-:PROPERTIES:
-:tangle: no
-:END:
-#+begin_src lua
-  -- SHIFTY: initialize shifty
-  -- the assignment of shifty.taglist must always be after its actually
-  -- initialized with awful.widget.taglist.new()
-  shifty.taglist = mytaglist
-  shifty.init()
 #+end_src
 ***** Tasklist
   #+begin_src lua
@@ -1012,17 +1010,13 @@ This is the default rc.lua file for awesome (which is awesome). It is heavily ba
   
 #+end_src
 **** Assemble it
-***** Begin
+***** Begin Create a promptbox for each screen
 For each screen begin
 #+begin_src lua
   for s = 1, screen.count() do
-#+end_src
-***** Create a promptbox for each screen
-#+begin_src lua 
      -- Create a promptbox for each screen
      mypromptbox[s] = awful.widget.prompt({layout = awful.widget.layout.horizontal.leftright})
-     
-#+end_src
+  #+end_src
 ***** imagebox widget
 #+begin_src lua 
      -- Create an imagebox widget which will contains an icon indicating
@@ -1074,32 +1068,36 @@ For each screen begin
      }
      
 #+end_src
-***** Create bottom wibox
-#+begin_src lua 
-     -- Create bottom wibox
-     mybottom[s] = awful.wibox({ 
-                                  position = "bottom", screen = s, height = beautiful.wibox_bottom_height })
-     mybottom[s].widgets = {
-        {
-           -- mykbdbox,
-           -- mykbd[s],
-           layout = awful.widget.layout.horizontal.rightleft
-        },
-        -- myrfkill,
-        mytemp,
-        mybatbox,
-        mymountbox,
-        -- mywifibox,
-        -- mywimaxbox,
-        layout = awful.widget.layout.horizontal.leftright
-     }
-#+end_src
 ***** End
 #+begin_src lua 
   end
   -- }}}
   #+end_src
-
+***** Create bottom wibox
+#+begin_src lua 
+  -- Create bottom wibox for screen 1
+  mybottom = awful.wibox({ 
+                            position = "bottom", 
+                            screen = 1, 
+                            height = beautiful.wibox_bottom_height 
+                         }
+                        )
+  mybottom.widgets = {
+     {
+        -- mykbdbox,
+        -- mykbd[s],
+        layout = awful.widget.layout.horizontal.rightleft
+     },
+     -- myrfkill,
+     mytemp,
+     mybatbox,
+     mymountbox,
+     -- mywifibox,
+     -- mywimaxbox,
+     layout = awful.widget.layout.horizontal.leftright
+  }
+  
+#+end_src
 *** Mouse bindings
 #+begin_src lua
      -- {{{ Mouse bindings
