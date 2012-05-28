@@ -118,7 +118,17 @@ altkey+e - begin mpd manipulation menu (tooltip will appear)
 There are vim style keybindings defined for menus 
 (hjkl - move, o - open, x - back, Enter - open)
 
+
 * CHANGES
 ** <2012-05-25 Fri 17:30>  Moving of certain elements into separate files
 Keybindings and hooks were moved into seperate files in ./modules/ directory. This enables the utilisation of the same keybindings in different configs.
+- author   :: Rainer M Krug, email: Rainer@krugs.de Rainer M. Krug
+
+** <2012-05-28 Mon 10:52> Moved freedesktop and myrc into General Modules 
+- link     :: [[file:~/.config/awesome.awesomerc-rkrug/rc.lua.org::*Include%20libraries][Include libraries]] 
+- author   :: Rainer M Krug, email: Rainer@krugs.de Rainer M. Krug
+
+** <2012-05-28 Mon 10:53> Moved systray and bottom wibox to math.max(screen.count(), 1)
+This will cause them to appear on the laptop screen
+- link     :: [[file:~/.config/awesome.awesomerc-rkrug/rc.lua.org::*Wibox][Wibox]] 
 - author   :: Rainer M Krug, email: Rainer@krugs.de Rainer M. Krug
