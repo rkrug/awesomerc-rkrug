@@ -363,35 +363,1091 @@
   end
 #+end_src
 
-** ./widgets
+*** widgets.lua
 :PROPERTIES:
 :tangle:  ./modules/widgets.lua
 :END:
-*** Clock
+**** Clock
 #+begin_src lua
   -- Clock
   mytextclock = {}
   mytextclock = widget({ type = "textbox", align="right" })
   pipelets.register_fmt(mytextclock, "date", " $1 ")
 #+end_src
-*** Mountbox
+**** Mountbox
 #+begin_src lua
   -- Mountbox
   mymountbox = widget({ type = "textbox", align="right" })
   pipelets.register_fmt( mymountbox, "mmount", " $1")
 #+end_src
-*** BatteryBox
+**** BatteryBox
 #+begin_src lua
   -- BatteryBox
   mybatbox = widget({ type = "textbox", align="right" })
   pipelets.register( mybatbox, "batmon")
 #+end_src
-*** Temp
+**** Temp
 #+begin_src lua
   -- Temp
   mytemp = widget({ type = "textbox", align="right" })
   pipelets.register_fmt( mytemp, "temp", " $1 ")
 #+end_src
+
+** ./pipelets
+Will be tangled into ./pipelets/
+*** temp
+#+header: :tangle ./pipelets/temp
+#+begin_src sh
+  ## trap "pkill -P $$" SIGINT
+  ## trap "pkill -P $$" EXIT
+    
+  # while true ; do
+  #     temp3=`sensors | grep 'temp3' | awk '{print $2}'`
+  #     core0=`sensors | grep 'Core 0' | awk '{print $3}'`
+  #     echo -n "Core 0: " $core0 " | temp3 :" $temp3
+  #     sleep 60
+  # done
+  
+  while true ; do
+      echo -n "temp3: "
+      sensors | grep 'temp3' | awk '{print $2}'
+      sleep 60
+  done
+#+end_src
+*** batmon
+#+header: :tangle ./pipelets/batmon
+#+begin_src sh
+  #!/bin/sh
+  
+  which acpitool >/dev/null || exit 1
+  which acpi_listen >/dev/null || exit 1
+  
+  while true ; do
+      # Lookup first battery's status
+      line=`acpitool -b | head -n 1`
+      batnum=`echo "$line" |  sed 's/.*#\(.\).*/\1/'`
+      percent=`echo "$line" | sed 's/.*\:[^,]*, \([^,]*\).*/\1/'`
+      if echo "$line" | grep -q discharging ; then
+          color='#662222'
+          tleft=`echo "$line" | sed 's/.*\:[^,]*, [^,]*, \(..:..\).*/\1/'`
+      else
+          color='#226622'
+          tleft=''
+      fi
+  
+      echo "<span color='$color'>BAT#$batnum $percent $tleft</span>"
+  
+      # Exits after -c X ACPI events or after -t Y sec elapsed
+      acpi_listen -t 60 -c 1 >/dev/null 2>&1
+      sleep 2
+  done
+#+end_src
+*** date
+#+header: :tangle ./pipelets/date
+#+begin_src sh
+  #!/bin/sh
+  export LANG=ru_RU.utf-8 
+  while true ; do
+          date +'%a %d %b, %H:%M'
+          sleep 60
+  done
+#+end_src
+*** mmount
+#+header: :tangle ./pipelets/mmount
+#+begin_src sh
+  #!/bin/sh
+  
+  ## trap "pkill -P $$" SIGINT
+  ## trap "pkill -P $$" EXIT
+  
+  INOWAIT=/usr/bin/inotifywait
+  
+  parse() {
+      cat /proc/mounts | 
+      awk '{print $2}' | 
+      grep -v -E '/proc|/dev|/bus|/sys|/lib|/run' | 
+      grep -w -v /
+  }
+  
+  while true ; do
+      for m in `parse` ; do
+          printf "[%s] " `basename $m`
+      done
+      echo
+  
+      if [ -e $INOWAIT ] ; then
+          $INOWAIT /etc/mtab >/dev/null 2>&1
+          sleep 0.2
+      ## else
+          sleep 20
+      fi
+  done
+#+end_src
+
+
+** freedesktop
+If I am not mistaken, these files are for building the menu dynamically and for locating the icons.
+*** desktop.lua
+:PROPERTIES: 
+:tangle: ./freedesktop/desktop.lua
+:END:
+#+begin_src lua
+  local wibox = wibox
+  local widget = widget
+  local screen = screen
+  local image = image
+  local button = button
+  local table = table
+  local ipairs = ipairs
+  local awful = require("awful")
+  local utils = require("freedesktop.utils")
+  
+  module("freedesktop.desktop")
+  
+  local current_pos = {}
+  local iconsize = { width = 48, height = 48 }
+  local labelsize = { width = 100, height = 20 }
+  local margin = { x = 20, y = 20 }
+  
+  function add_icon(settings)
+  
+      local s = settings.screen
+  
+      if not current_pos[s] then
+          current_pos[s] = { x = (screen[s].geometry.width - iconsize.width - margin.x), y = 40 }
+      end
+  
+      local totheight = (settings.icon and iconsize.height or 0) + (settings.label and labelsize.height or 0)
+      if totheight == 0 then return end
+  
+      if current_pos[s].y + totheight > screen[s].geometry.height - 40 then
+          current_pos[s].x = current_pos[s].x - labelsize.width - iconsize.width - margin.x
+          current_pos[s].y = 40
+      end
+  
+      if (settings.icon) then
+          icon = awful.widget.button({ image = settings.icon })
+          local newbuttons = icon:buttons()
+          table.insert(newbuttons, button({}, 1, nil, settings.click));
+          icon:buttons(newbuttons)
+  
+          icon_container = wibox({ position = "floating", screen = s, bg = "#00000000" })
+          icon_container.widgets = { icon }
+          icon_container:geometry({
+              width = iconsize.width,
+              height = iconsize.height,
+              y = current_pos[s].y,
+              x = current_pos[s].x
+          })
+          icon_container.screen = s
+  
+          current_pos[s].y = current_pos[s].y + iconsize.height + 5
+      end
+  
+      if (settings.label) then
+          caption = widget({ type="textbox", align="right" })
+          caption.text = settings.label
+          caption:buttons({
+              button({ }, 1, settings.click)
+          })
+  
+          caption_container = wibox({ position = "floating", screen = s, bg = "#00000000" })
+          caption_container.widgets = { caption }
+          caption_container:geometry({
+              width = labelsize.width,
+              height = labelsize.height,
+              y = current_pos[s].y,
+              x = current_pos[s].x - labelsize.width + iconsize.width
+          })
+          caption_container.screen = s
+      end
+  
+      current_pos[s].y = current_pos[s].y + labelsize.height + margin.y
+  end
+  
+  function add_desktop_icons(arg)
+      for i, program in ipairs(utils.parse_dir('~/Desktop',
+          { iconsize.width .. "x" .. iconsize.height,
+          "128x128", "96x96", "72x72", "64x64", "48x48",
+          "36x36", "32x32", "24x24", "22x22", "16x16" })) do
+          if program.show then
+              add_icon({
+                  label = arg.showlabels and program.Name or nil,
+                  icon = program.icon_path,
+                  screen = arg.screen,
+                  click = function () awful.util.spawn(program.cmdline) end
+              })
+          end
+      end
+  end
+#+end_src
+*** menu.lua
+:PROPERTIES:
+:tangle:  ./freedesktop/menu.lua
+:END:
+#+begin_src lua
+  -- Grab environment
+  local utils = require("freedesktop.utils")
+  local io = io
+  local ipairs = ipairs
+  local table = table
+  local os = os
+  
+  module("freedesktop.menu")
+  
+  function new()
+     -- the categories and their synonyms where shamelessly copied from lxpanel
+     -- source code.
+     local programs = {}
+     programs['AudioVideo'] = {}
+     --programs['Audio'] = {}
+     --programs['Video'] = {}
+     programs['Development'] = {}
+     --programs['Education'] = {}
+     --programs['Game'] = {}
+     programs['Graphics'] = {}
+     programs['Network'] = {}
+     programs['Office'] = {}
+     --programs['Settings'] = {}
+     programs['System'] = {}
+     programs['Utility'] = {}
+     programs['Other'] = {}
+     
+     
+     for i, program in ipairs(utils.parse_dir('/usr/share/applications/')) do
+        
+        -- check whether to include in the menu
+        if program.show and program.Name and program.cmdline then
+           local target_category = nil
+           if program.categories then
+              for _, category in ipairs(program.categories) do
+                 if programs[category] then
+                    target_category = category
+                    break
+                 end
+              end
+           end
+           if not target_category then
+              target_category = 'Other'
+           end
+           if target_category then
+              table.insert(programs[target_category], { program.Name, program.cmdline, program.icon_path })
+           end
+        end
+        
+     end
+     
+     local menu = {
+        { "&A Accessories", programs["Utility"], utils.lookup_icon({ icon = 'applications-accessories.png' }) },
+        { "&D Development", programs["Development"], utils.lookup_icon({ icon = 'applications-development.png' }) },
+        { "&U Education", programs["Education"], utils.lookup_icon({ icon = 'applications-science.png' }) },
+        { "Games", programs["Game"], utils.lookup_icon({ icon = 'applications-games.png' }) },
+        { "&G Graphics", programs["Graphics"], utils.lookup_icon({ icon = 'applications-graphics.png' }) },
+        { "&I Internet", programs["Network"], utils.lookup_icon({ icon = 'applications-internet.png' }) },
+        { "&M Multimedia", programs["AudioVideo"], utils.lookup_icon({ icon = 'applications-multimedia.png' }) },
+        { "&C Office", programs["Office"], utils.lookup_icon({ icon = 'applications-office.png' }) },
+        { "&H Other", programs["Other"], utils.lookup_icon({ icon = 'applications-other.png' }) },
+        { "Settings", programs["Settings"], utils.lookup_icon({ icon = 'applications-utilities.png' }) },
+        { "&T System Tools", programs["System"], utils.lookup_icon({ icon = 'applications-system.png' }) },
+     }
+     
+     -- Removing empty entries from menu
+     local bad_indexes = {}
+     for index , item in ipairs(menu) do
+        if not item[2] then
+           table.insert(bad_indexes, index)
+        end
+     end
+     table.sort(bad_indexes, function (a,b) return a > b end)
+     for _, index in ipairs(bad_indexes) do
+        table.remove(menu, index)
+     end
+     
+     return menu
+  end
+#+end_src
+*** utils.lua
+:PROPERTIES:
+ :tangle: ./freedesktop/utils.lua
+:END:
+#+begin_src lua
+  -- Grab environment
+  
+  local io = io
+  local table = table
+  local ipairs = ipairs
+  
+  module("freedesktop.utils")
+  
+  terminal = 'xterm'
+  
+  default_icon = ''
+  
+  icon_theme = nil
+  
+  all_icon_sizes = { 
+          '128x128' ,
+          '96x96', 
+          '72x72', 
+          '64x64', 
+          '48x48', 
+          '36x36', 
+          '32x32', 
+          '24x24', 
+          '22x22', 
+          '16x16' 
+  }
+  
+  icon_sizes = {}
+  
+  local function file_exists(filename)
+      local file = io.open(filename, 'r')
+      local result = (file ~= nil)
+      if result then
+          file:close()
+      end
+      return result
+  end
+  
+  function lookup_icon(arg)
+      if arg.icon:sub(1, 1) == '/' and (arg.icon:find('.+%.png') or arg.icon:find('.+%.xpm')) then
+          -- icons with absolute path and supported (AFAICT) formats
+          return arg.icon
+      else
+          local icon_path = {}
+          local icon_theme_paths = {}
+          if icon_theme then
+              table.insert(icon_theme_paths, '/usr/share/icons/' .. icon_theme .. '/')
+              -- TODO also look in parent icon themes, as in freedesktop.org specification
+          end
+          table.insert(icon_theme_paths, '/usr/share/icons/hicolor/') -- fallback theme cf spec
+  
+                  local isizes = icon_sizes
+          for i, sz in ipairs(all_icon_sizes) do
+                          table.insert(isizes, sz)
+                  end
+  
+          for i, icon_theme_directory in ipairs(icon_theme_paths) do
+              for j, size in ipairs(arg.icon_sizes or isizes) do
+                  table.insert(icon_path, icon_theme_directory .. size .. '/apps/')
+                  table.insert(icon_path, icon_theme_directory .. size .. '/actions/')
+                  table.insert(icon_path, icon_theme_directory .. size .. '/devices/')
+                  table.insert(icon_path, icon_theme_directory .. size .. '/places/')
+                  table.insert(icon_path, icon_theme_directory .. size .. '/categories/')
+                  table.insert(icon_path, icon_theme_directory .. size .. '/status/')
+              end
+          end
+          -- lowest priority fallbacks
+          table.insert(icon_path,  '/usr/share/pixmaps/')
+          table.insert(icon_path,  '/usr/share/icons/')
+  
+          for i, directory in ipairs(icon_path) do
+              if (arg.icon:find('.+%.png') or arg.icon:find('.+%.xpm')) and file_exists(directory .. arg.icon) then
+                  return directory .. arg.icon
+              elseif file_exists(directory .. arg.icon .. '.xpm') then
+                  return directory .. arg.icon .. '.xpm'
+              elseif file_exists(directory .. arg.icon .. '.png') then
+                  return directory .. arg.icon .. '.png'
+              end
+          end
+          return default_icon
+      end
+  end
+  
+  --- Parse a .desktop file
+  -- @param file The .desktop file
+  -- @param requested_icon_sizes A list of icon sizes (optional). If this list is given, it will be used as a priority list for icon sizes when looking up for icons. If you want large icons, for example, you can put '128x128' as the first item in the list.
+  -- @return A table with file entries.
+  function parse(file, requested_icon_sizes)
+      local program = { show = true, file = file }
+      for line in io.lines(file) do
+          for key, value in line:gmatch("(%w+)=(.+)") do
+              program[key] = value
+          end
+      end
+  
+      -- Only show the program if there is not OnlyShowIn attribute
+      -- or if it's equal to 'awesome'
+      if program.OnlyShowIn ~= nil and program.OnlyShowIn ~= "awesome" then
+          program.show = false
+      end
+  
+      -- Look up for a icon.
+      if program.Icon then
+          program.icon_path = lookup_icon({ icon = program.Icon, icon_sizes = (requested_icon_sizes or all_icon_sizes) })
+      end
+  
+      -- Split categories into a table.
+      if program.Categories then
+          program.categories = {}
+          for category in program.Categories:gfind('[^;]+') do
+              table.insert(program.categories, category)
+          end
+      end
+  
+      if program.Exec then
+          local cmdline = program.Exec:gsub('%%c', program.Name)
+          cmdline = cmdline:gsub('%%[fuFU]', '')
+          cmdline = cmdline:gsub('%%k', program.file)
+          if program.icon_path then
+              cmdline = cmdline:gsub('%%i', '--icon ' .. program.icon_path)
+          end
+          if program.Terminal == "true" then
+              cmdline = terminal .. ' -e ' .. cmdline
+          end
+          program.cmdline = cmdline
+      end
+  
+      return program
+  end
+  
+  --- Parse a directory with .desktop files
+  -- @param dir The directory.
+  -- @param icons_size, The icons sizes, optional.
+  -- @return A table with all .desktop entries.
+  function parse_dir(dir, icon_sizes)
+      local programs = {}
+      local files = io.popen('find '.. dir ..' -maxdepth 1 -name "*.desktop"'):lines()
+      for file in files do
+          table.insert(programs, parse(file, icon_sizes))
+      end
+      return programs
+  end
+#+end_src
+** myrc
+Will be tangled into ./myrc/
+*** mainmenu.lua
+#+header: :tangle ./myrc/mainmenu.lua
+#+begin_src lua
+  local awful = require("awful")
+  local beautiful = require("beautiful")
+  local freedesktop_utils = require("freedesktop.utils")
+  local freedesktop_menu = require("freedesktop.menu")
+  local themes = require("myrc.themes")
+  
+  local io = io
+  local table = table
+  local awesome = awesome
+  local ipairs = ipairs
+  local os = os
+  local string = string
+  local mouse = mouse
+  
+  module("myrc.mainmenu")
+  
+  local env = {}
+  
+  -- Reserved.
+  function init(enviroment)
+     env = enviroment
+  end
+  
+  -- Creates main menu
+  -- Note: Uses beautiful.icon_theme and beautiful.icon_theme_size
+  -- env - table with string constants - command line to different apps
+  function build()
+     local terminal = (env.terminal or "xterm") .. " "
+     local man = (env.man or "xterm -e man") .. " "
+     local editor = (env.editor or "xterm -e " .. (os.getenv("EDITOR") or "vim")) .. " "
+     local browser = (env.browser or "firefox") .. " "
+     local run = (env.run or "gmrun")
+     local fileman = env.fileman or "xterm -e mc"
+     local xkill = env.xkill or "xkill" .. " "
+     local poweroff = env.poweroff or "sudo /sbin/poweroff"
+     local reboot = env.reboot or "sudo /sbin/reboot"
+     local rotate = env.rotate or nil
+     local logout = env.logout or awesome.quit
+     local suspend = env.suspend or "sudo /usr/sbin/pm-suspend"
+     local hibernate = env.hibernate or "sudo /usr/sbin/pm-hibernate"
+     local syslog = env.syslog or terminal .. " -e vim /var/log/messages"
+     
+     freedesktop_utils.terminal = terminal
+     freedesktop_utils.icon_theme = beautiful.icon_theme 
+     freedesktop_utils.icon_sizes = {beautiful.icon_theme_size}
+     freedesktop_utils.default_icon = beautiful.default_client_icon 
+     
+     local myquitmenu = {
+        { "&Poweroff", poweroff, freedesktop_utils.lookup_icon({ icon = 'system-shutdown' })}, 
+        { "&Reboot", reboot, freedesktop_utils.lookup_icon({ icon = 'system-shutdown' })}, 
+        { "H&ibernate", hibernate, freedesktop_utils.lookup_icon({ icon = 'system-shutdown' }) }, 
+        { "&Suspend", suspend, freedesktop_utils.lookup_icon({ icon = 'system-shutdown' }) }, 
+        { "&Logout", logout , freedesktop_utils.lookup_icon({ icon = 'gnome-logout' })}, 
+     }
+     
+     local myawesomemenu = { 
+        { "&Themes", themes.menu(), freedesktop_utils.lookup_icon({ icon = 'wallpaper' }) }, 
+        { "&Manual", man .. " awesome", freedesktop_utils.lookup_icon({ icon = 'wallpaper' }) },
+        { "&Edit config", editor .. " " .. awful.util.getdir("config") .. "/rc.lua", freedesktop_utils.lookup_icon({ icon = 'wallpaper' }) },
+        { "&Restart", awesome.restart, freedesktop_utils.lookup_icon({ icon = 'reload' }) },
+        { "&Stop", awesome.quit, freedesktop_utils.lookup_icon({ icon = 'stop' }) } 
+     }
+     
+     local mymainmenu_items_head = {
+        { "Awesome", myawesomemenu, beautiful.awesome_icon },
+        { "&E Terminal", terminal, freedesktop_utils.lookup_icon({icon = 'terminal'}) },
+        { "&F File Manager", fileman, freedesktop_utils.lookup_icon({icon = 'file-manager'}) },
+        { "&B Browser", browser, freedesktop_utils.lookup_icon({icon = 'browser'}) },
+        { "", nil, nil}, --separator
+        -- { "Debian", debian.menu.Debian_menu.Debian },
+        -- { "", nil, nil}, --separator
+     }
+     
+     local mymainmenu_items_tail = {
+        { "", nil, nil}, --separator
+        -- { "&S Syslog", syslog, freedesktop_utils.lookup_icon({ icon = "gnome-monitor"}) },
+        -- { "&O Rotate", {
+        --     {"&Normal", rotate .. " normal" , freedesktop_utils.lookup_icon({icon = 'stock_down'})},
+        --     {"&Left",   rotate .. " left"   , freedesktop_utils.lookup_icon({icon = 'stock_left'})},
+        --     {"&Rigth",  rotate .. " right"  , freedesktop_utils.lookup_icon({icon = 'stock_right'})},
+        -- }, freedesktop_utils.lookup_icon({icon = 'reload'})},
+        -- { "&W Wifi", {
+        --     {"&F Wifi", env.rfkill.wifi , freedesktop_utils.lookup_icon({icon = 'stock_up'})},
+        --     {"&M WiMax",   env.rfkill.wimax   , freedesktop_utils.lookup_icon({icon = 'stock_up'})},
+        --     {"&N None",   env.rfkill.off   , freedesktop_utils.lookup_icon({icon = 'stock_down'})},
+        -- }, freedesktop_utils.lookup_icon({icon = 'wicd-gtk'})},
+        { "&X Xkill", xkill, freedesktop_utils.lookup_icon({ icon = "weather-storm"}) },
+        { "&R Run", run, freedesktop_utils.lookup_icon({ icon = "access"}) },
+        { "", nil, nil}, --separator
+        { "&P Power", myquitmenu, freedesktop_utils.lookup_icon({ icon = 'gnome-logout' }) },
+     }
+     
+     local mymainmenu_items = {}
+     for _, item in ipairs(mymainmenu_items_head) do table.insert(mymainmenu_items, item) end
+     for _, item in ipairs(freedesktop_menu.new()) do table.insert(mymainmenu_items, item) end
+     for _, item in ipairs(mymainmenu_items_tail) do table.insert(mymainmenu_items, item) end
+     
+     return awful.menu({ items = mymainmenu_items, x = 0, y = 0})
+  end
+#+end_src
+
+*** tagman.lua
+#+header: :tangle ./myrc/tagman.lua
+#+begin_src lua
+  -- Author: Sergey Mironov ierton@gmail.com
+  -- License: BSD3
+  -- 2009-2010
+  --
+  -- Tag manipulation library
+  -- Note: library uses signal "tagman::update"
+  
+  local awful = require("awful")
+  local beautiful = require("beautiful")
+  
+  local capi = {
+     io = io,
+     screen = screen,
+     tag = tag,
+     mouse = mouse,
+     client = client,
+     awesome = awesome
+  }
+  
+  local client = client
+  local type = type
+  local table = table
+  local awesome = awesome
+  local ipairs = ipairs
+  local pairs = pairs
+  local tostring = tostring
+  
+  module("myrc.tagman")
+  
+  -- Returns tag by name
+  function find(name,s)
+     local s = s or client.focus and client.focus.screen or capi.mouse.screen
+     for _,t in ipairs(capi.screen[s]:tags()) do 
+        if name == t.name then return t end 
+     end
+     return nil
+  end
+  
+  -- Returns list of tag names at screen @s
+  function names(s)
+     local s = s or client.focus and client.focus.screen or capi.mouse.screen
+     local result = {}
+     for _,t in ipairs(capi.screen[s]:tags()) do 
+        table.insert(result, t.name) 
+     end
+     return result
+  end
+  
+  -- Returns tag by index @index, starting from 0.
+  function get(index, s)
+     local s = s or client.focus and client.focus.screen or capi.mouse.screen
+     local stags = capi.screen[s]:tags()
+     return stags[awful.util.cycle(#stags, index)]
+  end
+  
+  -- Returns index of current tag (on this screen)
+  function indexof(tag)
+     local all_tags = capi.screen[tag.screen]:tags()
+     return awful.util.table.hasitem(all_tags,tag)
+  end
+  
+  function next_to(t,n) return get(indexof(t)+(n or 1),s) end
+  
+  function prev_to(t,n) return get(indexof(t)-(n or 1),s) end
+  
+  -- Gets tag object, by its offset @offset, starting from 
+  -- tag @basetag
+  function getn(offset, basetag, s)
+     local offset = offset or 0
+     local s = s or client.focus and client.focus.screen or capi.mouse.screen
+     local stags = capi.screen[s]:tags()
+     local basetag = basetag or awful.tag.selected()
+     local k = awful.util.table.hasitem(stags,basetag)
+     return stags[awful.util.cycle(#stags, k + offset)]
+  end
+  
+  -- Moves all tagless clients of screen @s to tag @deftag
+  local function handle_orphans(s, deftag)
+     local s = s or client.focus and client.focus.screen or capi.mouse.screen
+     local stags = capi.screen[s]:tags()
+     if #stags < 1 then return end
+     local deftag = deftag or stags[1]
+     for _, c in pairs(client.get(s)) do
+        if #c:tags() == 0 then
+           c:tags({deftag})
+        end
+     end
+  end
+  
+  -- Does what?
+  function sort(s, fn)
+     local fn = fn or function (a, b) return a.name < b.name end
+     local s = s or client.focus and client.focus.screen or capi.mouse.screen
+     local all_tags = capi.screen[s]:tags()
+     table.sort(all_tags, fn)
+     capi.screen[s]:tags(all_tags)
+  end
+  
+  -- Moves tag to position @where (if where is number) -OR- next
+  -- to tag @where (if @where is object)
+  -- In latter case @where should be on the @tag's screen
+  function move(tag, where)
+     local stags = capi.screen[tag.screen]:tags()
+     -- Current possition of the tag
+     local oldkey = indexof(tag)
+     if oldkey == nil then return end
+     -- New position of the tag
+     local newkey = nil
+     if type(where) == "number" then
+        newkey = awful.util.cycle(#stags, where)
+     else
+        -- dest tag should be on the same screen with src
+        if where.screen ~= tag.screen then return end
+        -- expect a table (a tag)
+        newkey = indexof(where)
+     end
+  
+     local c = capi.client.focus
+  
+     table.remove(stags,oldkey)
+     table.insert(stags,newkey,tag)
+     capi.screen[tag.screen]:tags(stags)
+  
+     awesome.emit_signal("tagman::update", tag, tag.screen)
+     if c~= nil then 
+        capi.client.focus = c 
+     end
+  end
+  
+  -- Adds a tag named @tn with props @props
+  -- NOTE: those properties are not the same with awful.tag's
+  function add(tn, props, s)
+     local props = props or {}
+     local s = s or client.focus and client.focus.screen or capi.mouse.screen
+     local tname = tostring(tn)
+     if tname == nil then return end
+     local t = awful.tag.add(tname)
+     t.screen = s
+     awful.layout.set(props.layout or awful.layout.suit.max, t)
+     if props.setsel == true then t.selected = true end
+     awesome.emit_signal("tagman::update", t, s)
+     return t
+  end
+  
+  -- Removes tag @t. Move it's clients to tag @deft
+  function del(tag, deft)
+     local s = tag.screen
+     local stags = capi.screen[s]:tags()
+     if #stags <= 1 then return end
+     local deft = deft or prev_to(tag)
+     if deft == nil then return end
+     tag.screen = nil
+     awesome.emit_signal("tagman::update", tag, s)
+     handle_orphans(s, deft)
+  end
+  
+  -- Renames tag @tag with name @newname
+  function rename(tag, newname)
+     tag.name = newname
+     awesome.emit_signal("tagman::update", tag, tag.screen)
+  end
+  
+  -- Initializes the library. 
+  -- Creates a se of tags for each screen
+  -- @name_getter is a function taking screen index and returning 
+  -- a list of tag names.
+  function init(name_getter)
+     for s = 1, capi.screen.count() do
+        local namelist = name_getter(s)
+        if namelist == nil or #namelist == 0 then
+           namelist = {}
+           for i=1,9 do namelist[i] = tostring(i) end
+        end
+        -- Each screen has its own tag table.
+        for i, name in ipairs(namelist) do 
+           add(name, { setsel=(i==1) }, s) 
+        end
+     end
+  end
+#+end_src
+*** keybind.lua
+#+header: :tangle ./myrc/keybind.lua
+#+begin_src lua
+  -- Author: Sergey Mironov ierton@gmail.com
+  -- License: BSD3
+  -- 2009-2010
+  --
+  -- Library allows user to bind GNU Screen style 'chords'
+  
+  local awful = require("awful")
+  local naughty = require("naughty")
+  local mouse = mouse
+  
+  local capi = {
+          root = root,
+  }
+  
+  local table = table
+  local ipairs = ipairs
+  local tostring = tostring
+  
+  module("myrc.keybind")
+  
+  
+  local active = nil
+  
+  local function get_keys(c)
+      if c == nil then
+          return capi.root.keys()
+      else
+          return c:keys()
+      end
+  end
+  
+  local function set_keys(c, k)
+      if c == nil then
+          capi.root.keys(k)
+      else
+          c:keys(k)
+      end
+  end
+  
+  local function dbg(m)
+      naughty.notify({
+          title = "[Warning]",
+          text = m,
+          timeout = 10,
+          position = "bottom_left",
+      })
+  end
+  
+  local function remove_a_key(k, tbl)
+      for pos,x in ipairs(tbl) do
+          if x.key == k.key and #x.modifiers == #k.modifiers then
+              local match = true
+              for i=1, #x.modifiers do
+                  if x.modifiers[i] ~= k.modifiers[i] then
+                      match = false
+                      break
+                  end
+              end
+              if match then
+                  table.remove(tbl,pos)
+                  return
+              end
+          end
+      end
+  
+      dbg("Can't find a key: " .. k.keysym)
+  end
+  
+  local function chord_release(ch)
+      local allkeys = get_keys(ch.client)
+      for _,kt in ipairs(ch.keytable) do
+          for _,k in ipairs(kt.keys) do
+              remove_a_key(k,allkeys)
+          end
+      end
+  
+      set_keys(ch.client, allkeys)
+  
+      if ch.menu then
+          awful.menu.hide(ch.menu)
+          ch.menu = nil
+      end
+  
+      if ch.naughtybox then
+          naughty.destroy(ch.naughtybox)
+          ch.naughtybox = nil
+      end
+  end
+  
+  -- Cancels current chord, if any
+  function pop()
+      if active ~= nil then
+          chord_release(active)
+          active = nil
+      end
+  end
+  
+  local function mod(k) return k[1] end
+  local function keysym(k) return k[2] end
+  local function desc(k) return k[3] or "<no description>" end
+  local function press(k) return k[4] end
+  local function icon(k) return k[5] end
+  
+  local function chord_new(keytable, c)
+      local newkeys = nil
+      local chord = {}
+      local old = {}
+      for _, k in ipairs(keytable) do
+          if #k < 3 then
+              dbg("Invalid chord key detected after:" .. keysym(old))
+          end
+          k.keys = awful.key(mod(k), keysym(k), function()
+              local finish = press(k)()
+              if finish ~= false then pop() end
+          end)
+          newkeys = awful.util.table.join(newkeys, k.keys)
+          old = k
+      end
+  
+      local allkeys = get_keys(c)
+      for _,k in ipairs(newkeys) do
+          table.insert(allkeys, k)
+      end
+      set_keys(c, allkeys)
+  
+      chord.client = c
+      chord.keytable = keytable
+      return chord
+  end
+  
+  -- Constructs menu describing chord table given
+  function chord_menu(keytable)
+      local template = keytable.menu or {}
+      template.items = {}
+  
+      for _, k in ipairs(keytable) do
+          local item = {
+              tostring(keysym(k)) .. ": " .. desc(k), 
+              press(k),
+              icon(k)
+          }
+          table.insert(template.items, item)
+      end
+  
+      return awful.menu.new(template)
+  end
+  
+  -- Constructs naughty box describing chord table given
+  function chord_naughty(keytable)
+      local template = keytable.naughty or {}
+  
+      template.text = ""
+      for _, k in ipairs(keytable) do
+          -- TODO: Take modifiers into account when 
+          -- generating descriptions
+          template.text = template.text ..
+          "\n" .. tostring(k.keysym) ..
+          ": " ..  ( k.desc or "<no_description>" )
+      end
+  
+      return naughty.notify(template)
+  end
+  
+  -- Function inserts keys from table 'keytable'
+  -- into client's keys(). Then it pops naughtybox 
+  -- showing chord description.
+  --
+  -- @param keytable Keys to be mapped
+  -- @param c Client. if nil, global keys will be used.
+  function push(keytable, c)
+      pop()
+      active = chord_new(keytable, c)
+      return active
+  end
+  
+  function push_menu(keytable, args, c)
+      local chord = push(keytable, c)
+      local menu = chord_menu(keytable)
+      menu.hide = function(m)
+          awful.menu.hide(m)
+          pop()
+      end
+      chord.menu = menu
+      chord.menu:show(args)
+      return chord
+  end
+  
+  function push_naughty(keytable, c)
+      local chord = push(keytable, c)
+      local nb = chord_naughty(keytable)
+      chord.naughtybox = nb
+      return chord
+  end
+#+end_src
+
+*** logmon.lua
+#+header: :tangle ./myrc/logmon.lua
+#+begin_src lua
+  local awful = require("awful")
+  
+  module("myrc.logmon")
+  
+  function init()
+          awful.util.spawn(awful.util.getdir("config").."/lognotifier", false)
+  end
+#+end_src
+*** memory.lua
+#+header: :tangle ./myrc/memory.lua
+#+begin_src lua
+  -- Author: Sergey Mironov ierton@gmail.com
+  -- License: BSD3
+  -- 2009-2010
+  --
+  -- Registry support
+  -- Note: library requires table.save lua lib
+  
+  local awful = require("awful")
+  
+  local io = io
+  local table = table
+  local awesome = awesome
+  local ipairs = ipairs
+  local tostring = tostring
+  local type = type
+  local string = string
+  
+  module("myrc.memory")
+  
+  local tables = {}
+  local current_version = 1
+  
+  function init()
+          local config = awful.util.getdir("config").."/memory.data"
+          tables, err = table.load(config)
+          if err ~= nil then
+                  tables = {}
+          end
+          if tables.verion == nil then
+                  tables.verion = current_version
+          end
+  end
+  
+  function set(t, key, value)
+          if type(tables[t]) == "nil" then
+                  tables[t] = {}
+          end
+          local oldvalue = tables[t] [key]
+          tables[t] [key] = value
+          if oldvalue ~= value then
+                  local config = awful.util.getdir("config").."/memory.data"
+                  local res, err = table.save(tables, config)
+          end
+          return value
+  end
+  
+  function get(table, key, defvalue)
+  
+          if type(tables[table]) == "nil" then
+                  return defvalue
+          elseif type(tables[table][key]) == "nil" then
+                  local oldkey = string.gsub(key,"([^:]*:[^:]*:[^:]*):[^:]*", "%1")
+                  if type(tables[table][oldkey]) == "nil" then
+                          return defvalue
+                  end
+                  return tables[table][oldkey]
+          end
+  
+          return tables[table][key]
+  end
+#+end_src
+*** themes.lua
+#+header: :tangle ./myrc/themes.lua
+#+begin_src lua
+  -- Author: Sergey Mironov ierton@gmail.com
+  -- License: BSD3
+  -- 2009-2010
+  --
+  -- Library manages current theme symlink
+  
+  local awful = require("awful")
+  local io = io
+  local table = table
+  local awesome = awesome
+  local os = os
+  local string = string
+  
+  module("myrc.themes")
+  
+  
+  local function hasfile(f)
+      local exists = io.open(f)
+      if exists then
+          io.close(exists)
+          return f
+      end
+      return nil
+  end
+  
+  -- List your theme files and feed menu table
+  -- Item handlers will create .current symlink 
+  -- to point to theme selected
+  function menu(args)
+      args = args or {}
+      args.default_icon = args.default_icon or "/usr/local/share/awesome/icons/awesome16.png"
+          local mythememenu = {}
+          local cfgpath = awful.util.getdir("config")
+          local themespath = cfgpath .. "/themes"
+          local cmd = "find -L " .. themespath .. " -name 'theme.lua' -and -not -path '*.current*'"
+          local f = io.popen(cmd)
+          for l in f:lines() do
+                  local folder = string.gsub(l,"[%w/._-]+/([%w-_]+)/theme.lua", "%1")
+          local icon = 
+              hasfile(themespath .. "/" .. folder .. "/awesome-icon.png") or
+              hasfile(args.default_icon)
+                  local item = { folder, function () 
+                          local themepath = string.gsub(l,"(%w+)/theme.lua", "%1")
+                          awful.util.pread("rm -f " .. themespath .. "/.current")
+                          awful.util.pread("ln -s " .. folder .. " " .. themespath .. "/.current")
+                          awesome.restart()
+                  end, icon }
+                  table.insert(mythememenu, item)
+          end
+  
+          f:close()
+          return mythememenu
+  end
+  
+  -- Returns current theme.
+  -- @param default Default theme name
+  function current(default)
+      local default = default or "blue-black-red"
+      local filename = awful.util.getdir("config") .. "/themes/.current/theme.lua"
+      local handle = io.open(filename)
+      if handle == nil then
+          return awful.util.getdir("config") .. "/themes/" .. default .. "/theme.lua"
+      else
+          io.close(handle)
+          return filename
+      end
+  end
+#+end_src
+
 
 
 * rc.lua and it's needed modules
@@ -412,8 +1468,6 @@ This is the default rc.lua file for awesome (which is awesome). It is heavily ba
   require("beautiful")
   require("naughty")
 
-  -- require("debian.menu")
-
   require("freedesktop.utils")
   require("freedesktop.menu")
   
@@ -426,6 +1480,8 @@ This is the default rc.lua file for awesome (which is awesome). It is heavily ba
   require("myrc.keybind")
   require("myrc.memory")
   require("myrc.logmon")
+
+  -- require("debian.menu")
 
   -- shifty - dynamic tagging library
   -- require("shifty")
@@ -1058,7 +2114,7 @@ For each screen begin
         mypromptbox[s],
         {
            myclientmenu[s],
-           s == 1 and mysystray or nil,
+           s == math.max(screen.count(), 1) and mysystray or nil,
            mytextclock,
            layout = awful.widget.layout.horizontal.rightleft
         },
@@ -1078,10 +2134,9 @@ For each screen begin
   -- Create bottom wibox for screen 1
   mybottom = awful.wibox({ 
                             position = "bottom", 
-                            screen = 1, 
+                            screen = math.max(screen.count(), 1), 
                             height = beautiful.wibox_bottom_height 
-                         }
-                        )
+                         })
   mybottom.widgets = {
      {
         -- mykbdbox,
@@ -1096,7 +2151,6 @@ For each screen begin
      -- mywimaxbox,
      layout = awful.widget.layout.horizontal.leftright
   }
-  
 #+end_src
 *** Mouse bindings
 #+begin_src lua
@@ -1404,7 +2458,7 @@ For each screen begin
   shifty.config.clientkeys = clientkeys
   shifty.config.modkey = modkey
 #+end_src
-*** TODO Hooks
+*** Hooks
 **** Load ./module/hooks.lua
 #+begin_src lua 
   dofile(config .. "/hooks.lua")
@@ -1521,1050 +2575,6 @@ For each screen begin
 *** Autostart
 #+begin_src lua
   awful.util.spawn_with_shell("~/.config/awesome/autostart.sh")
-#+end_src
-
-** freedesktop
-*** desktop.lua
-#+header: :tangle ./freedesktop/desktop.lua
-#+begin_src lua
-  local wibox = wibox
-  local widget = widget
-  local screen = screen
-  local image = image
-  local button = button
-  local table = table
-  local ipairs = ipairs
-  local awful = require("awful")
-  local utils = require("freedesktop.utils")
-  
-  module("freedesktop.desktop")
-  
-  local current_pos = {}
-  local iconsize = { width = 48, height = 48 }
-  local labelsize = { width = 100, height = 20 }
-  local margin = { x = 20, y = 20 }
-  
-  function add_icon(settings)
-  
-      local s = settings.screen
-  
-      if not current_pos[s] then
-          current_pos[s] = { x = (screen[s].geometry.width - iconsize.width - margin.x), y = 40 }
-      end
-  
-      local totheight = (settings.icon and iconsize.height or 0) + (settings.label and labelsize.height or 0)
-      if totheight == 0 then return end
-  
-      if current_pos[s].y + totheight > screen[s].geometry.height - 40 then
-          current_pos[s].x = current_pos[s].x - labelsize.width - iconsize.width - margin.x
-          current_pos[s].y = 40
-      end
-  
-      if (settings.icon) then
-          icon = awful.widget.button({ image = settings.icon })
-          local newbuttons = icon:buttons()
-          table.insert(newbuttons, button({}, 1, nil, settings.click));
-          icon:buttons(newbuttons)
-  
-          icon_container = wibox({ position = "floating", screen = s, bg = "#00000000" })
-          icon_container.widgets = { icon }
-          icon_container:geometry({
-              width = iconsize.width,
-              height = iconsize.height,
-              y = current_pos[s].y,
-              x = current_pos[s].x
-          })
-          icon_container.screen = s
-  
-          current_pos[s].y = current_pos[s].y + iconsize.height + 5
-      end
-  
-      if (settings.label) then
-          caption = widget({ type="textbox", align="right" })
-          caption.text = settings.label
-          caption:buttons({
-              button({ }, 1, settings.click)
-          })
-  
-          caption_container = wibox({ position = "floating", screen = s, bg = "#00000000" })
-          caption_container.widgets = { caption }
-          caption_container:geometry({
-              width = labelsize.width,
-              height = labelsize.height,
-              y = current_pos[s].y,
-              x = current_pos[s].x - labelsize.width + iconsize.width
-          })
-          caption_container.screen = s
-      end
-  
-      current_pos[s].y = current_pos[s].y + labelsize.height + margin.y
-  end
-  
-  function add_desktop_icons(arg)
-      for i, program in ipairs(utils.parse_dir('~/Desktop',
-          { iconsize.width .. "x" .. iconsize.height,
-          "128x128", "96x96", "72x72", "64x64", "48x48",
-          "36x36", "32x32", "24x24", "22x22", "16x16" })) do
-          if program.show then
-              add_icon({
-                  label = arg.showlabels and program.Name or nil,
-                  icon = program.icon_path,
-                  screen = arg.screen,
-                  click = function () awful.util.spawn(program.cmdline) end
-              })
-          end
-      end
-  end
-#+end_src
-*** menu.lua
-#+header: :tangle ./freedesktop/menu.lua
-#+begin_src lua
-  -- Grab environment
-  local utils = require("freedesktop.utils")
-  local io = io
-  local ipairs = ipairs
-  local table = table
-  local os = os
-  
-  module("freedesktop.menu")
-  
-  function new()
-     -- the categories and their synonyms where shamelessly copied from lxpanel
-     -- source code.
-     local programs = {}
-     programs['AudioVideo'] = {}
-     --programs['Audio'] = {}
-     --programs['Video'] = {}
-     programs['Development'] = {}
-     --programs['Education'] = {}
-     --programs['Game'] = {}
-     programs['Graphics'] = {}
-     programs['Network'] = {}
-     programs['Office'] = {}
-     --programs['Settings'] = {}
-     programs['System'] = {}
-     programs['Utility'] = {}
-     programs['Other'] = {}
-     
-     
-     for i, program in ipairs(utils.parse_dir('/usr/share/applications/')) do
-        
-        -- check whether to include in the menu
-        if program.show and program.Name and program.cmdline then
-           local target_category = nil
-           if program.categories then
-              for _, category in ipairs(program.categories) do
-                 if programs[category] then
-                    target_category = category
-                    break
-                 end
-              end
-           end
-           if not target_category then
-              target_category = 'Other'
-           end
-           if target_category then
-              table.insert(programs[target_category], { program.Name, program.cmdline, program.icon_path })
-           end
-        end
-        
-     end
-     
-     local menu = {
-        { "&A Accessories", programs["Utility"], utils.lookup_icon({ icon = 'applications-accessories.png' }) },
-        { "&D Development", programs["Development"], utils.lookup_icon({ icon = 'applications-development.png' }) },
-        { "&U Education", programs["Education"], utils.lookup_icon({ icon = 'applications-science.png' }) },
-        { "Games", programs["Game"], utils.lookup_icon({ icon = 'applications-games.png' }) },
-        { "&G Graphics", programs["Graphics"], utils.lookup_icon({ icon = 'applications-graphics.png' }) },
-        { "&I Internet", programs["Network"], utils.lookup_icon({ icon = 'applications-internet.png' }) },
-        { "&M Multimedia", programs["AudioVideo"], utils.lookup_icon({ icon = 'applications-multimedia.png' }) },
-        { "&C Office", programs["Office"], utils.lookup_icon({ icon = 'applications-office.png' }) },
-        { "&H Other", programs["Other"], utils.lookup_icon({ icon = 'applications-other.png' }) },
-        { "Settings", programs["Settings"], utils.lookup_icon({ icon = 'applications-utilities.png' }) },
-        { "&T System Tools", programs["System"], utils.lookup_icon({ icon = 'applications-system.png' }) },
-     }
-     
-     -- Removing empty entries from menu
-     local bad_indexes = {}
-     for index , item in ipairs(menu) do
-        if not item[2] then
-           table.insert(bad_indexes, index)
-        end
-     end
-     table.sort(bad_indexes, function (a,b) return a > b end)
-     for _, index in ipairs(bad_indexes) do
-        table.remove(menu, index)
-     end
-     
-     return menu
-  end
-#+end_src
-*** utils.lua
-#+header: :tangle ./freedesktop/utils.lua
-#+begin_src lua
-  -- Grab environment
-  
-  local io = io
-  local table = table
-  local ipairs = ipairs
-  
-  module("freedesktop.utils")
-  
-  terminal = 'xterm'
-  
-  default_icon = ''
-  
-  icon_theme = nil
-  
-  all_icon_sizes = { 
-          '128x128' ,
-          '96x96', 
-          '72x72', 
-          '64x64', 
-          '48x48', 
-          '36x36', 
-          '32x32', 
-          '24x24', 
-          '22x22', 
-          '16x16' 
-  }
-  
-  icon_sizes = {}
-  
-  local function file_exists(filename)
-      local file = io.open(filename, 'r')
-      local result = (file ~= nil)
-      if result then
-          file:close()
-      end
-      return result
-  end
-  
-  function lookup_icon(arg)
-      if arg.icon:sub(1, 1) == '/' and (arg.icon:find('.+%.png') or arg.icon:find('.+%.xpm')) then
-          -- icons with absolute path and supported (AFAICT) formats
-          return arg.icon
-      else
-          local icon_path = {}
-          local icon_theme_paths = {}
-          if icon_theme then
-              table.insert(icon_theme_paths, '/usr/share/icons/' .. icon_theme .. '/')
-              -- TODO also look in parent icon themes, as in freedesktop.org specification
-          end
-          table.insert(icon_theme_paths, '/usr/share/icons/hicolor/') -- fallback theme cf spec
-  
-                  local isizes = icon_sizes
-          for i, sz in ipairs(all_icon_sizes) do
-                          table.insert(isizes, sz)
-                  end
-  
-          for i, icon_theme_directory in ipairs(icon_theme_paths) do
-              for j, size in ipairs(arg.icon_sizes or isizes) do
-                  table.insert(icon_path, icon_theme_directory .. size .. '/apps/')
-                  table.insert(icon_path, icon_theme_directory .. size .. '/actions/')
-                  table.insert(icon_path, icon_theme_directory .. size .. '/devices/')
-                  table.insert(icon_path, icon_theme_directory .. size .. '/places/')
-                  table.insert(icon_path, icon_theme_directory .. size .. '/categories/')
-                  table.insert(icon_path, icon_theme_directory .. size .. '/status/')
-              end
-          end
-          -- lowest priority fallbacks
-          table.insert(icon_path,  '/usr/share/pixmaps/')
-          table.insert(icon_path,  '/usr/share/icons/')
-  
-          for i, directory in ipairs(icon_path) do
-              if (arg.icon:find('.+%.png') or arg.icon:find('.+%.xpm')) and file_exists(directory .. arg.icon) then
-                  return directory .. arg.icon
-              elseif file_exists(directory .. arg.icon .. '.xpm') then
-                  return directory .. arg.icon .. '.xpm'
-              elseif file_exists(directory .. arg.icon .. '.png') then
-                  return directory .. arg.icon .. '.png'
-              end
-          end
-          return default_icon
-      end
-  end
-  
-  --- Parse a .desktop file
-  -- @param file The .desktop file
-  -- @param requested_icon_sizes A list of icon sizes (optional). If this list is given, it will be used as a priority list for icon sizes when looking up for icons. If you want large icons, for example, you can put '128x128' as the first item in the list.
-  -- @return A table with file entries.
-  function parse(file, requested_icon_sizes)
-      local program = { show = true, file = file }
-      for line in io.lines(file) do
-          for key, value in line:gmatch("(%w+)=(.+)") do
-              program[key] = value
-          end
-      end
-  
-      -- Only show the program if there is not OnlyShowIn attribute
-      -- or if it's equal to 'awesome'
-      if program.OnlyShowIn ~= nil and program.OnlyShowIn ~= "awesome" then
-          program.show = false
-      end
-  
-      -- Look up for a icon.
-      if program.Icon then
-          program.icon_path = lookup_icon({ icon = program.Icon, icon_sizes = (requested_icon_sizes or all_icon_sizes) })
-      end
-  
-      -- Split categories into a table.
-      if program.Categories then
-          program.categories = {}
-          for category in program.Categories:gfind('[^;]+') do
-              table.insert(program.categories, category)
-          end
-      end
-  
-      if program.Exec then
-          local cmdline = program.Exec:gsub('%%c', program.Name)
-          cmdline = cmdline:gsub('%%[fuFU]', '')
-          cmdline = cmdline:gsub('%%k', program.file)
-          if program.icon_path then
-              cmdline = cmdline:gsub('%%i', '--icon ' .. program.icon_path)
-          end
-          if program.Terminal == "true" then
-              cmdline = terminal .. ' -e ' .. cmdline
-          end
-          program.cmdline = cmdline
-      end
-  
-      return program
-  end
-  
-  --- Parse a directory with .desktop files
-  -- @param dir The directory.
-  -- @param icons_size, The icons sizes, optional.
-  -- @return A table with all .desktop entries.
-  function parse_dir(dir, icon_sizes)
-      local programs = {}
-      local files = io.popen('find '.. dir ..' -maxdepth 1 -name "*.desktop"'):lines()
-      for file in files do
-          table.insert(programs, parse(file, icon_sizes))
-      end
-      return programs
-  end
-#+end_src
-** myrc
-Will be tangled into ./myrc/
-*** mainmenu.lua
-#+header: :tangle ./myrc/mainmenu.lua
-#+begin_src lua
-  local awful = require("awful")
-  local beautiful = require("beautiful")
-  local freedesktop_utils = require("freedesktop.utils")
-  local freedesktop_menu = require("freedesktop.menu")
-  local themes = require("myrc.themes")
-  
-  local io = io
-  local table = table
-  local awesome = awesome
-  local ipairs = ipairs
-  local os = os
-  local string = string
-  local mouse = mouse
-  
-  module("myrc.mainmenu")
-  
-  local env = {}
-  
-  -- Reserved.
-  function init(enviroment)
-      env = enviroment
-  end
-  
-  -- Creates main menu
-  -- Note: Uses beautiful.icon_theme and beautiful.icon_theme_size
-  -- env - table with string constants - command line to different apps
-  function build()
-      local terminal = (env.terminal or "xterm") .. " "
-      local man = (env.man or "xterm -e man") .. " "
-      local editor = (env.editor or "xterm -e " .. (os.getenv("EDITOR") or "vim")) .. " "
-      local browser = (env.browser or "firefox") .. " "
-      local run = (env.run or "gmrun")
-      local fileman = env.fileman or "xterm -e mc"
-      local xkill = env.xkill or "xkill" .. " "
-      local poweroff = env.poweroff or "sudo /sbin/poweroff"
-      local reboot = env.reboot or "sudo /sbin/reboot"
-      local rotate = env.rotate or nil
-      local logout = env.logout or awesome.quit
-      local suspend = env.suspend or "sudo /usr/sbin/pm-suspend"
-      local hibernate = env.hibernate or "sudo /usr/sbin/pm-hibernate"
-      local syslog = env.syslog or terminal .. " -e vim /var/log/messages"
-  
-      freedesktop_utils.terminal = terminal
-      freedesktop_utils.icon_theme = beautiful.icon_theme 
-      freedesktop_utils.icon_sizes = {beautiful.icon_theme_size}
-      freedesktop_utils.default_icon = beautiful.default_client_icon 
-  
-          local myquitmenu = {
-          { "&Poweroff", poweroff, freedesktop_utils.lookup_icon({ icon = 'system-shutdown' })}, 
-          { "&Reboot", reboot, freedesktop_utils.lookup_icon({ icon = 'system-shutdown' })}, 
-          { "H&ibernate", hibernate, freedesktop_utils.lookup_icon({ icon = 'system-shutdown' }) }, 
-          { "&Suspend", suspend, freedesktop_utils.lookup_icon({ icon = 'system-shutdown' }) }, 
-          { "&Logout", logout , freedesktop_utils.lookup_icon({ icon = 'gnome-logout' })}, 
-          }
-  
-      local myawesomemenu = { 
-          { "&Themes", themes.menu(), 
-              freedesktop_utils.lookup_icon({ icon = 'wallpaper' }) }, 
-          { "&Restart", awesome.restart, freedesktop_utils.lookup_icon({ icon = 'reload' }) },
-          { "&Stop", awesome.quit, freedesktop_utils.lookup_icon({ icon = 'stop' }) } 
-      }
-  
-      local mymainmenu_items_head = {
-          { "Awesome", myawesomemenu, beautiful.awesome_icon },
-          { "&E Terminal", terminal, freedesktop_utils.lookup_icon({icon = 'terminal'}) },
-          { "&F File Manager", fileman, freedesktop_utils.lookup_icon({icon = 'file-manager'}) },
-          { "&B Browser", browser, freedesktop_utils.lookup_icon({icon = 'browser'}) },
-          { "", nil, nil}, --separator
-      }
-  
-      local mymainmenu_items_tail = {
-          { "", nil, nil}, --separator
-          -- { "&S Syslog", syslog, freedesktop_utils.lookup_icon({ icon = "gnome-monitor"}) },
-          -- { "&O Rotate", {
-          --     {"&Normal", rotate .. " normal" , freedesktop_utils.lookup_icon({icon = 'stock_down'})},
-          --     {"&Left",   rotate .. " left"   , freedesktop_utils.lookup_icon({icon = 'stock_left'})},
-          --     {"&Rigth",  rotate .. " right"  , freedesktop_utils.lookup_icon({icon = 'stock_right'})},
-          -- }, freedesktop_utils.lookup_icon({icon = 'reload'})},
-          -- { "&W Wifi", {
-          --     {"&F Wifi", env.rfkill.wifi , freedesktop_utils.lookup_icon({icon = 'stock_up'})},
-          --     {"&M WiMax",   env.rfkill.wimax   , freedesktop_utils.lookup_icon({icon = 'stock_up'})},
-          --     {"&N None",   env.rfkill.off   , freedesktop_utils.lookup_icon({icon = 'stock_down'})},
-          -- }, freedesktop_utils.lookup_icon({icon = 'wicd-gtk'})},
-          { "&X Xkill", xkill, freedesktop_utils.lookup_icon({ icon = "weather-storm"}) },
-          { "&R Run", run, freedesktop_utils.lookup_icon({ icon = "access"}) },
-          { "", nil, nil}, --separator
-          { "&P Power", myquitmenu, freedesktop_utils.lookup_icon({ icon = 'gnome-logout' }) },
-      }
-  
-      local mymainmenu_items = {}
-      for _, item in ipairs(mymainmenu_items_head) do table.insert(mymainmenu_items, item) end
-      for _, item in ipairs(freedesktop_menu.new()) do table.insert(mymainmenu_items, item) end
-      for _, item in ipairs(mymainmenu_items_tail) do table.insert(mymainmenu_items, item) end
-  
-      return awful.menu({ items = mymainmenu_items, x = 0, y = 0})
-  end
-#+end_src
-
-*** tagman.lua
-#+header: :tangle ./myrc/tagman.lua
-#+begin_src lua
-  -- Author: Sergey Mironov ierton@gmail.com
-  -- License: BSD3
-  -- 2009-2010
-  --
-  -- Tag manipulation library
-  -- Note: library uses signal "tagman::update"
-  
-  local awful = require("awful")
-  local beautiful = require("beautiful")
-  
-  local capi = {
-     io = io,
-     screen = screen,
-     tag = tag,
-     mouse = mouse,
-     client = client,
-     awesome = awesome
-  }
-  
-  local client = client
-  local type = type
-  local table = table
-  local awesome = awesome
-  local ipairs = ipairs
-  local pairs = pairs
-  local tostring = tostring
-  
-  module("myrc.tagman")
-  
-  -- Returns tag by name
-  function find(name,s)
-     local s = s or client.focus and client.focus.screen or capi.mouse.screen
-     for _,t in ipairs(capi.screen[s]:tags()) do 
-        if name == t.name then return t end 
-     end
-     return nil
-  end
-  
-  -- Returns list of tag names at screen @s
-  function names(s)
-     local s = s or client.focus and client.focus.screen or capi.mouse.screen
-     local result = {}
-     for _,t in ipairs(capi.screen[s]:tags()) do 
-        table.insert(result, t.name) 
-     end
-     return result
-  end
-  
-  -- Returns tag by index @index, starting from 0.
-  function get(index, s)
-     local s = s or client.focus and client.focus.screen or capi.mouse.screen
-     local stags = capi.screen[s]:tags()
-     return stags[awful.util.cycle(#stags, index)]
-  end
-  
-  -- Returns index of current tag (on this screen)
-  function indexof(tag)
-     local all_tags = capi.screen[tag.screen]:tags()
-     return awful.util.table.hasitem(all_tags,tag)
-  end
-  
-  function next_to(t,n) return get(indexof(t)+(n or 1),s) end
-  
-  function prev_to(t,n) return get(indexof(t)-(n or 1),s) end
-  
-  -- Gets tag object, by its offset @offset, starting from 
-  -- tag @basetag
-  function getn(offset, basetag, s)
-     local offset = offset or 0
-     local s = s or client.focus and client.focus.screen or capi.mouse.screen
-     local stags = capi.screen[s]:tags()
-     local basetag = basetag or awful.tag.selected()
-     local k = awful.util.table.hasitem(stags,basetag)
-     return stags[awful.util.cycle(#stags, k + offset)]
-  end
-  
-  -- Moves all tagless clients of screen @s to tag @deftag
-  local function handle_orphans(s, deftag)
-     local s = s or client.focus and client.focus.screen or capi.mouse.screen
-     local stags = capi.screen[s]:tags()
-     if #stags < 1 then return end
-     local deftag = deftag or stags[1]
-     for _, c in pairs(client.get(s)) do
-        if #c:tags() == 0 then
-           c:tags({deftag})
-        end
-     end
-  end
-  
-  -- Does what?
-  function sort(s, fn)
-     local fn = fn or function (a, b) return a.name < b.name end
-     local s = s or client.focus and client.focus.screen or capi.mouse.screen
-     local all_tags = capi.screen[s]:tags()
-     table.sort(all_tags, fn)
-     capi.screen[s]:tags(all_tags)
-  end
-  
-  -- Moves tag to position @where (if where is number) -OR- next
-  -- to tag @where (if @where is object)
-  -- In latter case @where should be on the @tag's screen
-  function move(tag, where)
-     local stags = capi.screen[tag.screen]:tags()
-     -- Current possition of the tag
-     local oldkey = indexof(tag)
-     if oldkey == nil then return end
-     -- New position of the tag
-     local newkey = nil
-     if type(where) == "number" then
-        newkey = awful.util.cycle(#stags, where)
-     else
-        -- dest tag should be on the same screen with src
-        if where.screen ~= tag.screen then return end
-        -- expect a table (a tag)
-        newkey = indexof(where)
-     end
-  
-     local c = capi.client.focus
-  
-     table.remove(stags,oldkey)
-     table.insert(stags,newkey,tag)
-     capi.screen[tag.screen]:tags(stags)
-  
-     awesome.emit_signal("tagman::update", tag, tag.screen)
-     if c~= nil then 
-        capi.client.focus = c 
-     end
-  end
-  
-  -- Adds a tag named @tn with props @props
-  -- NOTE: those properties are not the same with awful.tag's
-  function add(tn, props, s)
-     local props = props or {}
-     local s = s or client.focus and client.focus.screen or capi.mouse.screen
-     local tname = tostring(tn)
-     if tname == nil then return end
-     local t = awful.tag.add(tname)
-     t.screen = s
-     awful.layout.set(props.layout or awful.layout.suit.max, t)
-     if props.setsel == true then t.selected = true end
-     awesome.emit_signal("tagman::update", t, s)
-     return t
-  end
-  
-  -- Removes tag @t. Move it's clients to tag @deft
-  function del(tag, deft)
-     local s = tag.screen
-     local stags = capi.screen[s]:tags()
-     if #stags <= 1 then return end
-     local deft = deft or prev_to(tag)
-     if deft == nil then return end
-     tag.screen = nil
-     awesome.emit_signal("tagman::update", tag, s)
-     handle_orphans(s, deft)
-  end
-  
-  -- Renames tag @tag with name @newname
-  function rename(tag, newname)
-     tag.name = newname
-     awesome.emit_signal("tagman::update", tag, tag.screen)
-  end
-  
-  -- Initializes the library. 
-  -- Creates a se of tags for each screen
-  -- @name_getter is a function taking screen index and returning 
-  -- a list of tag names.
-  function init(name_getter)
-     for s = 1, capi.screen.count() do
-        local namelist = name_getter(s)
-        if namelist == nil or #namelist == 0 then
-           namelist = {}
-           for i=1,9 do namelist[i] = tostring(i) end
-        end
-        -- Each screen has its own tag table.
-        for i, name in ipairs(namelist) do 
-           add(name, { setsel=(i==1) }, s) 
-        end
-     end
-  end
-#+end_src
-*** keybind.lua
-#+header: :tangle ./myrc/keybind.lua
-#+begin_src lua
-  -- Author: Sergey Mironov ierton@gmail.com
-  -- License: BSD3
-  -- 2009-2010
-  --
-  -- Library allows user to bind GNU Screen style 'chords'
-  
-  local awful = require("awful")
-  local naughty = require("naughty")
-  local mouse = mouse
-  
-  local capi = {
-          root = root,
-  }
-  
-  local table = table
-  local ipairs = ipairs
-  local tostring = tostring
-  
-  module("myrc.keybind")
-  
-  
-  local active = nil
-  
-  local function get_keys(c)
-      if c == nil then
-          return capi.root.keys()
-      else
-          return c:keys()
-      end
-  end
-  
-  local function set_keys(c, k)
-      if c == nil then
-          capi.root.keys(k)
-      else
-          c:keys(k)
-      end
-  end
-  
-  local function dbg(m)
-      naughty.notify({
-          title = "[Warning]",
-          text = m,
-          timeout = 10,
-          position = "bottom_left",
-      })
-  end
-  
-  local function remove_a_key(k, tbl)
-      for pos,x in ipairs(tbl) do
-          if x.key == k.key and #x.modifiers == #k.modifiers then
-              local match = true
-              for i=1, #x.modifiers do
-                  if x.modifiers[i] ~= k.modifiers[i] then
-                      match = false
-                      break
-                  end
-              end
-              if match then
-                  table.remove(tbl,pos)
-                  return
-              end
-          end
-      end
-  
-      dbg("Can't find a key: " .. k.keysym)
-  end
-  
-  local function chord_release(ch)
-      local allkeys = get_keys(ch.client)
-      for _,kt in ipairs(ch.keytable) do
-          for _,k in ipairs(kt.keys) do
-              remove_a_key(k,allkeys)
-          end
-      end
-  
-      set_keys(ch.client, allkeys)
-  
-      if ch.menu then
-          awful.menu.hide(ch.menu)
-          ch.menu = nil
-      end
-  
-      if ch.naughtybox then
-          naughty.destroy(ch.naughtybox)
-          ch.naughtybox = nil
-      end
-  end
-  
-  -- Cancels current chord, if any
-  function pop()
-      if active ~= nil then
-          chord_release(active)
-          active = nil
-      end
-  end
-  
-  local function mod(k) return k[1] end
-  local function keysym(k) return k[2] end
-  local function desc(k) return k[3] or "<no description>" end
-  local function press(k) return k[4] end
-  local function icon(k) return k[5] end
-  
-  local function chord_new(keytable, c)
-      local newkeys = nil
-      local chord = {}
-      local old = {}
-      for _, k in ipairs(keytable) do
-          if #k < 3 then
-              dbg("Invalid chord key detected after:" .. keysym(old))
-          end
-          k.keys = awful.key(mod(k), keysym(k), function()
-              local finish = press(k)()
-              if finish ~= false then pop() end
-          end)
-          newkeys = awful.util.table.join(newkeys, k.keys)
-          old = k
-      end
-  
-      local allkeys = get_keys(c)
-      for _,k in ipairs(newkeys) do
-          table.insert(allkeys, k)
-      end
-      set_keys(c, allkeys)
-  
-      chord.client = c
-      chord.keytable = keytable
-      return chord
-  end
-  
-  -- Constructs menu describing chord table given
-  function chord_menu(keytable)
-      local template = keytable.menu or {}
-      template.items = {}
-  
-      for _, k in ipairs(keytable) do
-          local item = {
-              tostring(keysym(k)) .. ": " .. desc(k), 
-              press(k),
-              icon(k)
-          }
-          table.insert(template.items, item)
-      end
-  
-      return awful.menu.new(template)
-  end
-  
-  -- Constructs naughty box describing chord table given
-  function chord_naughty(keytable)
-      local template = keytable.naughty or {}
-  
-      template.text = ""
-      for _, k in ipairs(keytable) do
-          -- TODO: Take modifiers into account when 
-          -- generating descriptions
-          template.text = template.text ..
-          "\n" .. tostring(k.keysym) ..
-          ": " ..  ( k.desc or "<no_description>" )
-      end
-  
-      return naughty.notify(template)
-  end
-  
-  -- Function inserts keys from table 'keytable'
-  -- into client's keys(). Then it pops naughtybox 
-  -- showing chord description.
-  --
-  -- @param keytable Keys to be mapped
-  -- @param c Client. if nil, global keys will be used.
-  function push(keytable, c)
-      pop()
-      active = chord_new(keytable, c)
-      return active
-  end
-  
-  function push_menu(keytable, args, c)
-      local chord = push(keytable, c)
-      local menu = chord_menu(keytable)
-      menu.hide = function(m)
-          awful.menu.hide(m)
-          pop()
-      end
-      chord.menu = menu
-      chord.menu:show(args)
-      return chord
-  end
-  
-  function push_naughty(keytable, c)
-      local chord = push(keytable, c)
-      local nb = chord_naughty(keytable)
-      chord.naughtybox = nb
-      return chord
-  end
-#+end_src
-
-*** logmon.lua
-#+header: :tangle ./myrc/logmon.lua
-#+begin_src lua
-  local awful = require("awful")
-  
-  module("myrc.logmon")
-  
-  function init()
-          awful.util.spawn(awful.util.getdir("config").."/lognotifier", false)
-  end
-#+end_src
-*** memory.lua
-#+header: :tangle ./myrc/memory.lua
-#+begin_src lua
-  -- Author: Sergey Mironov ierton@gmail.com
-  -- License: BSD3
-  -- 2009-2010
-  --
-  -- Registry support
-  -- Note: library requires table.save lua lib
-  
-  local awful = require("awful")
-  
-  local io = io
-  local table = table
-  local awesome = awesome
-  local ipairs = ipairs
-  local tostring = tostring
-  local type = type
-  local string = string
-  
-  module("myrc.memory")
-  
-  local tables = {}
-  local current_version = 1
-  
-  function init()
-          local config = awful.util.getdir("config").."/memory.data"
-          tables, err = table.load(config)
-          if err ~= nil then
-                  tables = {}
-          end
-          if tables.verion == nil then
-                  tables.verion = current_version
-          end
-  end
-  
-  function set(t, key, value)
-          if type(tables[t]) == "nil" then
-                  tables[t] = {}
-          end
-          local oldvalue = tables[t] [key]
-          tables[t] [key] = value
-          if oldvalue ~= value then
-                  local config = awful.util.getdir("config").."/memory.data"
-                  local res, err = table.save(tables, config)
-          end
-          return value
-  end
-  
-  function get(table, key, defvalue)
-  
-          if type(tables[table]) == "nil" then
-                  return defvalue
-          elseif type(tables[table][key]) == "nil" then
-                  local oldkey = string.gsub(key,"([^:]*:[^:]*:[^:]*):[^:]*", "%1")
-                  if type(tables[table][oldkey]) == "nil" then
-                          return defvalue
-                  end
-                  return tables[table][oldkey]
-          end
-  
-          return tables[table][key]
-  end
-#+end_src
-*** themes.lua
-#+header: :tangle ./myrc/themes.lua
-#+begin_src lua
-  -- Author: Sergey Mironov ierton@gmail.com
-  -- License: BSD3
-  -- 2009-2010
-  --
-  -- Library manages current theme symlink
-  
-  local awful = require("awful")
-  local io = io
-  local table = table
-  local awesome = awesome
-  local os = os
-  local string = string
-  
-  module("myrc.themes")
-  
-  
-  local function hasfile(f)
-      local exists = io.open(f)
-      if exists then
-          io.close(exists)
-          return f
-      end
-      return nil
-  end
-  
-  -- List your theme files and feed menu table
-  -- Item handlers will create .current symlink 
-  -- to point to theme selected
-  function menu(args)
-      args = args or {}
-      args.default_icon = args.default_icon or "/usr/local/share/awesome/icons/awesome16.png"
-          local mythememenu = {}
-          local cfgpath = awful.util.getdir("config")
-          local themespath = cfgpath .. "/themes"
-          local cmd = "find -L " .. themespath .. " -name 'theme.lua' -and -not -path '*.current*'"
-          local f = io.popen(cmd)
-          for l in f:lines() do
-                  local folder = string.gsub(l,"[%w/._-]+/([%w-_]+)/theme.lua", "%1")
-          local icon = 
-              hasfile(themespath .. "/" .. folder .. "/awesome-icon.png") or
-              hasfile(args.default_icon)
-                  local item = { folder, function () 
-                          local themepath = string.gsub(l,"(%w+)/theme.lua", "%1")
-                          awful.util.pread("rm -f " .. themespath .. "/.current")
-                          awful.util.pread("ln -s " .. folder .. " " .. themespath .. "/.current")
-                          awesome.restart()
-                  end, icon }
-                  table.insert(mythememenu, item)
-          end
-  
-          f:close()
-          return mythememenu
-  end
-  
-  -- Returns current theme.
-  -- @param default Default theme name
-  function current(default)
-      local default = default or "blue-black-red"
-      local filename = awful.util.getdir("config") .. "/themes/.current/theme.lua"
-      local handle = io.open(filename)
-      if handle == nil then
-          return awful.util.getdir("config") .. "/themes/" .. default .. "/theme.lua"
-      else
-          io.close(handle)
-          return filename
-      end
-  end
-#+end_src
-
-** pipelets
-Will be tangled into ./pipelets/
-*** temp
-#+header: :tangle ./pipelets/temp
-#+begin_src sh
-  ## trap "pkill -P $$" SIGINT
-  ## trap "pkill -P $$" EXIT
-    
-  # while true ; do
-  #     temp3=`sensors | grep 'temp3' | awk '{print $2}'`
-  #     core0=`sensors | grep 'Core 0' | awk '{print $3}'`
-  #     echo -n "Core 0: " $core0 " | temp3 :" $temp3
-  #     sleep 60
-  # done
-  
-  while true ; do
-      echo -n "temp3: "
-      sensors | grep 'temp3' | awk '{print $2}'
-      sleep 60
-  done
-#+end_src
-*** batmon
-#+header: :tangle ./pipelets/batmon
-#+begin_src sh
-  #!/bin/sh
-  
-  which acpitool >/dev/null || exit 1
-  which acpi_listen >/dev/null || exit 1
-  
-  while true ; do
-      # Lookup first battery's status
-      line=`acpitool -b | head -n 1`
-      batnum=`echo "$line" |  sed 's/.*#\(.\).*/\1/'`
-      percent=`echo "$line" | sed 's/.*\:[^,]*, \([^,]*\).*/\1/'`
-      if echo "$line" | grep -q discharging ; then
-          color='#662222'
-          tleft=`echo "$line" | sed 's/.*\:[^,]*, [^,]*, \(..:..\).*/\1/'`
-      else
-          color='#226622'
-          tleft=''
-      fi
-  
-      echo "<span color='$color'>BAT#$batnum $percent $tleft</span>"
-  
-      # Exits after -c X ACPI events or after -t Y sec elapsed
-      acpi_listen -t 60 -c 1 >/dev/null 2>&1
-      sleep 2
-  done
-#+end_src
-*** date
-#+header: :tangle ./pipelets/date
-#+begin_src sh
-  #!/bin/sh
-  export LANG=ru_RU.utf-8 
-  while true ; do
-          date +'%a %d %b, %H:%M'
-          sleep 60
-  done
-#+end_src
-*** mmount
-#+header: :tangle ./pipelets/mmount
-#+begin_src sh
-  #!/bin/sh
-  
-  ## trap "pkill -P $$" SIGINT
-  ## trap "pkill -P $$" EXIT
-  
-  INOWAIT=/usr/bin/inotifywait
-  
-  parse() {
-      cat /proc/mounts | 
-      awk '{print $2}' | 
-      grep -v -E '/proc|/dev|/bus|/sys|/lib|/run' | 
-      grep -w -v /
-  }
-  
-  while true ; do
-      for m in `parse` ; do
-          printf "[%s] " `basename $m`
-      done
-      echo
-  
-      if [ -e $INOWAIT ] ; then
-          $INOWAIT /etc/mtab >/dev/null 2>&1
-          sleep 0.2
-      ## else
-          sleep 20
-      fi
-  done
 #+end_src
 
 
