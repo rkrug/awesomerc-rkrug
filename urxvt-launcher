@@ -1,9 +1,0 @@
-#!/bin/sh
-
-pgrep -u $USER urxvtd >/dev/null
-test "$?" = "1" && urxvtd -q -f -o
-
-pgrep -u $USER urxvtd >/dev/null
-test "$?" = "0" || exec urxvt $@
-
-exec urxvtc $@

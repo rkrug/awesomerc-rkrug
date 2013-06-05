@@ -132,3 +132,7 @@ Keybindings and hooks were moved into seperate files in ./modules/ directory. Th
 This will cause them to appear on the laptop screen
 - link     :: [[file:~/.config/awesome.awesomerc-rkrug/rc.lua.org::*Wibox][Wibox]] 
 - author   :: Rainer M Krug, email: Rainer@krugs.de Rainer M. Krug
+**  <2012-05-29 Tue 10:18> Added sloppy-focus 
+based on https://bbs.archlinux.org/viewtopic.php?id=83308 
+- link     :: [[file:~/.config/awesome/rc.lua.org::*mouse_enter][mouse_enter]] 
+- author   :: Rainer M Krug, email: Rainer@krugs.de Rainer M. Krug
